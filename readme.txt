@@ -1,0 +1,1 @@
+wyliż mi chuja brudnego po robocie pls
