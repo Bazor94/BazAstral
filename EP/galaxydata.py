@@ -23,8 +23,6 @@ def get_galaxydata_html(referer_site, x, y):
     return response.text, response.url
 
 def parse_asteroid(raw_html):
-    #print(raw_html)
-
     soup = BeautifulSoup(raw_html, "html.parser")
     asteroid_link = soup.find("a", class_="btn-asteroid")
 

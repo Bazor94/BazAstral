@@ -1,13 +1,27 @@
-login = 'tijaci2136@sectorid.com'
-password = 'BazAstral123'
-session_id = 'vemh5pgpm3wbn3nbrbybqjn0'
-jwt = 'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzkwNDUyMDMsImV4cCI6MjA1NDU3ODAwMywiSWQiOiIzYTBjYmE1Ny1iYTU3LTQyZGItYjVjMS1iMzUyOTFkMDA0N2QiLCJTZXNzaW9uSWQiOiI5OGE0OGQxMC1jZWUxLTRlNjgtYTkxMC01NWM4N2E5YTM2NGUifQ.kBTda8Qkbu1KeSxhQLK55mBcVkQFAZa1M2_F8bGfUp0'
-cloudflare = '79LMaMHaeWo0rMjOKOBXLOQyDZPNx3BbdN8GmqZJYcw-1739048692-1.2.1.1-WzFyZc2IMbPdro15IxM3doXPpxw66q7pV_MPEBvEaDkg.0T5KoEOz5LvLWhT5KorU296fSK2J2H9QImhgDz7RqJQdrOBYeTA.ZRSHBM5v13lZwKvDi5bgRWT7KAPvLg4wbsEIh1ESq8GaBe8JmaMYLXfzYwpgsE9xDKTHMGN45p6a5VFT0CMEkIoaamay_yIFNvOAHGfTDLsHJKWNYeAy1Zm5KXFQo7JE65xuQhzbpxzEcrzeBipXZ.tUT0oYDDNkAdEZKHd6InkjveIzRs6_sRLp80HKtGMxDdIBN0dbts'
+import yaml
+import logging
+
+with open("config.yaml", "r") as file:
+    config = yaml.safe_load(file)
+
+login = config.get("login")
+password = config.get("password")
+session_id = config.get("session_id")
+game_auth_token = config.get("game_auth_token")
+cf_clearance = config.get("cf_clearance")
+host = config.get("host")
+coords = config.get("coords")
+fleet_speed = config.get("fleet_speed")
+
+logging.basicConfig(
+    level=logging.INFO,  # Ustalamy minimalny poziom logowania (DEBUG oznacza, że będą rejestrowane wszystkie logi)
+    format='%(asctime)s - %(levelname)s: %(message)s',  # Ustalamy format logu
+)
 
 cookies = {
     'SessionId': session_id,
-    'gameAuthToken': jwt,
-    'cf_clearance': cloudflare,
+    'gameAuthToken': game_auth_token,
+    'cf_clearance': cf_clearance,
     'lang': 'en',
     'timeZoneOffset': '60',
     '_gid': 'GA1.2.441450251.1739041032',
@@ -29,6 +43,3 @@ headers = {
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
     }
-
-host = 'https://lyra.ogamex.net'
-coords = [{"coords": "1:184:5", "max_left": 100, "max_right": 250}]
