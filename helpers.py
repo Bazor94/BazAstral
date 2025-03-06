@@ -18,6 +18,7 @@ def calculate_distance(x_from, y_from, z_from, x_to, y_to, z_to) -> int:
     return abs(z_from - z_to) * 20000
 
 def calculate_time(x_from, y_from, z_from, x_to, y_to, z_to, fleet_speed, speed_perc):
+    speed_perc = speed_perc / 10 # idioci uzywaja 10 jako 100%
     distance = calculate_distance(x_from, y_from, z_from, x_to, y_to, z_to)
 
     if distance > 1000:
@@ -29,7 +30,7 @@ class TestFleetCalculations(unittest.TestCase):
         x_from, y_from, z_from = 2, 308, 4
         x_to, y_to, z_to = 2, 32, 16
         fleet_speed = 79920
-        speed_perc = 10 # its 100%
+        speed_perc = 100
 
         # Obliczanie distance
         distance = calculate_distance(x_from, y_from, z_from, x_to, y_to, z_to)

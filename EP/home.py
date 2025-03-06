@@ -1,6 +1,7 @@
 import requests
 import config
 from bs4 import BeautifulSoup
+import planet
 
 ep = '/home'
 
@@ -15,22 +16,25 @@ def home():
 
     return response.text
 
-def get_planet_ids():
+def get_planets():
     html = home()
-    print(html)
-
     soup = BeautifulSoup(html, 'html.parser')
 
     # Znajdujemy wszystkie planety i ich moony w obrębie `.planet-item`
-    planet_moon_pairs = []
+    planets = []
 
     for planet_item in soup.select('.planet-item'):
         planet_tag = planet_item.select_one('.planet-select')
         moon_tag = planet_item.select_one('.moon-select')
+        name_tag = planet_item.select_one('.planet-name')
+        coords_tag = planet_item.select_one('.planet-coords')
 
-        if planet_tag:
-            planet_id = planet_tag['href'].split('=')[-1]
-            moon_id = moon_tag['href'].split('=')[-1] if moon_tag else None
-            planet_moon_pairs.append((planet_id, moon_id))
+        planet_id = planet_tag['href'].split('=')[-1]
+        moon_id = moon_tag['href'].split('=')[-1] if moon_tag else None
+        planet_name = name_tag.text.strip()
+        coords_text = coords_tag.text.strip().strip("[]")
+        x, y, z = map(int, coords_text.split(':'))
+        p = planet.Planet(x, y, z, planet_name, planet_id, moon_id)
+        planets.append(p)
 
-    return planet_moon_pairs
+    return planets

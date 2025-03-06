@@ -3,8 +3,10 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
+import random
 from webdriver_manager.chrome import ChromeDriverManager
-
+import logging
+import threading
 import config
 
 def login():
@@ -59,21 +61,45 @@ def login():
 
         # Pobranie ciasteczek po zalogowaniu
         cookies = driver.get_cookies()
-
         set_cookies(cookies)
+
+        return driver 
 
     except Exception as e:
         driver.quit()
         raise Exception("Wystąpił błąd przy logowaniu")
+    
+def refresh(driver):
+    logging.info("refreshing the page for cookies")
+    driver.refresh()
+
+    time.sleep(2)
+
+    cookies = driver.get_cookies()
+    set_cookies(cookies)
+
+def refresh_cron(driver, stop_threads):
+    while not stop_threads.is_set():
+        delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
+        stop_threads.wait(delay)
+        refresh(driver)
+
+    driver.quit()
+
 
 def set_cookies(cookies):
     cf_clearance = next((cookie['value'] for cookie in cookies if cookie['name'] == 'cf_clearance'), None)
     session_id = next((c['value'] for c in cookies if c['name'] == 'SessionId'), None)
     game_auth_token = next((c['value'] for c in cookies if c['name'] == 'gameAuthToken'), None)
 
+    logging.info(f'setting cookies: \ncf_clearance={cf_clearance} \nsession_id={session_id} \ngame_auth_token={game_auth_token}')
+
     config.cookies.update({
         "cf_clearance": cf_clearance,
         "SessionId": session_id,
         "gameAuthToken": game_auth_token
     })
+
+    config.save_config(cf_clearance, session_id, game_auth_token)
+    
 

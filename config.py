@@ -11,7 +11,9 @@ game_auth_token = config.get("game_auth_token")
 cf_clearance = config.get("cf_clearance")
 host = config.get("host")
 coords = config.get("coords")
+fs = config.get("fs")
 fleet_speed = config.get("fleet_speed")
+miners_speed = config.get("miners_speed")
 
 logging.basicConfig(
     level=logging.INFO,  # Ustalamy minimalny poziom logowania (DEBUG oznacza, że będą rejestrowane wszystkie logi)
@@ -43,3 +45,11 @@ headers = {
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
     }
+
+def save_config(cf_clearance, session_id, game_auth_token):
+    config['cf_clearance'] = cf_clearance
+    config['session_id'] = session_id
+    config['game_auth_token'] = game_auth_token
+
+    with open("config.yaml", "w") as file:
+        yaml.safe_dump(config, file, default_flow_style=False)
