@@ -22,7 +22,7 @@ def get_asteroid_y(x, y_from, y_to):
     _, referal_url = galaxy.get_galaxy_html() # only for referal_url purposes (anti_bot?)
 
     for i in range(y_from, y_to):
-        time.sleep(random.uniform(0.25, 0.5))
+        time.sleep(random.uniform(0.35, 0.5))
 
         is_asteroid, url, time_left, referal_url = galaxydata.get_asteroid(referal_url, x, i)
         if is_asteroid:
@@ -47,6 +47,8 @@ def get_closest_asteroid(x, y, z, is_asteroid_taken):
         closest_asteroid_range = get_closest_asteroid_range(ranges, y)
         logging.info(f'found closest range:{closest_asteroid_range}')
         asteroid_y, time_left = get_asteroid_y(x, closest_asteroid_range[0], closest_asteroid_range[1])
+        if asteroid_y is None:
+            continue
         time_needed = helpers.calculate_time(x, y, z, x, asteroid_y, 16, config.miners_speed, 100)
         if time_needed > time_left - 15:
             logging.info(f'not enough time for asteroid {asteroid_y} | time left: {time_left}, needed: {time_needed}')
