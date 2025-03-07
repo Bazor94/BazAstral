@@ -19,9 +19,12 @@ def get_asteroid_locations(referer_site):
         raise ValueError("get_asteroid_location status code is not 200")
 
     soup = BeautifulSoup(response.text, "html.parser")
-    table = soup.find("table", {"id": "playerAsteroidTable"})
 
     coords = []
+    table = soup.find("table", {"id": "playerAsteroidTable"})
+    if table is None:
+        return coords
+    
     for row in table.find_all("tr"):
         links = row.find_all("a")
         if len(links) == 2:

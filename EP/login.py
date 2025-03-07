@@ -40,11 +40,11 @@ def login():
 
         # Wpisanie emaila
         email_input = driver.find_element(By.NAME, "Email")
-        email_input.send_keys("tijaci2136@sectorid.com")
+        email_input.send_keys(config.login)
 
         # Wpisanie hasła
         password_input = driver.find_element(By.NAME, "Password")
-        password_input.send_keys("BazAstral123")
+        password_input.send_keys(config.password)
 
         # Kliknięcie w przycisk "Login"
         submit_button = driver.find_element(By.ID, "btnLogin")
@@ -52,7 +52,7 @@ def login():
         time.sleep(2)  # Poczekaj na zalogowanie
 
         # Kliknięcie w "Play" dla konkretnego serverId
-        server_id = "cc9220f8-077f-4b3c-93d5-48f51dc7f51d" # TODO zmienic to zeby bylo bardziej generyczne
+        server_id = "099324e1-6ea9-442e-a7dd-29d66c9ddc79" # TODO zmienic to zeby bylo bardziej generyczne
         play_button = driver.find_element(By.XPATH, f"//a[contains(@href, '/connect?serverId={server_id}')]")
         driver.execute_script("arguments[0].click();", play_button)
         
