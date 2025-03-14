@@ -16,7 +16,6 @@ def send_expedition_cron(planet, stop_threads, is_idle):
     while not stop_threads.is_set(): 
         expeditions = get_fleet_expedition_movement()
         while len(expeditions) > 0 and not stop_threads.is_set():
-            expeditions = get_fleet_expedition_movement()
             exp = expeditions[0]
             if exp.date_right is not None and exp.date_right > exp.date_left:
                 time_sleep = int((exp.date_right - datetime.now()).total_seconds()) + time_delay
@@ -26,6 +25,8 @@ def send_expedition_cron(planet, stop_threads, is_idle):
                 time_sleep = int((exp.date_left - datetime.now()).total_seconds()) + time_delay
                 logging.info(f'autoexpedition | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)} | date_left')
                 stop_threads.wait(time_sleep)
+
+            expeditions = get_fleet_expedition_movement()
         
         logging.info(f'autoexpedition | sending autoexpedition')
         try:
@@ -37,7 +38,7 @@ def send_expedition_cron(planet, stop_threads, is_idle):
 
 def get_fleet_expedition_movement():
     missions, _ = fleet.get_feet_movement()
-    expeditions = [mission for mission in missions if mission.type == 'Expedition']
+    expeditions = [mission for mission in missions if mission.type in ['Expedition', 'Expedition (R)']
 
     return expeditions
     
