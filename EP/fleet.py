@@ -96,7 +96,14 @@ def send_autoexpedition_fleet(ships, exp_count, referer_url):
         "ExpeditionDuration": "40",
         "FleetSpeed": "100"
     }
-    data.update(ships)
+
+    updated_ships = {"Ships": []}
+    for ship in ships['Ships']:
+        if ship['ShipType'] in ['LIGHT_CARGO', 'ASTEROID_MINER']:
+            continue
+        updated_ships['Ships'].append({'ShipType': ship['ShipType'], 'Quantity': str(ship['Quantity'])})
+
+    data.update(updated_ships)
 
     response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
 

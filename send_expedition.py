@@ -9,7 +9,7 @@ time_delay = 15
 def send_expedition(planet):
     ships, referer_url = fleet.get_fleet(planet.moon_id)
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER' and ship['ShipType'] != 'LIGHT_CARGO']} 
-    _, referer_url = fleet.get_autoexpedition_fleet(planet.id, referer_url)
+    _, referer_url = fleet.get_autoexpedition_fleet(planet.moon_id, referer_url)
     fleet.send_autoexpedition_fleet(battle_ships, config.expedition_count, referer_url)
 
 def send_expedition_cron(planet, stop_threads, is_idle):
