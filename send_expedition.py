@@ -38,7 +38,7 @@ def send_expedition_cron(planet, stop_threads, is_idle):
 
 def get_fleet_expedition_movement():
     missions, _ = fleet.get_feet_movement()
-    expeditions = [mission for mission in missions if mission.type in ['Expedition', 'Expedition (R)']
+    expeditions = [mission for mission in missions if mission.type in ['Expedition', 'Expedition (R)']]
 
     return expeditions
     
