@@ -1,6 +1,6 @@
 import math
 import config
-
+import time
 import unittest
 
 def format_seconds(time_needed):
@@ -47,3 +47,17 @@ class TestFleetCalculations(unittest.TestCase):
 
         # Porównanie obliczonego czasu z oczekiwanym
         self.assertEqual(time, expected_time)
+
+def ensure_not_idle(is_idle):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            while is_idle.is_set():
+                time.sleep(1)
+
+            is_idle.set()
+            result = func(*args, **kwargs)
+            is_idle.clear()
+            return result
+
+        return wrapper
+    return decorator

@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import logging
 import threading
 import config
+import helpers
 
 def login():
     # Konfiguracja opcji dla Chrome
@@ -68,7 +69,7 @@ def login():
     except Exception as e:
         driver.quit()
         raise Exception("Wystąpił błąd przy logowaniu")
-    
+
 def refresh(driver):
     logging.info("refreshing the page for cookies")
     driver.refresh()
@@ -78,11 +79,18 @@ def refresh(driver):
     cookies = driver.get_cookies()
     set_cookies(cookies)
 
-def refresh_cron(driver, stop_threads):
+def refresh_cron(driver, stop_threads, is_idle):
     while not stop_threads.is_set():
-        delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
+        #delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
+        delay = 7200
         stop_threads.wait(delay)
+
+        while is_idle.is_set():
+            time.sleep(1)
+
+        is_idle.set()
         refresh(driver)
+        is_idle.clear()
 
     driver.quit()
 

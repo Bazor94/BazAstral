@@ -1,26 +1,15 @@
-import requests
+import http_requester as requests
 from bs4 import BeautifulSoup
 import config
 import time
 from datetime import datetime
 
-ep = '/fleet'
-fleet2ep = '/fleet/fleetpage2data'
-fleet3ep = '/fleet/fleetpage3data'
-submit_fleet_ep = '/fleet/submitfleet'
-fleet_autoexpedition_ep = '/fleet/autoexpedition'
-fleet_sendautoexpedition_ep = '/fleet/sendautoexpedition'
-fleet_movement_ep = '/fleet/fleetmovements'
-
 def get_fleet(planet_id):
-    url = f"{config.host}{ep}"
+    url = f"{config.host}/fleet"
     headers = {**config.headers, "referer": f"{config.host}/home" }
     params = {"planet": planet_id}
 
     response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
-
-    if response.status_code != 200:
-        raise ValueError("get_fleet_html status code is not 200")
 
     return parse_ships(response.text), response.url
 
@@ -43,22 +32,20 @@ def parse_ships(raw_html):
     result = {"Ships": ships_list}
     return result
 
+
 def send_fleet_2(ships, referer_url):
-    url = f"{config.host}{fleet2ep}"
+    url = f"{config.host}/fleet/fleetpage2data"
     headers = {**config.headers, "referer": referer_url }
 
     data = {}
     data.update(ships)
     response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
 
-    if response.status_code != 200:
-        raise ValueError("send_fleet_2 status code is not 200")
-
     return response.text
 
 
 def send_fleet_3(ships, x, y, z, referer_url):
-    url = f"{config.host}{fleet3ep}"
+    url = f"{config.host}/fleet/fleetpage3data"
     headers = {**config.headers, "referer": referer_url }
 
     data = {
@@ -70,14 +57,11 @@ def send_fleet_3(ships, x, y, z, referer_url):
     }
     data.update(ships)
 
-    response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
-
-    if response.status_code != 200:
-        raise ValueError("send_fleet_2 status code is not 200")
+    requests.post(url, headers=headers, cookies=config.cookies, json=data)
 
 
 def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url):
-    url = f"{config.host}{submit_fleet_ep}"
+    url = f"{config.host}/fleet/submitfleet"
     headers = {**config.headers, "referer": referer_url }
 
     data = {
@@ -91,44 +75,35 @@ def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url):
     }
     data.update(ships)
 
-    response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
-
-    if response.status_code != 200:
-        raise ValueError("submit_fleet status code is not 200")
+    requests.post(url, headers=headers, cookies=config.cookies, json=data)
     
 
 def get_autoexpedition_fleet(planet_id, referer_url):
-    url = f"{config.host}{fleet_autoexpedition_ep}"
+    url = f"{config.host}/fleet/autoexpedition"
     headers = {**config.headers, "referer": referer_url }
     params = {"planet": planet_id}
 
     response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
 
-    if response.status_code != 200:
-        raise ValueError("get_autoexpedition_fleet status code is not 200")
-
     return response.text, response.url
 
 def send_autoexpedition_fleet(ships, exp_count, referer_url):
-    url = f"{config.host}{fleet_sendautoexpedition_ep}"
+    url = f"{config.host}/fleet/sendautoexpedition"
     headers = {**config.headers, "referer": referer_url }
 
     data = {
         "ExpeditionCount": f"{exp_count}",
-        "ExpeditionDuration": "60",
+        "ExpeditionDuration": "40",
         "FleetSpeed": "100"
     }
     data.update(ships)
 
     response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
 
-    if response.status_code != 200:
-        raise ValueError("send_autoexpedition_fleet status code is not 200")
-
     return response.text, response.url
 
 def get_feet_movement():
-    url = f"{config.host}{fleet_movement_ep}"
+    url = f"{config.host}/fleet/fleetmovements"
     headers = {**config.headers, "referer": f"{config.host}/fleet" }
 
     response = requests.get(url, headers=headers, cookies=config.cookies)
@@ -145,13 +120,31 @@ def get_feet_movement():
 
         missions.append(Mission(date_left, date_right, mission.text.strip()))
 
-    if response.status_code != 200:
-        raise ValueError("get_autoexpedition_fleet status code is not 200")
+    return missions, response.url
+
+def get_collect_resources(planet_id, referer_url):
+    url = f"{config.host}/fleet/collectresources"
+    headers = {**config.headers, "referer": referer_url }
+    params = {"planet": planet_id}
+    response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
+
+    return response.text, response.url
+
+def collect_all_resources(planet_id, planet_ids, ships, referer_url):
+    url = f"{config.host}/fleet/collectallresources"
+    headers = {**config.headers, "referer": referer_url }
+    params = {"planet": planet_id}
+    data = {
+        "PlanetIds": planet_ids,
+        "Ships": ships
+    }
+
+    response = requests.post(url, headers=headers, cookies=config.cookies, params=params, json=data)
 
     return response.text, response.url
 
 class Mission:
     def __init__(self, date_left: str, date_right: str, mission_type: str):
         self.date_left = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S") if date_left else None
-        self.date_right = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S") if date_left else None
+        self.date_right = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S") if date_right else None
         self.type = mission_type

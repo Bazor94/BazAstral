@@ -14,6 +14,8 @@ coords = config.get("coords")
 fs = config.get("fs")
 fleet_speed = config.get("fleet_speed")
 miners_speed = config.get("miners_speed")
+miners_percentage_start = config.get("miners_percentage_start")
+expedition_count = config.get("expedition_count")
 
 logging.basicConfig(
     level=logging.INFO,  # Ustalamy minimalny poziom logowania (DEBUG oznacza, że będą rejestrowane wszystkie logi)
