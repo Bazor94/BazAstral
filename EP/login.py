@@ -9,8 +9,11 @@ import logging
 import threading
 import config
 import helpers
+import thread_lock
 
+@thread_lock.locker(thread_lock.is_idle)
 def login():
+    print('login start')
     # Konfiguracja opcji dla Chrome
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
@@ -70,27 +73,29 @@ def login():
         driver.quit()
         raise Exception("Wystąpił błąd przy logowaniu")
 
+
+@thread_lock.locker(thread_lock.is_idle)
 def refresh(driver):
-    logging.info("refreshing the page for cookies")
     driver.refresh()
+
+
+def refresh_and_set(driver):
+    logging.info("refreshing the page for cookies")
+    refresh(driver)
 
     time.sleep(2)
 
     cookies = driver.get_cookies()
     set_cookies(cookies)
 
-def refresh_cron(driver, stop_threads, is_idle):
+
+def refresh_cron(driver, stop_threads):
     while not stop_threads.is_set():
         #delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
         delay = 7200
         stop_threads.wait(delay)
 
-        while is_idle.is_set():
-            time.sleep(1)
-
-        is_idle.set()
-        refresh(driver)
-        is_idle.clear()
+        refresh_and_set(driver)
 
     driver.quit()
 
@@ -100,7 +105,7 @@ def set_cookies(cookies):
     session_id = next((c['value'] for c in cookies if c['name'] == 'SessionId'), None)
     game_auth_token = next((c['value'] for c in cookies if c['name'] == 'gameAuthToken'), None)
 
-    logging.info(f'setting cookies: \ncf_clearance={cf_clearance} \nsession_id={session_id} \ngame_auth_token={game_auth_token}')
+    # logging.info(f'setting cookies: \ncf_clearance={cf_clearance} \nsession_id={session_id} \ngame_auth_token={game_auth_token}')
 
     config.cookies.update({
         "cf_clearance": cf_clearance,

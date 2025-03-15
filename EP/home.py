@@ -1,7 +1,7 @@
 import requests
 import config
 from bs4 import BeautifulSoup
-import planet
+import models.planet as planet
 
 ep = '/home'
 

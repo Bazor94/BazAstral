@@ -3,16 +3,19 @@ import config
 from datetime import datetime, timedelta
 import logging
 import helpers
+import thread_lock
 
 time_delay = 15
 
+@thread_lock.locker(thread_lock.is_idle)
 def send_expedition(planet):
     ships, referer_url = fleet.get_fleet(planet.moon_id)
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER' and ship['ShipType'] != 'LIGHT_CARGO']} 
     _, referer_url = fleet.get_autoexpedition_fleet(planet.moon_id, referer_url)
     fleet.send_autoexpedition_fleet(battle_ships, config.expedition_count, referer_url)
 
-def send_expedition_cron(planet, stop_threads, is_idle):
+
+def send_expedition_cron(planet, stop_threads):
     while not stop_threads.is_set(): 
         expeditions = get_fleet_expedition_movement()
         while len(expeditions) > 0 and not stop_threads.is_set():

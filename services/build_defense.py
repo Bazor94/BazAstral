@@ -1,6 +1,6 @@
 from EP import defense
 import logging
-import errors
+import models.errors as errors
 import time
 
 def build_max_platforms_all_planets(planets):

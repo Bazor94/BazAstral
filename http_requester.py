@@ -5,7 +5,7 @@ import logging
 import config
 from bs4 import BeautifulSoup
 import json
-import errors
+import models.errors as errors
 
 
 def get(url, params=None, **kwargs):
@@ -55,19 +55,19 @@ def post(url, params=None, **kwargs):
 
         if is_success is False:
             if message == errors.wrongPlanetMessage:
-                raise errors.WrongPlanetException(f"Wrong Planet - {url} IsSuccess is false")
+                raise errors.WrongPlanetException(f"Wrong Planet - {url} IsSuccess is false | {bodyData}")
             elif message == errors.notEnoughResourcesMessage:
-                raise errors.NotEnoughResourcesException(f"Not enought resources - {url} IsSuccess is false")
+                raise errors.NotEnoughResourcesException(f"Not enought resources - {url} IsSuccess is false | {bodyData}")
             elif message == errors.maximumLimitMessage:
-                raise errors.MaximumLimitException(f"Limit reached - {url} IsSuccess is false")
+                raise errors.MaximumLimitException(f"Limit reached - {url} IsSuccess is false | {bodyData}")
             elif message == errors.shipsNotFoundMessage:
-                raise errors.ShipsNotFoundException(f"Ships not found - {url} IsSuccess is false")
+                raise errors.ShipsNotFoundException(f"Ships not found - {url} IsSuccess is false | {bodyData}")
             elif message == errors.notEnoughDeuterium:
-                raise errors.NotEnoughDeuterium(f"Not enought deuterium - {url} IsSuccess is false")
+                raise errors.NotEnoughDeuterium(f"Not enought deuterium - {url} IsSuccess is false | {bodyData}")
             elif message == errors.notEnoughShipsMessage:
-                raise errors.NotEnoughShipsException(f"Not enough ships - {url} IsSuccess is false")
+                raise errors.NotEnoughShipsException(f"Not enough ships - {url} IsSuccess is false | {bodyData}")
             else:
-                raise ValueError(f"Unexpected error - {url} IsSuccess is false")
+                raise ValueError(f"Unexpected error - {url} IsSuccess is false | {bodyData}")
     except json.JSONDecodeError:
         logging.warning(f"{url} with params: {params} and kwargs {kwargs} cannot decode json: {bodyData}")
         raise ValueError(f"{url} cannot decode json")

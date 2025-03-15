@@ -1,4 +1,4 @@
-import send_fleet
+import services.send_fleet as send_fleet
 import logging
 
 def collect_all_resources_cron(planet, planets, seconds_delay, stop_threads):
