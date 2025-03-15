@@ -1,12 +1,11 @@
-import requests
+import http_requester as requests
 from bs4 import BeautifulSoup
 import config
 import time
 
-ep = '/galaxy/Partial_AsteroidLocation?_=1739831766220'
 
 def get_asteroid_locations(referer_site):
-    url = f"{config.host}{ep}"
+    url = f"{config.host}/galaxy/Partial_AsteroidLocation"
     headers = {**config.headers, "referer": referer_site}
 
     params = {
@@ -14,9 +13,6 @@ def get_asteroid_locations(referer_site):
     }
 
     response = requests.get(url, headers=config.headers, cookies=config.cookies, params=params)
-
-    if response.status_code != 200:
-        raise ValueError("get_asteroid_location status code is not 200")
 
     soup = BeautifulSoup(response.text, "html.parser")
 

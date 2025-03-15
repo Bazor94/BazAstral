@@ -1,26 +1,7 @@
-import requests
+import http_requester as requests
 from bs4 import BeautifulSoup
 import config
 import time
-
-ep = '/galaxy/galaxydata'
-
-def get_galaxydata_html(referer_site, x, y):
-    url = f"{config.host}{ep}"
-    headers = {**config.headers, "referer": referer_site}
-
-    params = {
-        "x": x,
-        "y": y,
-        "_": int(time.time() * 1000)
-    }
-
-    response = requests.get(url, headers=config.headers, cookies=config.cookies, params=params)
-
-    if response.status_code != 200:
-        raise ValueError("get_galaxydata_html status code is not 200")
-
-    return response.text, response.url
 
 def parse_asteroid(raw_html):
     soup = BeautifulSoup(raw_html, "html.parser")
@@ -35,7 +16,16 @@ def parse_asteroid(raw_html):
     return True, asteroid_url, asteroid_time
 
 def get_asteroid(referer_site, x, y):
-    raw_html, referal_url = get_galaxydata_html(referer_site, x, y)
-    is_asteroid, url, time_left = parse_asteroid(raw_html)
+    url = f"{config.host}/galaxy/galaxydata"
+    headers = {**config.headers, "referer": referer_site}
 
-    return is_asteroid, url, time_left, referal_url
+    params = {
+        "x": x,
+        "y": y,
+        "_": int(time.time() * 1000)
+    }
+
+    response = requests.get(url, headers=config.headers, cookies=config.cookies, params=params)
+    is_asteroid, asteroid_url, time_left = parse_asteroid(response.text)
+
+    return is_asteroid, asteroid_url, time_left, response.url

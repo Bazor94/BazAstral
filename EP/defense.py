@@ -1,4 +1,4 @@
-import http_requester as req
+import http_requester as requests
 import config
 from bs4 import BeautifulSoup
 
@@ -45,14 +45,14 @@ class Defense:
             return self.name
 
 def get_defense(planet_id) -> Defense:
-    url = f"{config.host}{'/defense'}"
+    url = f"{config.host}/defense"
     headers = {**config.headers, "referer": f"{config.host}/home" }
 
     params = {
         "planet": planet_id
     }
 
-    response = req.get(url, headers=headers, cookies=config.cookies, params=params)
+    response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
     soup = BeautifulSoup(response.text, "html.parser")
 
     defense = Defense()
@@ -92,7 +92,7 @@ def get_defense(planet_id) -> Defense:
     return defense, resources, response.url
 
 def create_defense(planet_id, name, quantity, referer_url):
-    url = f"{config.host}{'/defense/createdefense'}"
+    url = f"{config.host}/defense/createdefense"
     headers = {**config.headers, "referer": referer_url }
 
     data = {
@@ -101,6 +101,6 @@ def create_defense(planet_id, name, quantity, referer_url):
         "__PlanetId": planet_id
     }
 
-    response = req.post(url, headers=headers, cookies=config.cookies, json=data)
+    response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
 
     return response.text

@@ -1,20 +1,17 @@
-import requests
+import http_requester as requests
 import config
 from bs4 import BeautifulSoup
 import models.planet as planet
 
-ep = '/home'
 
 def home():
-    url = f"{config.host}{ep}"
+    url = f"{config.host}/home"
     headers = {**config.headers}
 
     response = requests.get(url, headers=headers, cookies=config.cookies)
 
-    if response.status_code != 200:
-        raise ValueError("home status code is not 200")
-
     return response.text
+
 
 def get_planets():
     html = home()
