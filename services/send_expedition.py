@@ -19,7 +19,7 @@ def send_expedition_cron(planet, stop_threads):
     while not stop_threads.is_set(): 
         expeditions = get_fleet_expedition_movement()
         while len(expeditions) > 0 and not stop_threads.is_set():
-            exp = expeditions[0]
+            exp = expeditions[-1]
             if exp.date_right is not None and exp.date_right > exp.date_left:
                 time_sleep = int((exp.date_right - datetime.now()).total_seconds()) + time_delay
                 logging.info(f'autoexpedition | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)} | date_right')
@@ -35,7 +35,7 @@ def send_expedition_cron(planet, stop_threads):
         try:
             send_expedition(planet)
         except Exception as e:
-            logging.warning(f'autoexpedition error - {e}')
+            logging.warning(f'autoexpedition | autoexpedition error - {e}')
             stop_threads.wait(time_delay)
         
 

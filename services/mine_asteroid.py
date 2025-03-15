@@ -28,8 +28,6 @@ def get_asteroid_y(x, y_from, y_to):
     _, referal_url = galaxy.get_galaxy_html() # only for referal_url purposes (anti_bot?)
 
     for i in range(y_from, y_to):
-        time.sleep(random.uniform(0.35, 0.5))
-
         is_asteroid, url, time_left, referal_url = galaxydata.get_asteroid(referal_url, x, i)
         if is_asteroid:
             time_parsed = time_left.strip("()").split(":")
