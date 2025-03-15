@@ -31,6 +31,9 @@ def send_expedition_cron(planet, stop_threads):
 
             expeditions = get_fleet_expedition_movement()
         
+        if stop_threads.is_set():
+            return
+
         logging.info(f'autoexpedition | sending autoexpedition')
         try:
             send_expedition(planet)

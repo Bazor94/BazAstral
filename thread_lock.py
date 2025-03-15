@@ -6,7 +6,7 @@ is_idle.set()
 def locker(is_idle):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            is_idle.wait()
+            is_idle.wait(60)
             is_idle.clear()
 
             try:
