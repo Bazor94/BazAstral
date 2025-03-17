@@ -1,5 +1,7 @@
 import logging
 
+planets = []
+
 class Planet:
     def __init__(self, x: int, y: int, z: int, name: str, id: str, moon_id: str = None):
         self.x = x

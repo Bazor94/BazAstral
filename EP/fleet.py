@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import config
 import time
 from datetime import datetime
+from models import planet
 
 def get_fleet(planet_id):
     url = f"{config.host}/fleet"
@@ -60,7 +61,7 @@ def send_fleet_3(ships, x, y, z, referer_url):
     requests.post(url, headers=headers, cookies=config.cookies, json=data)
 
 
-def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url):
+def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed=100):
     url = f"{config.host}/fleet/submitfleet"
     headers = {**config.headers, "referer": referer_url }
 
@@ -69,7 +70,7 @@ def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url):
         "TargetY": y,
         "TargetZ": z,
         "TargetPlanetType": 1,
-        "SpeedPercentage": 100,
+        "SpeedPercentage": speed,
         "MissionType": mission_type,
         "TargetPlanetType": target_planet
     }
@@ -121,11 +122,23 @@ def get_feet_movement():
 
     fleet_items = soup.find_all("div", {"class": "fleet-item"})
     for fleet in fleet_items:
+        mission = fleet.find("span", class_="mission-left").text.strip()
         date_left = fleet.find("span", class_="date-left")
         date_right = fleet.find("span", class_="date-right")
-        mission = fleet.find("span", class_="mission-left")
+        coords = fleet.select_one('.fromPlanet a').text[1:-1]
 
-        missions.append(Mission(date_left, date_right, mission.text.strip()))
+        if date_right == None: # fleet is returning
+            arrive_date = None
+            back_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
+        elif mission == 'Transport': # transport is a little bit fucked up
+            start_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
+            arrive_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
+            back_date = start_date + 2 * (arrive_date - start_date)
+        else:
+            arrive_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
+            back_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
+
+        missions.append(Mission(arrive_date, back_date, mission, coords))
 
     return missions, response.url
 
@@ -151,7 +164,9 @@ def collect_all_resources(planet_id, planet_ids, ships, referer_url):
     return response.text, response.url
 
 class Mission:
-    def __init__(self, date_left: str, date_right: str, mission_type: str):
-        self.date_left = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S") if date_left else None
-        self.date_right = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S") if date_right else None
+    def __init__(self, arrive_date, back_date, mission_type: str, coords: str):
+        self.arrive_date = arrive_date
+        self.back_date = back_date
+        self.planet = planet.search_for_planet(planet.planets, coords)
+
         self.type = mission_type
