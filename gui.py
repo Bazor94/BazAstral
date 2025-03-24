@@ -5,8 +5,7 @@ from datetime import datetime, timedelta
 from EP import home
 from models import planet
 from collections import defaultdict
-import threading
-import time
+import main_loop
 
 class App(tk.Tk):
     def __init__(self):
@@ -142,30 +141,9 @@ class App(tk.Tk):
         self.after(1000, self.refresh_view)  # Odśwież co sekundę
 
 
-def main_loop():
-    stop_threads = threading.Event()
-    t1 = threading.Thread(target=cron, args=(stop_threads,))
-    t1.start()
-
-    t1.stop()
-
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Przerywam program...")
-        stop_threads.set() 
-        t1.join()
-        # t2.join()
-        # t3.join()
-        # t4.join()
-        # t5.join()
-        print("Wątki zakończone.")
-
-
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-    main_loop()
+    main_loop.run_crons()
 
 

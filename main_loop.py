@@ -10,12 +10,12 @@ from services import mine_asteroid
 import threads
 
 def run_crons():
-    threads = []
+    threads_list = []
 
     # login cron
-    driver = login.login()
-    threads.running_threads['login'] = threading.Event()
-    threads.append(threading.Thread(target=login.refresh_cron, args=(driver,)))
+    #driver = login.login()
+    #threads.running_threads['login'] = threading.Event()
+    #threads_list.append(threading.Thread(target=login.refresh_cron, args=(driver,)))
 
     # planets
     planet.planets = home.get_planets()
@@ -27,29 +27,32 @@ def run_crons():
     # build_defense.build_max_platforms_all_planets(all_planets)
 
     # asteroids cron
-    threads.running_threads['asteroid'] = threading.Event()
-    threads.append(threading.Thread(target=mine_asteroid.mine_asteroids_cron, args=(planets, config.fs)))
+    threads_list.append(threading.Thread(target=mine_asteroid.mine_asteroids_cron, args=(planets, config.fs)))
 
     # expedition
     main_planet = p.search_for_planet(planet.planets, config.coords[0])
-    threads.running_threads['expedition'] = threading.Event()
-    threads.append(threading.Thread(target=send_expedition.send_expedition_cron, args=(main_planet,)))
+    threads_list.append(threading.Thread(target=send_expedition.send_expedition_cron, args=(main_planet,)))
 
     # collect resources cron
     # main_planet = p.search_for_planet(all_planets, config.coords[0])
     # other_planets = [p for p in all_planets if p.id != main_planet.id]
-    # threads.running_threads['collect_all'] = threading.Event()
-    # threads.append(threading.Thread(target=collect_resources.collect_all_resources_cron, args=(main_planet, other_planets, 3 * 3600)))
+    # threads_list.append(threading.Thread(target=collect_resources.collect_all_resources_cron, args=(main_planet, other_planets, 3 * 3600)))
 
     # building defense cron
-    # threads.running_threads['defense'] = threading.Event()
-    # threads.append(threading.Thread(target=build_defense.build_def_cron, args=(main_planet, 3 * 3600)))
+    # threads_list.append(threading.Thread(target=build_defense.build_def_cron, args=(main_planet, 3 * 3600)))
 
-    threads.running_threads['asteroid'].set()
-    # threads.running_threads['expedition'].set()
+    threads_list.append(threading.Thread(target=send_expedition.sron, args=()))
 
-    for thread in threads:
+    # threads.running_threads['asteroid'].set()
+    
+
+    for thread in threads_list:
         thread.start()
+
+
+    threads.running_threads['sron'].set()
+    threading.Timer(5, threads.running_threads['sron'].clear).start()
+    threading.Timer(10, threads.running_threads['sron'].set).start()
 
     try:
         while True:
@@ -57,7 +60,7 @@ def run_crons():
     except KeyboardInterrupt:
         print("Przerywam program...")
         threads.stop_threads.set() 
-        for thread in threads:
+        for thread in threads_list:
             thread.join()
         print("Wątki zakończone.")
 
