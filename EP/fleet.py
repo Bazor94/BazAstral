@@ -125,7 +125,8 @@ def get_feet_movement():
         mission = fleet.find("span", class_="mission-left").text.strip()
         date_left = fleet.find("span", class_="date-left")
         date_right = fleet.find("span", class_="date-right")
-        coords = fleet.select_one('.fromPlanet a').text[1:-1]
+        coords_from = fleet.select_one('.fromPlanet a').text[1:-1]
+        coords_to = fleet.select_one('.toPlanet a').text[1:-1]
 
         if date_right == None: # fleet is returning
             arrive_date = None
@@ -138,7 +139,7 @@ def get_feet_movement():
             arrive_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
             back_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
 
-        missions.append(Mission(arrive_date, back_date, mission, coords))
+        missions.append(Mission(arrive_date, back_date, mission, coords_from, coords_to))
 
     return missions, response.url
 
@@ -164,9 +165,10 @@ def collect_all_resources(planet_id, planet_ids, ships, referer_url):
     return response.text, response.url
 
 class Mission:
-    def __init__(self, arrive_date, back_date, mission_type: str, coords: str):
+    def __init__(self, arrive_date, back_date, mission_type: str, coords_from: str, coords_to: str):
         self.arrive_date = arrive_date
         self.back_date = back_date
-        self.planet = planet.search_for_planet(planet.planets, coords)
+        self.planet = planet.search_for_planet(planet.planets, coords_from)
+        self.target_coords = coords_to
 
         self.type = mission_type

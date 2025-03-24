@@ -1,11 +1,11 @@
+import threading
 import time
-import requests
-import logging
+import test2
+import test_config
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+thread = threading.Thread(target=test2.worker)
+thread.start()
 
-
-while True:
-    resp = requests.get('https://google.com')
-    logging.info(f'{resp}')
-    time.sleep(1)
+time.sleep(3)
+test_config.stop_threads = True  # Modyfikacja zmiennej działa na cały program
+thread.join()

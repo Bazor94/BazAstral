@@ -3,6 +3,8 @@ import threading
 is_idle = threading.Event()
 is_idle.set()
 
+stop_threads = threading.Event()
+
 def locker(is_idle):
     def decorator(func):
         def wrapper(*args, **kwargs):

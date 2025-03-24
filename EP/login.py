@@ -9,9 +9,9 @@ import logging
 import threading
 import config
 import helpers
-import thread_lock
+import threads
 
-@thread_lock.locker(thread_lock.is_idle)
+@threads.locker(threads.is_idle)
 def login():
     print('login start')
     # Konfiguracja opcji dla Chrome
@@ -74,7 +74,7 @@ def login():
         raise Exception("Wystąpił błąd przy logowaniu")
 
 
-@thread_lock.locker(thread_lock.is_idle)
+@threads.locker(threads.is_idle)
 def refresh(driver):
     driver.refresh()
 
@@ -89,11 +89,11 @@ def refresh_and_set(driver):
     set_cookies(cookies)
 
 
-def refresh_cron(driver, stop_threads):
-    while not stop_threads.is_set():
+def refresh_cron(driver):
+    while not threads.stop_threads.is_set():
         #delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
         delay = 7200
-        stop_threads.wait(delay)
+        threads.stop_threads.wait(delay)
 
         refresh_and_set(driver)
 

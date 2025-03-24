@@ -3,10 +3,11 @@ import logging
 planets = []
 
 class Planet:
-    def __init__(self, x: int, y: int, z: int, name: str, id: str, moon_id: str = None):
+    def __init__(self, coords: str, x: int, y: int, z: int, name: str, id: str, moon_id: str = None):
         self.x = x
         self.y = y
         self.z = z
+        self.coords = coords
         self.name = name
         self.id = id 
         self.moon_id = moon_id  # ID księżyca, domyślnie None
