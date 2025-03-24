@@ -71,44 +71,49 @@ def mine_asteroids_single_planet(planet, fs, is_asteroid_taken, miners_percentag
     x, y, z, moon_id = planet.x, planet.y, planet.z, planet.moon_id
 
     while not threads.stop_threads.is_set():
-        missions = get_fleet_asteroids_movement(planet)
-        if len(missions) != 0:
-            mission = missions[-1]
-            time_sleep = int((mission.back_date - datetime.now()).total_seconds()) + time_delay_seconds
-            logging.info(f'asteroid | {x}:{y}:{z} | initial sleep | sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}')
-            threads.stop_threads.wait()
-            
-        asteroid_y, time_needed = get_closest_asteroid(x, y, z, is_asteroid_taken)
-        if asteroid_y != None:
-            is_asteroid_taken[asteroid_y] = True
-            logging.info(f'asteroid | {x}:{y}:{z} | sending miners for asteroid {x}:{asteroid_y}:17, time needed: {helpers.format_seconds(time_needed)}')
-            
-            try:
-                fleet.send_full_miners(x, asteroid_y, moon_id, miners_percentage.value)
-            except Exception as e:
-                logging.warning(f'asteroid | {x}:{y}:{z} | Mining Exception: {e}. Continue')
-                continue
-
-            if miners_percentage.value > 40:
-                miners_percentage.decrement(2)
-            time_sleep = time_needed * 2 + time_delay_seconds
-        else:
-            speed = 50
-            fs_x, fs_y, fs_z = map(int, fs.split(':'))
-            fs_time = 2 * helpers.calculate_time(x, y, z, fs_x, fs_y, fs_z, config.miners_speed, speed)
-            logging.info(f'asteroid | {x}:{y}:{z} | sending fs to {fs}. Fleet time: {helpers.format_seconds(fs_time)}')
-
-            try:
-                fleet.send_full_miners_fs(fs_x, fs_y, fs_z, moon_id, speed)
-            except Exception as e:
-                logging.warning(f'asteroid | {x}:{y}:{z} | FS Exception: {e}. Continue')
+        while True:
+            if not threads.running_threads['asteroid'].is_set():
+                threads.stop_threads.wait(1)
                 continue
             
-            time_sleep = fs_time + time_delay_seconds
+            missions = get_fleet_asteroids_movement(planet)
+            if len(missions) != 0:
+                mission = missions[-1]
+                time_sleep = int((mission.back_date - datetime.now()).total_seconds()) + time_delay_seconds
+                logging.info(f'asteroid | {x}:{y}:{z} | initial sleep | sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}')
+                threads.stop_threads.wait(time_sleep)
+                
+            asteroid_y, time_needed = get_closest_asteroid(x, y, z, is_asteroid_taken)
+            if asteroid_y != None:
+                is_asteroid_taken[asteroid_y] = True
+                logging.info(f'asteroid | {x}:{y}:{z} | sending miners for asteroid {x}:{asteroid_y}:17, time needed: {helpers.format_seconds(time_needed)}')
+                
+                try:
+                    fleet.send_full_miners(x, asteroid_y, moon_id, miners_percentage.value)
+                except Exception as e:
+                    logging.warning(f'asteroid | {x}:{y}:{z} | Mining Exception: {e}. Continue')
+                    continue
 
-        logging.info(f'asteroid | {x}:{y}:{z} | sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}')
-        threads.stop_threads.wait(time_sleep)
-        is_asteroid_taken[asteroid_y] = False
+                if miners_percentage.value > 40:
+                    miners_percentage.decrement(2)
+                time_sleep = time_needed * 2 + time_delay_seconds
+            else:
+                speed = 50
+                fs_x, fs_y, fs_z = map(int, fs.split(':'))
+                fs_time = 2 * helpers.calculate_time(x, y, z, fs_x, fs_y, fs_z, config.miners_speed, speed)
+                logging.info(f'asteroid | {x}:{y}:{z} | sending fs to {fs}. Fleet time: {helpers.format_seconds(fs_time)}')
+
+                try:
+                    fleet.send_full_miners_fs(fs_x, fs_y, fs_z, moon_id, speed)
+                except Exception as e:
+                    logging.warning(f'asteroid | {x}:{y}:{z} | FS Exception: {e}. Continue')
+                    continue
+                
+                time_sleep = fs_time + time_delay_seconds
+
+            logging.info(f'asteroid | {x}:{y}:{z} | sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}')
+            threads.stop_threads.wait(time_sleep)
+            is_asteroid_taken[asteroid_y] = False
 
 
 def mine_asteroids_cron(planets, fses):

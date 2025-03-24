@@ -4,6 +4,7 @@ is_idle = threading.Event()
 is_idle.set()
 
 stop_threads = threading.Event()
+running_threads = {}
 
 def locker(is_idle):
     def decorator(func):
