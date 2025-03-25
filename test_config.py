@@ -1,1 +1,0 @@
-stop_threads = False  # Globalna zmienna

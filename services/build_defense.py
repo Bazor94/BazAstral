@@ -35,11 +35,3 @@ def build_max_defense_one_planet(planet):
         except Exception as e:
             logging.warning(f'error building {quantity} {wanted_building} on {planet.name}: {e}')
             continue
-
-def build_def_cron(planet, seconds_delay, stop_threads):
-    stop_threads.wait(5*60)
-
-    while not stop_threads.is_set():
-        build_max_defense_one_planet(planet)
-        logging.info(f'building defence | sleeping for {seconds_delay}')
-        stop_threads.wait(seconds_delay)

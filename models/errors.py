@@ -23,3 +23,6 @@ class NotEnoughDeuterium(Exception):
 
 class NotEnoughShipsException(Exception):
     pass
+
+class ZeroShipsException(Exception):
+    pass

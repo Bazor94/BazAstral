@@ -1,13 +1,16 @@
 import threading
+import config
 
 is_idle = threading.Event()
 is_idle.set()
 
 stop_threads = threading.Event()
+
 running_threads = {}
-running_threads['asteroid'] = threading.Event()
-running_threads['expedition'] = threading.Event()
-running_threads['sron'] = threading.Event()
+for key, value in config.crons.items():
+    running_threads[key] = threading.Event()
+    running_threads[key].set() if value else running_threads[key].clear()
+
 
 def locker(is_idle):
     def decorator(func):

@@ -6,6 +6,9 @@ from EP import home
 from models import planet
 from collections import defaultdict
 import main_loop
+import threads
+import threading
+import config
 
 class App(tk.Tk):
     def __init__(self):
@@ -38,6 +41,15 @@ class App(tk.Tk):
         self.asteroid_list.heading("Return Time", text="Return Time")
         self.asteroid_list.heading("Asteroid Coords", text="Asteroid Coords")
         self.asteroid_list.pack(fill="both", padx=5, pady=5)
+
+        self.asteroid_checkbox_var = tk.BooleanVar(value=threads.running_threads['asteroid'].is_set())
+        self.asteroid_checkbox = ttk.Checkbutton(
+            asteroid_mining_frame, 
+            text="Enable Asteroid Mining", 
+            variable=self.asteroid_checkbox_var, 
+            command=self.toggle_asteroid
+        )
+        self.asteroid_checkbox.pack(anchor="w", padx=5, pady=5)
         
         # Sekcja Autoexpeditions w Home
         autoexpedition_frame = ttk.LabelFrame(self.home_tab, text="Autoexpeditions")
@@ -49,19 +61,22 @@ class App(tk.Tk):
         self.autoexpedition_list.heading("Expeditions", text="Expeditions")
         self.autoexpedition_list.pack(fill="both", padx=5, pady=5)
 
+        # Checkbox + funkcje
+        self.expedition_checkbox_var = tk.BooleanVar(value=threads.running_threads['expedition'].is_set())
+        self.expedition_checkbox = ttk.Checkbutton(
+            autoexpedition_frame, 
+            text="Enable Autoexpedition", 
+            variable=self.expedition_checkbox_var, 
+            command=self.toggle_autoexpedition
+        )
+        self.expedition_checkbox.pack(anchor="w", padx=5, pady=5)
 
-        # Mockowane dane Asteroid Mining
+        # Dane Asteroid Mining i Expeditions
         planet.planets = home.get_planets()
         missions = fleet.get_missions()
         for mission in missions['Asteroid Mining']:
             item = (mission.planet.name, mission.back_date - datetime.now(), mission.target_coords)
             self.asteroid_list.insert("", "end", values=item)
-            
-        
-        # Mockowane dane Autoexpeditions
-        mock_data = [("Mars", "5:23", "3"), ("Venus", "8:12", "5"), ("Jupiter", "12:45", "2")]
-        for item in mock_data:
-            self.autoexpedition_list.insert("", "end", values=item)
         
         # Logi w zakładce Asteroid
         asteroid_log_frame = ttk.LabelFrame(self.asteroid_tab, text="Asteroid Logs")
@@ -84,9 +99,28 @@ class App(tk.Tk):
         self.load_missions()
         self.refresh_view()
 
-        self.after(1000, main_loop)
 
-        
+    def toggle_autoexpedition(self):
+        if self.expedition_checkbox_var.get():
+            threads.running_threads['expedition'].set()
+            config.crons['expedition'] = True
+            config.save_config()
+        else:
+            threads.running_threads['expedition'].clear()
+            config.crons['expedition'] = False
+            config.save_config()
+
+
+    def toggle_asteroid(self):
+        if self.asteroid_checkbox_var.get():
+            threads.running_threads['asteroid'].set()
+            config.crons['asteroid'] = True
+            config.save_config()
+        else:
+            threads.running_threads['asteroid'].clear()
+            config.crons['asteroid'] = False
+            config.save_config()
+
 
     def load_missions(self):
         """Ładuje misje do pamięci i ustawia początkowe wartości"""
@@ -143,7 +177,6 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
     app = App()
+
+    threading.Thread(target=main_loop.run_crons, daemon=True).start()
     app.mainloop()
-    main_loop.run_crons()
-
-

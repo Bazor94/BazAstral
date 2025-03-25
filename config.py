@@ -15,7 +15,9 @@ fs = config.get("fs")
 fleet_speed = config.get("fleet_speed")
 miners_speed = config.get("miners_speed")
 miners_percentage_start = config.get("miners_percentage_start")
+asteroid_is_from_moon = config.get("asteroid_is_from_moon")
 expedition_count = config.get("expedition_count")
+crons = config.get("crons")
 
 logging.basicConfig(
     level=logging.INFO,  # Ustalamy minimalny poziom logowania (DEBUG oznacza, że będą rejestrowane wszystkie logi)
@@ -48,10 +50,11 @@ headers = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
     }
 
-def save_config(cf_clearance, session_id, game_auth_token):
-    config['cf_clearance'] = cf_clearance
-    config['session_id'] = session_id
-    config['game_auth_token'] = game_auth_token
+
+def save_config():
+    # config['cf_clearance'] = cf_clearance
+    # config['session_id'] = session_id
+    # config['game_auth_token'] = game_auth_token
 
     with open("config.yaml", "w") as file:
         yaml.safe_dump(config, file, default_flow_style=False)
