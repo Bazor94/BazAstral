@@ -2,6 +2,7 @@ import http_requester as requests
 import config
 from bs4 import BeautifulSoup
 import models.planet as planet
+import threads
 
 
 def home():
@@ -13,6 +14,7 @@ def home():
     return response.text
 
 
+@threads.locker(threads.is_idle)
 def get_planets():
     html = home()
     soup = BeautifulSoup(html, 'html.parser')
