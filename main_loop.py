@@ -18,7 +18,7 @@ def run_crons():
 
     # login cron
     threads_list.append(threading.Thread(target=refresh.refresh_cron, args=()))
-    threads_list.start()
+    threads_list[-1].start()
 
     # planets
     planet.planets = home.get_planets()
