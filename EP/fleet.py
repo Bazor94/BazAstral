@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import config
 import time
 from datetime import datetime
-from models import planet
+from models import mission
 
 def get_fleet(planet_id):
     url = f"{config.host}/fleet"
@@ -58,7 +58,8 @@ def send_fleet_3(ships, x, y, z, referer_url):
     }
     data.update(ships)
 
-    requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    resp = requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    return
 
 
 def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed=100):
@@ -76,8 +77,9 @@ def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed
     }
     data.update(ships)
 
-    requests.post(url, headers=headers, cookies=config.cookies, json=data)
-    
+    resp = requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    return
+
 
 def get_autoexpedition_fleet(planet_id, referer_url):
     url = f"{config.host}/fleet/autoexpedition"
@@ -94,13 +96,13 @@ def send_autoexpedition_fleet(ships, exp_count, referer_url):
 
     data = {
         "ExpeditionCount": f"{exp_count}",
-        "ExpeditionDuration": "40",
+        "ExpeditionDuration": "60",
         "FleetSpeed": "100"
     }
 
     updated_ships = {"Ships": []}
     for ship in ships['Ships']:
-        if ship['ShipType'] in ['LIGHT_CARGO', 'ASTEROID_MINER']:
+        if ship['ShipType'] in ['ASTEROID_MINER']:
             continue
         updated_ships['Ships'].append({'ShipType': ship['ShipType'], 'Quantity': str(ship['Quantity'])})
 
@@ -122,15 +124,16 @@ def get_feet_movement():
 
     fleet_items = soup.find_all("div", {"class": "fleet-item"})
     for fleet in fleet_items:
-        mission = fleet.find("span", class_="mission-left").text.strip()
+        mission_type = fleet.find("span", class_="mission-left").text.strip()
         date_left = fleet.find("span", class_="date-left")
         date_right = fleet.find("span", class_="date-right")
-        coords = fleet.select_one('.fromPlanet a').text[1:-1]
+        coords_from = fleet.select_one('.fromPlanet a').text[1:-1]
+        coords_to = fleet.select_one('.toPlanet a').text[1:-1]
 
         if date_right == None: # fleet is returning
             arrive_date = None
             back_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
-        elif mission == 'Transport': # transport is a little bit fucked up
+        elif mission_type == 'Transport': # transport is a little bit fucked up
             start_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
             arrive_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
             back_date = start_date + 2 * (arrive_date - start_date)
@@ -138,7 +141,7 @@ def get_feet_movement():
             arrive_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
             back_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
 
-        missions.append(Mission(arrive_date, back_date, mission, coords))
+        missions.append(mission.Mission(arrive_date, back_date, mission_type, coords_from, coords_to))
 
     return missions, response.url
 
@@ -162,11 +165,3 @@ def collect_all_resources(planet_id, planet_ids, ships, referer_url):
     response = requests.post(url, headers=headers, cookies=config.cookies, params=params, json=data)
 
     return response.text, response.url
-
-class Mission:
-    def __init__(self, arrive_date, back_date, mission_type: str, coords: str):
-        self.arrive_date = arrive_date
-        self.back_date = back_date
-        self.planet = planet.search_for_planet(planet.planets, coords)
-
-        self.type = mission_type

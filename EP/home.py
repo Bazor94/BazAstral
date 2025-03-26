@@ -31,7 +31,7 @@ def get_planets():
         planet_name = name_tag.text.strip()
         coords_text = coords_tag.text.strip().strip("[]")
         x, y, z = map(int, coords_text.split(':'))
-        p = planet.Planet(x, y, z, planet_name, planet_id, moon_id)
+        p = planet.Planet(coords_text, x, y, z, planet_name, planet_id, moon_id)
         planets.append(p)
 
     return planets

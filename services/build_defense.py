@@ -2,10 +2,11 @@ from EP import defense
 import logging
 import models.errors as errors
 import time
+from logger import logger
 
 def build_max_platforms_all_planets(planets):
     for planet in planets:
-        logging.info(f'starting building defense on {planet.name}')
+        logger.info(f'starting building defense on {planet.name}')
         buildings, _, referer_url = defense.get_defense(planet.id)
 
         wanted_buildings = ["orbital_defense_platform", "doom_cannon", "fortress", "small_shield_dome", "large_shield_dome", "atmospheric_shield"]
@@ -35,11 +36,3 @@ def build_max_defense_one_planet(planet):
         except Exception as e:
             logging.warning(f'error building {quantity} {wanted_building} on {planet.name}: {e}')
             continue
-
-def build_def_cron(planet, seconds_delay, stop_threads):
-    stop_threads.wait(5*60)
-
-    while not stop_threads.is_set():
-        build_max_defense_one_planet(planet)
-        logging.info(f'building defence | sleeping for {seconds_delay}')
-        stop_threads.wait(seconds_delay)
