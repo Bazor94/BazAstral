@@ -13,7 +13,7 @@ class Planet:
         self.moon_id = moon_id  # ID księżyca, domyślnie None
 
     def __repr__(self):
-        return f"Planet(x={self.x}, y={self.y}, z={self.z}, name={self.name}, id={self.id}, moon_id={self.moon_id})"
+        return f"{self.name} {self.coords}" # uzywane do formatowania logow
     
 def search_for_planet(planets, coords):
     x, y, z = map(int, coords.split(':'))

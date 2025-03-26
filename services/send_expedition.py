@@ -6,6 +6,7 @@ import helpers
 import threads
 import time
 from services import fleet as fleet_service
+from logger import logger
 
 time_delay = 15
 
@@ -15,6 +16,7 @@ def send_expedition(planet):
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER']} 
     _, referer_url = fleet.get_autoexpedition_fleet(planet.moon_id, referer_url)
     fleet.send_autoexpedition_fleet(battle_ships, config.expedition_count, referer_url)
+    threads.refresh_missions_gui.put("refresh")
 
 
 def send_expedition_if_free(planet):
@@ -23,15 +25,15 @@ def send_expedition_if_free(planet):
     if len(expeditions) > 0:
         exp = expeditions[-1]
         time_sleep = int((exp.back_date - datetime.now()).total_seconds()) + time_delay
-        logging.info(f'autoexpedition | {planet.coords} | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}')
+        logger.info(f'initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "expedition"})
         threads.stop_threads.wait(time_sleep)
         return
 
-    logging.info(f'autoexpedition | sending autoexpedition')
+    logger.info(f'sending autoexpedition', extra={"planet": planet, "action": "expedition"})
     try:
         send_expedition(planet)
     except Exception as e:
-        logging.warning(f'autoexpedition | autoexpedition error - {e}')
+        logging.warning(f'autoexpedition error - {e}', extra={"planet": planet, "action": "expedition"})
         threads.stop_threads.wait(time_delay)
 
 

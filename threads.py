@@ -1,10 +1,13 @@
 import threading
 import config
+import queue
 
 is_idle = threading.Event()
 is_idle.set()
 
 stop_threads = threading.Event()
+
+refresh_missions_gui = queue.Queue()
 
 running_threads = {}
 for key, value in config.crons.items():

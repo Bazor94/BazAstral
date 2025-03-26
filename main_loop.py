@@ -11,6 +11,7 @@ from crons import expedition
 from crons import refresh
 from crons import collect
 from crons import defense
+from services import build_defense
 
 def run_crons():
     threads_list = []
@@ -24,7 +25,7 @@ def run_crons():
     for coord in config.coords:
         planets.append(p.search_for_planet(planet.planets, coord))
 
-    # build_defense.build_max_platforms_all_planets(all_planets)
+    # build_defense.build_max_platforms_all_planets(planet.planets)
 
     # asteroids cron
     threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.fs, config.asteroid_is_from_moon)))

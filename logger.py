@@ -1,6 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
 import logging
+from models import planet
+
+class TerminalHandler(logging.Handler):
+    def __init__(self):
+        super().__init__()
+
+    def emit(self, record):
+        record.planet = getattr(record, "planet", "None")
+        record.action = getattr(record, "action", "None")
+        log_entry = self.format(record)
+        print(log_entry)
 
 class WidgetHandler(logging.Handler):
     def __init__(self, asteroid_widget, expedition_widget, rest_widget):
@@ -10,22 +21,23 @@ class WidgetHandler(logging.Handler):
         self.rest_widget = rest_widget
 
     def emit(self, record):
-        record.planet = getattr(record, "planet", "None")
-        record.action = getattr(record, "action", "None")
+        record.planet = getattr(record, "planet", "none")
+        record.action = getattr(record, "action", "none")
         log_entry = self.format(record)
-        print(log_entry)
 
-        
-        # self.text_widget.insert("end", log_entry + "\n")
-        # self.text_widget.see("end")  # Automatyczne przewijanie na dół
+        if record.action == "asteroid":
+            widget = self.asteroid_widget
+        elif record.action == "expedition":
+            widget = self.expedition_widget
+        elif record.action == "none":
+            widget = self.rest_widget
+
+        widget.insert("end", log_entry + "\n")
+        widget.see("end") 
 
 
 logger = logging.getLogger(__name__)
-handler = WidgetHandler(None, None, None)
-handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
-logger.addHandler(handler)
+terminal_handler = TerminalHandler()
+terminal_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
+logger.addHandler(terminal_handler)
 logger.setLevel(logging.INFO)
-logger.info('xd', extra={"planet": "Aden [3:12:5]", "action": "expedition"})
-
-
-

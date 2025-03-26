@@ -20,6 +20,7 @@ def send_full_miners(x, y, from_planet_id, percent_miners):
     fleet.send_fleet_2(miners, referer_url)
     fleet.send_fleet_3(miners, x, y, 17, referer_url)
     fleet.submit_fleet(miners, x, y, 17, mission_type_asteroid, 1, referer_url)
+    threads.refresh_missions_gui.put("refresh")
 
 @threads.locker(threads.is_idle)
 def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):

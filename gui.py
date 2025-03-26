@@ -9,12 +9,28 @@ import main_loop
 import threads
 import threading
 import config
+import logger
+import logging
+import ctypes
+import queue
+
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Tabbed App")
-        self.geometry("1000x800")
+
+        user32 = ctypes.windll.user32
+        screen_width = user32.GetSystemMetrics(0)
+        screen_height = user32.GetSystemMetrics(1)
+
+        window_height = 700
+        window_width = 1200
+
+        position_top = int(screen_height/2 - window_height/2)
+        position_right = int(screen_width/2 - window_width/2)
+
+        self.geometry(f'{window_width}x{window_height}+{position_right}+{position_top}')
         
         # Tworzenie zakładek
         self.notebook = ttk.Notebook(self)
@@ -36,7 +52,7 @@ class App(tk.Tk):
         asteroid_mining_frame = ttk.LabelFrame(self.home_tab, text="Asteroid Mining")
         asteroid_mining_frame.pack(fill="x", padx=10, pady=5)
         
-        self.asteroid_list = ttk.Treeview(asteroid_mining_frame, columns=("Planet", "Return Time", "Asteroid Coords"), show="headings")
+        self.asteroid_list = ttk.Treeview(asteroid_mining_frame, columns=("Planet", "Return Time", "Asteroid Coords"), show="headings", height=5)
         self.asteroid_list.heading("Planet", text="Planet")
         self.asteroid_list.heading("Return Time", text="Return Time")
         self.asteroid_list.heading("Asteroid Coords", text="Asteroid Coords")
@@ -83,17 +99,19 @@ class App(tk.Tk):
         asteroid_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
         self.asteroid_log = tk.Text(asteroid_log_frame, height=10, wrap="word")
         self.asteroid_log.pack(fill="both", expand=True, padx=5, pady=5)
-        self.asteroid_log.insert("end", "Asteroid mining log data...\nMock log entry 1\nMock log entry 2\n")
         
         # Logi w zakładce Expedition
         expedition_log_frame = ttk.LabelFrame(self.expedition_tab, text="Expedition Logs")
         expedition_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
         self.expedition_log = tk.Text(expedition_log_frame, height=10, wrap="word")
         self.expedition_log.pack(fill="both", expand=True, padx=5, pady=5)
-        self.expedition_log.insert("end", "Expedition log data...\nMock log entry A\nMock log entry B\n")
         
         # Przykładowa zawartość zakładki Settings
         ttk.Label(self.settings_tab, text="Settings Panel").pack(pady=20)
+
+        widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, None)
+        widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(planet)s | %(message)s'))
+        logger.logger.addHandler(widget_handler)
 
         # Pobierz misje i zacznij aktualizować liczniki
         self.load_missions()
@@ -150,9 +168,18 @@ class App(tk.Tk):
 
     def refresh_view(self):
         """Odświeża wyświetlanie danych"""
+        try:
+            threads.refresh_missions_gui.get_nowait()
+            self.load_missions()
+        except queue.Empty:
+            pass
+
+        while not threads.refresh_missions_gui.empty(): # clear queue
+             threads.refresh_missions_gui.get()
+
         for category in ["Asteroid Mining", "Expedition"]:
             for mission in self.mission_data[category]:
-                if mission[1] > 0:
+                if mission[1] != "done" and mission[1] > 0:
                     mission[1] -= 1  # Odejmujemy 1 sekundę
                 else:
                     mission[1] = "done"

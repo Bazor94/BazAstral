@@ -19,11 +19,6 @@ asteroid_is_from_moon = config.get("asteroid_is_from_moon")
 expedition_count = config.get("expedition_count")
 crons = config.get("crons")
 
-logging.basicConfig(
-    level=logging.INFO,  # Ustalamy minimalny poziom logowania (DEBUG oznacza, że będą rejestrowane wszystkie logi)
-    format='%(asctime)s - %(levelname)s: %(message)s',  # Ustalamy format logu
-)
-
 cookies = {
     'SessionId': session_id,
     'gameAuthToken': game_auth_token,

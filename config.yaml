@@ -3,10 +3,10 @@ cf_clearance: 6IvO8KlBzv3wUgZ.n9Uk2bCNS4mIOUOun6aHePx2eng-1742917530-1.2.1.1-uDu
 coords:
 - 2:308:4
 crons:
-  asteroid: false
+  asteroid: true
   collect: false
   defense: false
-  expedition: false
+  expedition: true
   refresh: false
 expedition_count: 12
 fleet_speed: 8
