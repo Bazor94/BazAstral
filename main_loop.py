@@ -43,8 +43,6 @@ def run_crons():
     # building defense cron
     threads_list.append(threading.Thread(target=defense.build_def_cron, args=(main_planet, 3 * 3600)))
 
-    thread
-
     for thread in threads_list:
         if not thread.is_alive():
             thread.start()
