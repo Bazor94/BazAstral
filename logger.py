@@ -17,20 +17,31 @@ class TerminalHandler(logging.Handler):
 class FileHandler(logging.Handler):
     def __init__(self):
         super().__init__()
-        self.asteroid_file = open('asteroid.txt', 'w')
-        # TODO reszta plikow
-
-
+        self.files = {
+            'asteroid': open('asteroid.log', 'a', encoding='utf-8'),
+            'expedition': open('expedition.log', 'a', encoding='utf-8'),
+            'none': open('general.log', 'a', encoding='utf-8')
+        }
+    
     def emit(self, record):
         record.planet = getattr(record, "planet", "None")
-        record.action = getattr(record, "action", "None")
-        log_entry = self.format(record)
+        record.action = getattr(record, "action", "none")
+        log_entry = self.format(record) + '\n'  # Dodajemy znak nowej linii
         
-        if record.action == "asteroid":
-            file = self.asteroid_file
-        # TODO reszta akcji
-
-        file.write(record)
+        # Wybierz odpowiedni plik na podstawie akcji
+        file = self.files.get(record.action, self.files['none'])
+        
+        try:
+            file.write(log_entry)
+            file.flush()  # Wymuszenie zapisu do pliku
+        except Exception as e:
+            print(f"Błąd zapisu do pliku: {e}")
+    
+    def close(self):
+        # Zamknij wszystkie otwarte pliki
+        for file in self.files.values():
+            file.close()
+        super().close()
 
 class WidgetHandler(logging.Handler):
     def __init__(self, asteroid_widget, expedition_widget, rest_widget):

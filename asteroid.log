@@ -1,0 +1,305 @@
+2025-03-27 17:50:11,423 - INFO: XXXXXXXXX 5:230:7 | initial sleeping for 08:22. Till 2025-03-27 17:58:33.423798
+2025-03-27 17:58:37,955 - INFO: XXXXXXXXX 5:230:7 | ranges [(136, 156), (341, 361), (376, 396)] - closest range:(136, 156) - y: 138
+2025-03-27 17:58:37,955 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:138:17, time needed: 07:42
+2025-03-27 17:58:40,165 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Ships not found - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Ships not found.', 'ValidationErrors': None}. Continue
+2025-03-27 17:58:45,363 - INFO: XXXXXXXXX 5:230:7 | ranges [(136, 156), (341, 361), (376, 396)] - closest range:(136, 156) - y: 138
+2025-03-27 17:58:45,372 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:138:17, time needed: 07:42
+2025-03-27 17:58:48,317 - INFO: XXXXXXXXX 5:230:7 | sleeping for 15:39. Till 2025-03-27 18:14:27.317864
+2025-03-27 18:14:44,527 - INFO: XXXXXXXXX 5:230:7 | ranges [(341, 361), (376, 396)] - closest range:(341, 361) - y: 359
+2025-03-27 18:14:44,527 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:359:17, time needed: 08:43
+2025-03-27 18:14:47,679 - INFO: XXXXXXXXX 5:230:7 | sleeping for 17:41. Till 2025-03-27 18:32:28.679813
+2025-03-27 18:32:42,351 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:32:42,352 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:32:44,726 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:32:58,167 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:32:58,168 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:33:00,264 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:33:13,883 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:33:13,883 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:33:16,246 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:33:29,355 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:33:29,355 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:33:31,610 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:33:45,144 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:33:45,144 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:33:47,627 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:34:01,245 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:34:01,246 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:34:03,673 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:34:17,159 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:34:17,160 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:34:19,395 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:34:32,727 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:34:32,729 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:34:34,965 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:34:48,447 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:34:48,449 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:34:50,893 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:35:04,737 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:35:04,740 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:35:07,021 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:35:19,998 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:35:20,000 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:35:22,346 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:35:36,019 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:35:36,021 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:35:38,318 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:35:51,282 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:35:51,285 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:35:53,467 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:36:06,497 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:36:06,499 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:36:08,647 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:36:22,506 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:36:22,508 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:36:24,831 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:36:38,262 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:36:38,264 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:36:40,683 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:36:54,007 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:36:54,009 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:36:56,366 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:37:09,806 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:37:09,808 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:37:11,889 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:37:25,155 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:37:25,157 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:37:27,199 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:37:40,447 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:37:40,449 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:37:42,693 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:37:56,453 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:37:56,455 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:37:58,862 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:38:12,425 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:38:12,432 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:38:14,565 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:38:28,170 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:38:28,172 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:38:30,405 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:38:43,926 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:38:43,928 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:38:46,234 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:38:59,660 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:38:59,662 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:39:01,908 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:39:15,640 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:39:15,642 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:39:18,001 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:39:31,677 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:39:31,679 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:39:33,915 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:39:47,130 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:39:47,133 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:39:49,345 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:40:02,889 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:40:02,892 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:40:05,051 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:40:18,334 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:40:18,336 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:40:20,785 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:40:34,168 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:40:34,170 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:40:36,459 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:40:50,310 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:40:50,313 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:40:52,547 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:41:05,955 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:41:05,957 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:41:08,205 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:41:21,083 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:41:21,085 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:41:23,360 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:41:37,061 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:41:37,063 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:41:39,500 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:41:53,034 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:41:53,036 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:41:55,141 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:42:08,952 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:42:08,954 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:42:11,510 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:42:24,966 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:42:24,968 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:42:27,330 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:42:40,896 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:42:40,898 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:42:43,315 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:42:56,658 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:42:56,660 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:42:59,099 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:43:12,598 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:43:12,600 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:43:14,940 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:43:28,783 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:43:28,785 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:43:31,154 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:43:45,482 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:43:45,484 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:43:47,858 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:44:01,463 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:44:01,465 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:44:03,665 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:44:16,978 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:44:16,980 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:44:19,375 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:44:32,570 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:44:32,572 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:44:34,867 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:44:48,088 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:44:48,090 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:44:50,597 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:45:04,246 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:45:04,248 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:45:06,630 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:45:19,535 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:45:19,537 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:45:21,695 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:45:34,536 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:45:34,538 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:45:36,624 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:45:50,105 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:45:50,108 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:45:52,746 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:46:06,564 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:46:06,566 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:46:09,009 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:46:22,188 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:46:22,190 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:46:24,536 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:46:38,046 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:46:38,048 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:46:40,402 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:46:54,382 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:46:54,385 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:46:56,714 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:47:10,260 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:47:10,263 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:47:12,486 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:47:25,736 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:47:25,739 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:47:28,126 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:47:41,712 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:47:41,715 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:47:43,933 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:47:57,389 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:47:57,391 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:47:59,784 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:48:13,071 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:48:13,073 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:48:15,501 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:48:28,764 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:48:28,766 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:48:31,059 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:48:44,499 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:48:44,501 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:48:47,102 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:49:00,507 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:49:00,509 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:389:17, time needed: 09:28
+2025-03-27 18:49:02,934 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:49:16,446 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:49:16,448 - INFO: XXXXXXXXX 5:230:7 | sending fs to 5:207:7. Fleet time: 21:12
+2025-03-27 18:49:18,838 - WARNING: XXXXXXXXX 5:230:7 | FS Exception: Unexpected error - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'There is no planet or moons on this target.', 'ValidationErrors': None}. Continue
+2025-03-27 18:49:32,041 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:49:32,044 - INFO: XXXXXXXXX 5:230:7 | sending fs to 5:207:7. Fleet time: 21:12
+2025-03-27 18:49:34,303 - WARNING: XXXXXXXXX 5:230:7 | FS Exception: Unexpected error - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'There is no planet or moons on this target.', 'ValidationErrors': None}. Continue
+2025-03-27 18:49:47,450 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:49:47,452 - INFO: XXXXXXXXX 5:230:7 | sending fs to 5:207:7. Fleet time: 21:12
+2025-03-27 18:49:49,534 - WARNING: XXXXXXXXX 5:230:7 | FS Exception: Unexpected error - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'There is no planet or moons on this target.', 'ValidationErrors': None}. Continue
+2025-03-27 18:50:03,121 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:50:03,123 - INFO: XXXXXXXXX 5:230:7 | sending fs to 5:207:7. Fleet time: 21:12
+2025-03-27 18:50:05,729 - WARNING: XXXXXXXXX 5:230:7 | FS Exception: Unexpected error - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'There is no planet or moons on this target.', 'ValidationErrors': None}. Continue
+2025-03-27 18:50:19,279 - INFO: XXXXXXXXX 5:230:7 | ranges [(376, 396)] - closest range:(376, 396) - y: 389
+2025-03-27 18:50:19,281 - INFO: XXXXXXXXX 5:230:7 | sending fs to 5:207:7. Fleet time: 21:12
+2025-03-27 18:50:21,664 - WARNING: XXXXXXXXX 5:230:7 | FS Exception: Unexpected error - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'There is no planet or moons on this target.', 'ValidationErrors': None}. Continue
+2025-03-27 18:50:35,136 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:50:50,825 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:50:50,827 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:50:53,361 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:51:06,790 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:51:23,113 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:51:23,115 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:51:25,570 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:51:38,609 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:51:54,312 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:51:54,315 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:51:56,640 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:52:09,856 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:52:25,215 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:52:25,217 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:52:27,578 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:52:40,442 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:52:56,248 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:52:56,250 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:52:58,598 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:53:12,130 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:53:27,901 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:53:27,904 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:53:30,383 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:53:43,837 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:53:59,798 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:53:59,801 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:54:02,253 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:54:15,832 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:54:32,340 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:54:32,343 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:54:34,736 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:54:48,663 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:55:04,682 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:55:04,684 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:55:06,908 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 18:55:20,210 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (376, 396), (435, 455)] - closest range:(376, 396) - y: 389
+2025-03-27 18:55:36,363 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (61, 81), (435, 455)] - closest range:(61, 81) - y: 80
+2025-03-27 18:55:36,365 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:80:17, time needed: 09:15
+2025-03-27 18:55:39,479 - INFO: XXXXXXXXX 5:230:7 | sleeping for 18:45. Till 2025-03-27 19:14:24.479357
+2025-03-27 19:14:35,573 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:14:35,575 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:14:37,920 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:14:48,573 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:14:48,575 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:14:50,948 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:15:00,852 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:15:00,854 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:15:03,453 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Ships not found - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Ships not found.', 'ValidationErrors': None}. Continue
+2025-03-27 19:15:13,651 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:15:13,653 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:15:16,023 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:15:26,760 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:15:26,762 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:15:29,250 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:15:40,148 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:15:40,150 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:15:42,727 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:15:53,363 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:15:53,366 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:15:55,707 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:16:06,510 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:16:06,518 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:16:09,039 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:16:19,293 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:16:19,295 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:16:21,513 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:16:31,829 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:16:31,831 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:16:34,300 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:16:45,204 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:16:45,206 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:16:47,637 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Not enought deuterium - https://falcon.ogamex.net/fleet/submitfleet IsSuccess is false | {'IsSuccess': False, 'Message': 'Not enough deuterium for fuel', 'ValidationErrors': None}. Continue
+2025-03-27 19:16:58,243 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:16:58,245 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:16:59,275 - WARNING: XXXXXXXXX 5:230:7 | Mining Exception: Ships not found - https://falcon.ogamex.net/fleet/fleetpage2data IsSuccess is false | {'CargoCapacity': 0, 'MaxSpeed': 0, 'FuelConsumption': 0, 'CombatForces': None, 'IsCargoShipsOnly': False, 'IsWarShipsOnly': False, 'DMCostForSpeed110': 0, 'DMCostForSpeed120': 0, 'DMCostForSpeed130': 0, 'IsSuccess': False, 'Message': 'Ships not found.', 'ValidationErrors': None}. Continue
+2025-03-27 19:17:10,014 - INFO: XXXXXXXXX 5:230:7 | ranges [(14, 34), (435, 455)] - closest range:(14, 34) - y: 23
+2025-03-27 19:17:10,017 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:23:17, time needed: 10:33
+2025-03-27 19:17:12,917 - INFO: XXXXXXXXX 5:230:7 | sleeping for 21:21. Till 2025-03-27 19:38:33.917945
+2025-03-27 19:38:51,198 - INFO: XXXXXXXXX 5:230:7 | ranges [(435, 455)] - closest range:(435, 455) - y: 453
+2025-03-27 19:38:51,201 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:453:17, time needed: 10:53
+2025-03-27 19:38:54,074 - INFO: XXXXXXXXX 5:230:7 | sleeping for 22:01. Till 2025-03-27 20:00:55.074295
+2025-03-27 20:01:02,068 - INFO: XXXXXXXXX 5:230:7 | ranges [(59, 79), (255, 275), (440, 460), (479, 499), (479, 499)] - closest range:(255, 275) - y: 259
+2025-03-27 20:01:02,070 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:259:17, time needed: 05:33
+2025-03-27 20:01:05,338 - INFO: XXXXXXXXX 5:230:7 | sleeping for 11:21. Till 2025-03-27 20:12:26.338568
+2025-03-27 20:12:35,819 - INFO: XXXXXXXXX 5:230:7 | ranges [(59, 79), (440, 460), (479, 499), (479, 499)] - closest range:(59, 79) - y: 67
+2025-03-27 20:12:35,821 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:67:17, time needed: 09:34
+2025-03-27 20:12:38,776 - INFO: XXXXXXXXX 5:230:7 | sleeping for 19:23. Till 2025-03-27 20:32:01.776916
+2025-03-27 20:32:10,655 - INFO: XXXXXXXXX 5:230:7 | ranges [(440, 460), (479, 499), (479, 499)] - closest range:(440, 460) - y: 447
+2025-03-27 20:32:10,658 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:447:17, time needed: 10:46
+2025-03-27 20:32:13,771 - INFO: XXXXXXXXX 5:230:7 | sleeping for 21:47. Till 2025-03-27 20:54:00.771361

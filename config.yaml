@@ -1,21 +1,21 @@
 asteroid_is_from_moon: false
 cf_clearance: 6IvO8KlBzv3wUgZ.n9Uk2bCNS4mIOUOun6aHePx2eng-1742917530-1.2.1.1-uDuP9yat8JVC.2Rn2wU0oNssTBF6AAFBO81xYJXq.6e4ua63snVtaXkk8mDyP9fmpcQTIs9yzkrcIdDUfD19wMCxtle8zkSWFQmP8klWxQ7EkquHMnUdMsW5CQxh0zUpliMI4HVg0wUs3NyxAQo3QjKtti7m4EJvr3GxmZ13IrqSzpTSf1Xqadz62GY02fac5niszCfnVI3jGrWwDyxmiiuQ4R9sMPrmkQmTYgJMVSzpkSiVpsI.CAVR0ppsbWLtRf0TB63VTNZWMLK7TEugMdwQNPRpF6ALompllmHbFFRrGzwUoSb6qL3lIuGh9CXzwGqseUiFBxNLmIIR6eDAlV5zlSGxPqoWNapKaOeLIB0
 coords:
-- 2:308:4
+- 5:230:7
 crons:
   asteroid: true
   collect: false
   defense: false
   expedition: true
-  refresh: false
-expedition_count: 12
+  refresh: true
+expedition_count: 8
 fleet_speed: 8
 fs:
-- 2:299:6
+- 5:207:7
 game_auth_token: eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDI5MTc1MzUsImV4cCI6MjA1ODQ1MDMzNSwiSWQiOiJhOTU5ZjRjNC1iN2Q0LTQ2MjMtODM3Ny1lODk4ZmM5ZDMwM2EiLCJTZXNzaW9uSWQiOiIxYjhmNzM4Zi0wYzM3LTQxYzYtYmExZC0xN2Y0NjE2ZDAyNzAifQ.FzlX65mXvdHP84_oHuKHjxbfiEO0MnE06m6ZNC1C95M
 host: https://falcon.ogamex.net
-login: wurbanczyksii@gmail.com
+login: bazor17@gmail.com
 miners_percentage_start: 100
 miners_speed: 112000
-password: RMDJ@EJe7jy52xg
+password: 715222dd
 session_id: ar5fwd4jz13lffhkw02inbmy
