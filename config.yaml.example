@@ -1,0 +1,33 @@
+creds:
+  cf_clearance: not_needed
+  game_auth_token: not_needed
+  login: fill_in
+  password: fill_in
+  session_id: not_needed
+crons:
+  asteroid:
+    coords:
+    - 2:308:4
+    enabled: true
+    fs:
+    - 2:299:6
+    is_from_moon: false
+    miners_percentage: 60
+    miners_speed: 115200
+  bonus:
+    enabled: true
+  collect:
+    enabled: false
+    interval: 7200
+  defense:
+    enabled: false
+    interval: 7200
+  expedition:
+    count: 12
+    enabled: true
+  refresh:
+    enabled: true
+    interval: 7200
+server:
+  fleet_speed: 8
+  host: https://falcon.ogamex.net
