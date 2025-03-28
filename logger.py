@@ -24,7 +24,7 @@ class FileHandler(logging.Handler):
         }
     
     def emit(self, record):
-        record.planet = getattr(record, "planet", "None")
+        record.planet = getattr(record, "planet", "none")
         record.action = getattr(record, "action", "none")
         log_entry = self.format(record) + '\n'  # Dodajemy znak nowej linii
         
