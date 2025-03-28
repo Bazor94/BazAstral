@@ -1,5 +1,5 @@
 import threading
-import config
+from config import config
 import threads
 from services.send_expedition import send_expedition_if_free
 

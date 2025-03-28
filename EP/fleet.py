@@ -1,16 +1,17 @@
 import http_requester as requests
 from bs4 import BeautifulSoup
-import config
+from config import config, headers, cookies
 import time
 from datetime import datetime
 from models import mission
+import json
 
 def get_fleet(planet_id):
-    url = f"{config.host}/fleet"
-    headers = {**config.headers, "referer": f"{config.host}/home" }
+    url = f"{config.server.host}/fleet"
+    headers_dict = {**headers, "referer": f"{config.server.host}/home" }
     params = {"planet": planet_id}
 
-    response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
 
     return parse_ships(response.text), response.url
 
@@ -35,19 +36,19 @@ def parse_ships(raw_html):
 
 
 def send_fleet_2(ships, referer_url):
-    url = f"{config.host}/fleet/fleetpage2data"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/fleetpage2data"
+    headers_dict = {**headers, "referer": referer_url }
 
     data = {}
     data.update(ships)
-    response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
 
     return response.text
 
 
 def send_fleet_3(ships, x, y, z, referer_url):
-    url = f"{config.host}/fleet/fleetpage3data"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/fleetpage3data"
+    headers_dict = {**headers, "referer": referer_url }
 
     data = {
         "TargetX": x,
@@ -58,13 +59,19 @@ def send_fleet_3(ships, x, y, z, referer_url):
     }
     data.update(ships)
 
-    resp = requests.post(url, headers=headers, cookies=config.cookies, json=data)
-    return
+    resp = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
+
+    try:
+        response_dict = json.loads(resp)
+    except:
+        return None
+    
+    return response_dict
 
 
 def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed=100):
-    url = f"{config.host}/fleet/submitfleet"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/submitfleet"
+    headers_dict = {**headers, "referer": referer_url }
 
     data = {
         "TargetX": x,
@@ -77,22 +84,22 @@ def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed
     }
     data.update(ships)
 
-    resp = requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    resp = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
     return
 
 
 def get_autoexpedition_fleet(planet_id, referer_url):
-    url = f"{config.host}/fleet/autoexpedition"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/autoexpedition"
+    headers_dict = {**headers, "referer": referer_url }
     params = {"planet": planet_id}
 
-    response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
 
     return response.text, response.url
 
 def send_autoexpedition_fleet(ships, exp_count, referer_url):
-    url = f"{config.host}/fleet/sendautoexpedition"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/sendautoexpedition"
+    headers_dict = {**headers, "referer": referer_url }
 
     data = {
         "ExpeditionCount": f"{exp_count}",
@@ -108,15 +115,15 @@ def send_autoexpedition_fleet(ships, exp_count, referer_url):
 
     data.update(updated_ships)
 
-    response = requests.post(url, headers=headers, cookies=config.cookies, json=data)
+    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
 
     return response.text, response.url
 
 def get_feet_movement():
-    url = f"{config.host}/fleet/fleetmovements"
-    headers = {**config.headers, "referer": f"{config.host}/fleet" }
+    url = f"{config.server.host}/fleet/fleetmovements"
+    headers_dict = {**headers, "referer": f"{config.server.host}/fleet" }
 
-    response = requests.get(url, headers=headers, cookies=config.cookies)
+    response = requests.get(url, headers=headers_dict, cookies=cookies)
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -146,22 +153,22 @@ def get_feet_movement():
     return missions, response.url
 
 def get_collect_resources(planet_id, referer_url):
-    url = f"{config.host}/fleet/collectresources"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/collectresources"
+    headers_dict = {**headers, "referer": referer_url }
     params = {"planet": planet_id}
-    response = requests.get(url, headers=headers, cookies=config.cookies, params=params)
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
 
     return response.text, response.url
 
 def collect_all_resources(planet_id, planet_ids, ships, referer_url):
-    url = f"{config.host}/fleet/collectallresources"
-    headers = {**config.headers, "referer": referer_url }
+    url = f"{config.server.host}/fleet/collectallresources"
+    headers_dict = {**headers, "referer": referer_url }
     params = {"planet": planet_id}
     data = {
         "PlanetIds": planet_ids,
         "Ships": ships
     }
 
-    response = requests.post(url, headers=headers, cookies=config.cookies, params=params, json=data)
+    response = requests.post(url, headers=headers_dict, cookies=cookies, params=params, json=data)
 
     return response.text, response.url

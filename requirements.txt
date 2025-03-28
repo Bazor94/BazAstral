@@ -2,3 +2,4 @@ PyYAML
 selenium
 beautifulsoup4
 webdriver_manager
+pydantic

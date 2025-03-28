@@ -1,5 +1,5 @@
 import threading
-import config
+from config import config
 import queue
 
 is_idle = threading.Event()
@@ -10,9 +10,9 @@ stop_threads = threading.Event()
 refresh_missions_gui = queue.Queue()
 
 running_threads = {}
-for key, value in config.crons.items():
+for key, value in config.crons.dict().items():
     running_threads[key] = threading.Event()
-    running_threads[key].set() if value else running_threads[key].clear()
+    running_threads[key].set() if value['enabled'] else running_threads[key].clear()
 
 
 def locker(is_idle):

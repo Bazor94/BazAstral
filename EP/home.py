@@ -1,17 +1,33 @@
 import http_requester as requests
-import config
+from config import config, headers, cookies
 from bs4 import BeautifulSoup
 import models.planet as planet
 import threads
 
 
 def home():
-    url = f"{config.host}/home"
-    headers = {**config.headers}
+    url = f"{config.server.host}/home"
+    headers_dict = {**headers}
 
-    response = requests.get(url, headers=headers, cookies=config.cookies)
+    response = requests.get(url, headers=headers_dict, cookies=cookies)
 
     return response.text
+
+
+def get_fields(planet):
+    url = f"{config.server.host}/home"
+    headers_dict = {**headers}
+
+    params = {"planet": planet.id}
+
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    span = soup.find('span', class_='prop-text')
+    value = span.find_all('b')[1].text
+
+    return value
 
 
 @threads.locker(threads.is_idle)

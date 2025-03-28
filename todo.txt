@@ -1,0 +1,4 @@
+- miners percentage on config variable?
+- online bonus
+- expeditions
+- miners algorithm simplify

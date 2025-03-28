@@ -1,5 +1,5 @@
 import math
-import config
+from config import config
 import time
 import unittest
 
@@ -23,7 +23,7 @@ def calculate_time(x_from, y_from, z_from, x_to, y_to, z_to, fleet_speed, speed_
 
     if distance > 1000:
         distance += 1000
-    return round(((35000 / speed_perc) * math.sqrt((distance * 10) / fleet_speed) + 10) / config.fleet_speed)
+    return round(((35000 / speed_perc) * math.sqrt((distance * 10) / fleet_speed) + 10) / config.server.fleet_speed)
 
 class TestFleetCalculations(unittest.TestCase):
     def test_calculate_speed(self):

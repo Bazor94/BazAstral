@@ -1,5 +1,5 @@
 from EP import fleet
-import config
+from config import config
 from datetime import datetime, timedelta
 import logging
 import helpers
@@ -15,7 +15,7 @@ def send_expedition(planet):
     ships, referer_url = fleet.get_fleet(planet.moon_id)
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER']} 
     _, referer_url = fleet.get_autoexpedition_fleet(planet.moon_id, referer_url)
-    fleet.send_autoexpedition_fleet(battle_ships, config.expedition_count, referer_url)
+    fleet.send_autoexpedition_fleet(battle_ships, config.crons.expedition.count, referer_url)
     threads.refresh_missions_gui.put("refresh")
 
 

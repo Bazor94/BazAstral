@@ -1,6 +1,7 @@
 from EP import login
 import logging
 import threads
+from config import config
 
 
 def refresh_cron():
@@ -15,9 +16,7 @@ def refresh_cron():
 
 @threads.stoper(threads.stop_threads, threads.running_threads['refresh'])
 def refresh(driver):
-    #delay = random.uniform(15*60, 30*60)  # refresh strony pomiedzy 15 a 30 min, zeby ewentualnie podmienic cookies
-    delay = 7200
-    threads.stop_threads.wait(delay)
+    threads.stop_threads.wait(config.crons.refresh.interval)
 
     if not threads.stop_threads.is_set():
         login.refresh_and_set(driver)

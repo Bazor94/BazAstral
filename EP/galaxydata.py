@@ -1,6 +1,6 @@
 import http_requester as requests
 from bs4 import BeautifulSoup
-import config
+from config import config, headers, cookies
 import time
 
 def parse_asteroid(raw_html):
@@ -16,8 +16,8 @@ def parse_asteroid(raw_html):
     return True, asteroid_url, asteroid_time
 
 def get_asteroid(referer_site, x, y):
-    url = f"{config.host}/galaxy/galaxydata"
-    headers = {**config.headers, "referer": referer_site}
+    url = f"{config.server.host}/galaxy/galaxydata"
+    headers_dict = {**headers, "referer": referer_site}
 
     params = {
         "x": x,
@@ -25,7 +25,7 @@ def get_asteroid(referer_site, x, y):
         "_": int(time.time() * 1000)
     }
 
-    response = requests.get(url, headers=config.headers, cookies=config.cookies, params=params)
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
     is_asteroid, asteroid_url, time_left = parse_asteroid(response.text)
 
     return is_asteroid, asteroid_url, time_left, response.url

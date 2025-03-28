@@ -7,7 +7,7 @@ import random
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
 import threading
-import config
+from config import config, save_config, cookies
 import helpers
 import threads
 
@@ -44,11 +44,11 @@ def login():
 
         # Wpisanie emaila
         email_input = driver.find_element(By.NAME, "Email")
-        email_input.send_keys(config.login)
+        email_input.send_keys(config.creds.login)
 
         # Wpisanie hasła
         password_input = driver.find_element(By.NAME, "Password")
-        password_input.send_keys(config.password)
+        password_input.send_keys(config.creds.password)
 
         # Kliknięcie w przycisk "Login"
         submit_button = driver.find_element(By.ID, "btnLogin")
@@ -89,17 +89,17 @@ def refresh_and_set(driver):
     set_cookies(cookies)
 
 
-def set_cookies(cookies):
-    cf_clearance = next((cookie['value'] for cookie in cookies if cookie['name'] == 'cf_clearance'), None)
-    session_id = next((c['value'] for c in cookies if c['name'] == 'SessionId'), None)
-    game_auth_token = next((c['value'] for c in cookies if c['name'] == 'gameAuthToken'), None)
+def set_cookies(cookies_list):
+    cf_clearance = next((cookie['value'] for cookie in cookies_list if cookie['name'] == 'cf_clearance'), None)
+    session_id = next((c['value'] for c in cookies_list if c['name'] == 'SessionId'), None)
+    game_auth_token = next((c['value'] for c in cookies_list if c['name'] == 'gameAuthToken'), None)
 
-    config.cookies.update({
+    cookies.update({
         "cf_clearance": cf_clearance,
         "SessionId": session_id,
         "gameAuthToken": game_auth_token
     })
 
-    config.save_config()
+    save_config()
     
 

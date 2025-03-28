@@ -1,14 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
+import threads
 from services import fleet
 from datetime import datetime, timedelta
 from EP import home
 from models import planet
 from collections import defaultdict
 import main_loop
-import threads
 import threading
-import config
+from config import config, save_config
 import logger
 import logging
 import ctypes
@@ -40,19 +40,21 @@ class App(tk.Tk):
         self.home_tab = ttk.Frame(self.notebook)
         self.asteroid_tab = ttk.Frame(self.notebook)
         self.expedition_tab = ttk.Frame(self.notebook)
+        self.general_tab = ttk.Frame(self.notebook)
         self.settings_tab = ttk.Frame(self.notebook)
         
         # Dodawanie ramek do notebooka
         self.notebook.add(self.home_tab, text="Home")
         self.notebook.add(self.asteroid_tab, text="Asteroid")
         self.notebook.add(self.expedition_tab, text="Expedition")
+        self.notebook.add(self.general_tab, text="General")
         self.notebook.add(self.settings_tab, text="Settings")
         
         # Sekcja Asteroid Mining w Home
         asteroid_mining_frame = ttk.LabelFrame(self.home_tab, text="Asteroid Mining")
-        asteroid_mining_frame.pack(fill="x", padx=10, pady=5)
-        
-        self.asteroid_list = ttk.Treeview(asteroid_mining_frame, columns=("Planet", "Return Time", "Asteroid Coords"), show="headings", height=5)
+        asteroid_mining_frame.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
+
+        self.asteroid_list = ttk.Treeview(asteroid_mining_frame, columns=("Planet", "Return Time", "Asteroid Coords"), show="headings", height=15)
         self.asteroid_list.heading("Planet", text="Planet")
         self.asteroid_list.heading("Return Time", text="Return Time")
         self.asteroid_list.heading("Asteroid Coords", text="Asteroid Coords")
@@ -66,18 +68,17 @@ class App(tk.Tk):
             command=self.toggle_asteroid
         )
         self.asteroid_checkbox.pack(anchor="w", padx=5, pady=5)
-        
+
         # Sekcja Autoexpeditions w Home
         autoexpedition_frame = ttk.LabelFrame(self.home_tab, text="Autoexpeditions")
-        autoexpedition_frame.pack(fill="x", padx=10, pady=5)
+        autoexpedition_frame.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
 
-        self.autoexpedition_list = ttk.Treeview(autoexpedition_frame, columns=("Planet", "Return Time", "Expeditions"), show="headings")
+        self.autoexpedition_list = ttk.Treeview(autoexpedition_frame, columns=("Planet", "Return Time", "Expeditions"), show="headings", height=15)
         self.autoexpedition_list.heading("Planet", text="Planet")
         self.autoexpedition_list.heading("Return Time", text="Return Time")
         self.autoexpedition_list.heading("Expeditions", text="Expeditions")
         self.autoexpedition_list.pack(fill="both", padx=5, pady=5)
 
-        # Checkbox + funkcje
         self.expedition_checkbox_var = tk.BooleanVar(value=threads.running_threads['expedition'].is_set())
         self.expedition_checkbox = ttk.Checkbutton(
             autoexpedition_frame, 
@@ -86,6 +87,10 @@ class App(tk.Tk):
             command=self.toggle_autoexpedition
         )
         self.expedition_checkbox.pack(anchor="w", padx=5, pady=5)
+
+        # Rozciąganie kolumn
+        self.home_tab.columnconfigure(0, weight=1)
+        self.home_tab.columnconfigure(1, weight=1)
 
         # Dane Asteroid Mining i Expeditions
         planet.planets = home.get_planets()
@@ -105,12 +110,18 @@ class App(tk.Tk):
         expedition_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
         self.expedition_log = tk.Text(expedition_log_frame, height=10, wrap="word")
         self.expedition_log.pack(fill="both", expand=True, padx=5, pady=5)
+
+        # Logi w zakładce Expedition
+        general_log_frame = ttk.LabelFrame(self.general_tab, text="Expedition Logs")
+        general_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
+        self.general_log = tk.Text(general_log_frame, height=10, wrap="word")
+        self.general_log.pack(fill="both", expand=True, padx=5, pady=5)
         
         # Przykładowa zawartość zakładki Settings
         ttk.Label(self.settings_tab, text="Settings Panel").pack(pady=20)
 
-        widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, None)
-        widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(planet)s | %(message)s'))
+        widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, self.general_log)
+        widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
         logger.logger.addHandler(widget_handler)
 
         # Pobierz misje i zacznij aktualizować liczniki
@@ -121,23 +132,23 @@ class App(tk.Tk):
     def toggle_autoexpedition(self):
         if self.expedition_checkbox_var.get():
             threads.running_threads['expedition'].set()
-            config.crons['expedition'] = True
-            config.save_config()
+            config.crons.expedition.enabled = True
+            save_config()
         else:
             threads.running_threads['expedition'].clear()
-            config.crons['expedition'] = False
-            config.save_config()
+            config.crons.expedition.enabled = False
+            save_config()
 
 
     def toggle_asteroid(self):
         if self.asteroid_checkbox_var.get():
             threads.running_threads['asteroid'].set()
-            config.crons['asteroid'] = True
-            config.save_config()
+            config.crons.asteroid.enabled = True
+            save_config()
         else:
             threads.running_threads['asteroid'].clear()
-            config.crons['asteroid'] = False
-            config.save_config()
+            config.crons.asteroid.enabled = False
+            save_config()
 
 
     def load_missions(self):

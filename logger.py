@@ -14,11 +14,11 @@ class TerminalHandler(logging.Handler):
         print(log_entry)
 
 class WidgetHandler(logging.Handler):
-    def __init__(self, asteroid_widget, expedition_widget, rest_widget):
+    def __init__(self, asteroid_widget, expedition_widget, general_widget):
         super().__init__()
         self.asteroid_widget = asteroid_widget
         self.expedition_widget = expedition_widget
-        self.rest_widget = rest_widget
+        self.general_widget = general_widget
 
     def emit(self, record):
         record.planet = getattr(record, "planet", "none")
@@ -29,8 +29,8 @@ class WidgetHandler(logging.Handler):
             widget = self.asteroid_widget
         elif record.action == "expedition":
             widget = self.expedition_widget
-        elif record.action == "none":
-            widget = self.rest_widget
+        else:
+            widget = self.general_widget
 
         widget.insert("end", log_entry + "\n")
         widget.see("end") 

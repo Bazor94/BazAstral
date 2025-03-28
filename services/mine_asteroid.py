@@ -1,8 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import logging
 import helpers
 import threading
-import config
+from config import config, save_config
 import EP.galaxydata as galaxydata
 import EP.galaxy as galaxy
 from EP import partial_asteroid
@@ -12,6 +12,7 @@ import threads
 from logger import logger
 
 time_delay_seconds = 15
+idle_time = 5 * 60
 
 def get_closest_asteroid_range(ranges, y):
     min_dist = 999
@@ -52,7 +53,7 @@ def get_closest_asteroid(p, is_asteroid_taken):
         logger.info(f'ranges {ranges} - closest range:{closest_asteroid_range} - y: {asteroid_y}', extra={"planet": p, "action": "asteroid"})
         if asteroid_y is None:
             continue
-        time_needed = helpers.calculate_time(p.x, p.y, p.z, p.x, asteroid_y, 17, config.miners_speed, 100)
+        time_needed = helpers.calculate_time(p.x, p.y, p.z, p.x, asteroid_y, 17, config.crons.asteroid.miners_speed, 100)
         if time_needed > time_left - 15:
             logging.info(f'not enough time for asteroid {asteroid_y} | time left: {time_left}, needed: {time_needed}', extra={"planet": p, "action": "asteroid"})
             ranges.remove(closest_asteroid_range)
@@ -73,9 +74,14 @@ def get_fleet_asteroids_movement(planet):
     return asteroid_missions
 
 
-def send_miners(planet, fs, is_asteroid_taken, miners_percentage, is_from_moon):
+def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
     base_id = planet.moon_id if is_from_moon else planet.id
     missions = get_fleet_asteroids_movement(planet)
+
+
+    if time(0, 30) <= datetime.now().time() <= time(1, 0):
+        config.crons.asteroid.miners_percentage = 100
+        save_config()
     
     if len(missions) != 0:
         mission = missions[-1]
@@ -89,20 +95,25 @@ def send_miners(planet, fs, is_asteroid_taken, miners_percentage, is_from_moon):
         logger.info(f'sending miners for asteroid {planet.x}:{asteroid_y}:17, time needed: {helpers.format_seconds(time_needed)}', extra={"planet": planet, "action": "asteroid"})
         
         try:
-            fleet_service.send_full_miners(planet.x, asteroid_y, base_id, miners_percentage.value)
+            fleet_service.send_full_miners(planet.x, asteroid_y, base_id, config.crons.asteroid.miners_percentage)
         except Exception as e:
             is_asteroid_taken[asteroid_y] = False
             logger.warning(f'Mining Exception: {e}. Continue', extra={"planet": planet, "action": "asteroid"})
+
+            time_sleep = idle_time
+            logger.info(f'exception sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "asteroid"})
+            threads.stop_threads.wait(time_sleep)
             return
         
-        if miners_percentage.value > 40:
-            miners_percentage.decrement(2)
+        if config.crons.asteroid.miners_percentage > 40:
+            config.crons.asteroid.miners_percentage -= 2
+            save_config()
         time_sleep = time_needed * 2 + time_delay_seconds
 
-    else:
+    elif is_from_moon:
         speed = 50
         fs_x, fs_y, fs_z = map(int, fs.split(':'))
-        fs_time = 2 * helpers.calculate_time(planet.x, planet.y, planet.z, fs_x, fs_y, fs_z, config.miners_speed, speed)
+        fs_time = 2 * helpers.calculate_time(planet.x, planet.y, planet.z, fs_x, fs_y, fs_z, config.cron.asteroid.miners_speed, speed)
         logger.info(f'sending fs to {fs}. Fleet time: {helpers.format_seconds(fs_time)}', extra={"planet": planet, "action": "asteroid"})
 
         try:
@@ -112,6 +123,11 @@ def send_miners(planet, fs, is_asteroid_taken, miners_percentage, is_from_moon):
             return
         
         time_sleep = fs_time + time_delay_seconds
+    
+    else:
+        logger.warning(f'miners waiting', extra={"planet": planet, "action": "asteroid"})
+        time_sleep = idle_time
+
 
     logger.info(f'sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "asteroid"})
     threads.stop_threads.wait(time_sleep)

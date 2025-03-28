@@ -1,28 +1,76 @@
 import yaml
-import logging
 
-with open("config.yaml", "r") as file:
-    config = yaml.safe_load(file)
+from pydantic import BaseModel
+import yaml
 
-login = config.get("login")
-password = config.get("password")
-session_id = config.get("session_id")
-game_auth_token = config.get("game_auth_token")
-cf_clearance = config.get("cf_clearance")
-host = config.get("host")
-coords = config.get("coords")
-fs = config.get("fs")
-fleet_speed = config.get("fleet_speed")
-miners_speed = config.get("miners_speed")
-miners_percentage_start = config.get("miners_percentage_start")
-asteroid_is_from_moon = config.get("asteroid_is_from_moon")
-expedition_count = config.get("expedition_count")
-crons = config.get("crons")
+class Collect(BaseModel):
+    enabled: bool
+    interval: int
+
+class Bonus(BaseModel):
+    enabled: bool
+
+class Refresh(BaseModel):
+    enabled: bool 
+    interval: int
+
+class Asteroid(BaseModel):
+    enabled: bool
+    is_from_moon: bool
+    coords: list
+    fs: list
+    miners_percentage: int
+    miners_speed: int
+
+class Defense(BaseModel):
+    enabled: bool
+    interval: int
+
+class Expedition(BaseModel):
+    enabled: bool
+    count: int
+
+class Crons(BaseModel):
+    asteroid: Asteroid
+    collect: Collect
+    defense: Defense
+    expedition: Expedition
+    refresh: Refresh
+    bonus: Bonus
+
+class Server(BaseModel):
+    fleet_speed: int
+    host: str
+
+class Creds(BaseModel):
+    login: str
+    password: str
+    cf_clearance: str
+    game_auth_token: str
+    session_id: str
+
+class Config(BaseModel):
+    creds: Creds
+    server: Server
+    crons: Crons
+
+# === FUNKCJE ZAPISU/ODCZYTU ===
+def load_config(path="config.yaml") -> Config:
+    with open(path, "r") as file:
+        data = yaml.safe_load(file)
+    return Config(**data)
+
+def save_config(path="config.yaml"):
+    with open(path, "w") as file:
+        yaml.safe_dump(config.dict(), file, default_flow_style=False)
+
+
+config = load_config()
 
 cookies = {
-    'SessionId': session_id,
-    'gameAuthToken': game_auth_token,
-    'cf_clearance': cf_clearance,
+    'SessionId': config.creds.session_id,
+    'gameAuthToken': config.creds.game_auth_token,
+    'cf_clearance': config.creds.cf_clearance,
     'lang': 'en',
     'timeZoneOffset': '60',
     '_gid': 'GA1.2.441450251.1739041032',
@@ -44,12 +92,3 @@ headers = {
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
     }
-
-
-def save_config():
-    # config['cf_clearance'] = cf_clearance
-    # config['session_id'] = session_id
-    # config['game_auth_token'] = game_auth_token
-
-    with open("config.yaml", "w") as file:
-        yaml.safe_dump(config, file, default_flow_style=False)

@@ -2,7 +2,6 @@ import time
 import random
 import requests
 import logging
-import config
 from bs4 import BeautifulSoup
 import json
 import models.errors as errors
@@ -69,7 +68,7 @@ def post(url, params=None, **kwargs):
             else:
                 raise ValueError(f"Unexpected error - {url} IsSuccess is false | {bodyData}")
     except json.JSONDecodeError:
-        logging.warning(f"{url} with params: {params} and kwargs {kwargs} cannot decode json: {bodyData}")
+        logging.warning(f"{url} with params: {params} and kwargs {kwargs} cannot decode json: {response.text}")
         raise ValueError(f"{url} cannot decode json")
 
     without_sleep = kwargs.pop("without_sleep", False)
