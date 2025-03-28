@@ -12,6 +12,7 @@ from crons import refresh
 from crons import collect
 from crons import defense
 from services import build_defense
+from logger import logger  # Dodany import loggera
 
 def run_crons():
     threads_list = []
@@ -25,8 +26,6 @@ def run_crons():
     planets = []
     for coord in config.coords:
         planets.append(p.search_for_planet(planet.planets, coord))
-
-    # build_defense.build_max_platforms_all_planets(planet.planets)
 
     # asteroids cron
     threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.fs, config.asteroid_is_from_moon)))
@@ -55,5 +54,14 @@ def run_crons():
         threads.stop_threads.set() 
         for thread in threads_list:
             thread.join()
+        
+        # Dodane zamknięcie handlerów loggera
+        for handler in logger.handlers[:]:  # Iterujemy po kopii listy
+            try:
+                if hasattr(handler, 'close'):
+                    handler.close()
+                logger.removeHandler(handler)  # Usuwamy handler z loggera
+            except Exception as e:
+                print(f"Błąd przy zamykaniu handlera: {e}")
+        
         print("Wątki zakończone.")
-

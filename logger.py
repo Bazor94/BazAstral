@@ -18,29 +18,48 @@ class FileHandler(logging.Handler):
     def __init__(self):
         super().__init__()
         self.files = {
-            'asteroid': open('asteroid.log', 'a', encoding='utf-8'),
-            'expedition': open('expedition.log', 'a', encoding='utf-8'),
-            'none': open('general.log', 'a', encoding='utf-8')
+            'asteroid': None,
+            'expedition': None,
+            'none': None
         }
+        self._ensure_log_directory()
+
+    def _ensure_log_directory(self):
+        """Tworzy katalog logów, jeśli nie istnieje."""
+        import os
+        os.makedirs('logs', exist_ok=True)
+
+    def _get_file(self, action):
+        """Lazy initialization - otwiera plik tylko przy pierwszym użyciu."""
+        if self.files[action] is None:
+            try:
+                self.files[action] = open(f'logs/{action}.log', 'a', encoding='utf-8')
+            except Exception as e:
+                print(f"Błąd otwarcia pliku {action}.log: {e}")
+                return None
+        return self.files[action]
     
     def emit(self, record):
-        record.planet = getattr(record, "planet", "None")
-        record.action = getattr(record, "action", "none")
-        log_entry = self.format(record) + '\n'  # Dodajemy znak nowej linii
-        
-        # Wybierz odpowiedni plik na podstawie akcji
-        file = self.files.get(record.action, self.files['none'])
-        
         try:
-            file.write(log_entry)
-            file.flush()  # Wymuszenie zapisu do pliku
+            record.planet = getattr(record, "planet", "None")
+            record.action = getattr(record, "action", "none")
+            log_entry = self.format(record) + '\n'
+            
+            file = self._get_file(record.action) or self._get_file('none')
+            if file:
+                file.write(log_entry)
+                file.flush()
         except Exception as e:
-            print(f"Błąd zapisu do pliku: {e}")
+            print(f"Błąd zapisu logu: {e}")
     
     def close(self):
-        # Zamknij wszystkie otwarte pliki
-        for file in self.files.values():
-            file.close()
+        """Bezpieczne zamykanie wszystkich plików."""
+        for action, file in self.files.items():
+            if file is not None:
+                try:
+                    file.close()
+                except Exception as e:
+                    print(f"Błąd przy zamykaniu pliku {action}.log: {e}")
         super().close()
 
 class WidgetHandler(logging.Handler):
