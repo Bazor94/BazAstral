@@ -1,0 +1,3 @@
+2025-03-28 15:38:54,630 - INFO: XXXXXXXXX 5:230:7 | ranges [(86, 106), (462, 482)] - closest range:(86, 106) - y: 92
+2025-03-28 15:38:54,637 - INFO: XXXXXXXXX 5:230:7 | sending miners for asteroid 5:92:17, time needed: 08:57
+2025-03-28 15:38:57,628 - INFO: XXXXXXXXX 5:230:7 | sleeping for 18:09. Till 2025-03-28 15:57:06.628734
