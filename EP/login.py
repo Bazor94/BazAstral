@@ -7,7 +7,7 @@ import random
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
 import threading
-from config import config, save_config, cookies
+from config import config, save_config, reload_cookies
 import helpers
 import threads
 
@@ -90,16 +90,14 @@ def refresh_and_set(driver):
 
 
 def set_cookies(cookies_list):
-    cf_clearance = next((cookie['value'] for cookie in cookies_list if cookie['name'] == 'cf_clearance'), None)
-    session_id = next((c['value'] for c in cookies_list if c['name'] == 'SessionId'), None)
-    game_auth_token = next((c['value'] for c in cookies_list if c['name'] == 'gameAuthToken'), None)
+    cf_clearance = next(cookie['value'] for cookie in cookies_list if cookie['name'] == 'cf_clearance')
+    session_id = next(c['value'] for c in cookies_list if c['name'] == 'SessionId')
+    game_auth_token = next(c['value'] for c in cookies_list if c['name'] == 'gameAuthToken')
 
-    cookies.update({
-        "cf_clearance": cf_clearance,
-        "SessionId": session_id,
-        "gameAuthToken": game_auth_token
-    })
+    config.creds.cf_clearance = cf_clearance
+    config.creds.session_id = session_id
+    config.creds.game_auth_token = game_auth_token
 
+    reload_cookies()
     save_config()
     
-

@@ -13,6 +13,7 @@ import logger
 import logging
 import ctypes
 import queue
+from services import colonize_planet
 
 
 class App(tk.Tk):
@@ -38,6 +39,7 @@ class App(tk.Tk):
         
         # Tworzenie ramek dla każdej zakładki
         self.home_tab = ttk.Frame(self.notebook)
+        self.functions_tab = ttk.Frame(self.notebook)
         self.asteroid_tab = ttk.Frame(self.notebook)
         self.expedition_tab = ttk.Frame(self.notebook)
         self.general_tab = ttk.Frame(self.notebook)
@@ -45,6 +47,7 @@ class App(tk.Tk):
         
         # Dodawanie ramek do notebooka
         self.notebook.add(self.home_tab, text="Home")
+        self.notebook.add(self.functions_tab, text="Functions")
         self.notebook.add(self.asteroid_tab, text="Asteroid")
         self.notebook.add(self.expedition_tab, text="Expedition")
         self.notebook.add(self.general_tab, text="General")
@@ -99,6 +102,35 @@ class App(tk.Tk):
             item = (mission.planet.name, mission.back_date - datetime.now(), mission.target_coords)
             self.asteroid_list.insert("", "end", values=item)
         
+
+        # Sekcja Funkcji
+        colonize_frame = ttk.LabelFrame(self.functions_tab, text="Colonize")
+        colonize_frame.pack(fill="x", padx=10, pady=5)
+
+        # Pole "Coords From"
+        ttk.Label(colonize_frame, text="Coords From:").grid(row=0, column=0, padx=5, pady=5)
+        self.coords_from_entry = ttk.Entry(colonize_frame)
+        self.coords_from_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        # Pole "Coords To"
+        ttk.Label(colonize_frame, text="Coords To:").grid(row=0, column=2, padx=5, pady=5)
+        self.coords_to_entry = ttk.Entry(colonize_frame)
+        self.coords_to_entry.grid(row=0, column=3, padx=5, pady=5)
+
+        # Pole "Wanted Fields"
+        ttk.Label(colonize_frame, text="Wanted Fields:").grid(row=0, column=4, padx=5, pady=5)
+        self.wanted_fields_entry = ttk.Entry(colonize_frame)
+        self.wanted_fields_entry.grid(row=0, column=5, padx=5, pady=5)
+
+        # Pole "Missions Num"
+        ttk.Label(colonize_frame, text="Missions Num:").grid(row=0, column=6, padx=5, pady=5)
+        self.mission_num_entry = ttk.Entry(colonize_frame)
+        self.mission_num_entry.grid(row=0, column=7, padx=5, pady=5)
+
+        # Przycisk "Colonize"
+        self.colonize_button = ttk.Button(colonize_frame, text="Colonize", command=self.colonize)
+        self.colonize_button.grid(row=0, column=8, padx=5, pady=5)
+
         # Logi w zakładce Asteroid
         asteroid_log_frame = ttk.LabelFrame(self.asteroid_tab, text="Asteroid Logs")
         asteroid_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
@@ -149,6 +181,15 @@ class App(tk.Tk):
             threads.running_threads['asteroid'].clear()
             config.crons.asteroid.enabled = False
             save_config()
+
+
+    def colonize(self):
+        coords_from = self.coords_from_entry.get()
+        coords_to = self.coords_to_entry.get()
+        wanted_fields = int(self.wanted_fields_entry.get())
+        mission_num = int(self.mission_num_entry.get())
+
+        colonize_planet.colonize_planet(coords_from, coords_to, wanted_fields, mission_num) 
 
 
     def load_missions(self):

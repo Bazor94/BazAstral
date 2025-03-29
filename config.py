@@ -67,6 +67,7 @@ def save_config(path="config.yaml"):
 
 config = load_config()
 
+
 cookies = {
     'SessionId': config.creds.session_id,
     'gameAuthToken': config.creds.game_auth_token,
@@ -77,6 +78,13 @@ cookies = {
     '_ga': 'GA1.1.38274606.1739041032',
     '_ga_65PNDYM0LK': 'GS1.1.1739048141.3.0.1739048141.60.0.0'
 }
+
+
+def reload_cookies():
+    global cookies
+    cookies['SessionId'] = config.creds.session_id
+    cookies['gameAuthToken'] = config.creds.game_auth_token
+    cookies['cf_clearance'] = config.creds.cf_clearance
 
 headers = {
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
