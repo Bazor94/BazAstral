@@ -20,7 +20,7 @@ def abandon_planet(planet, referer_url):
 
     data = {
         "PlanetId": planet.id,
-        "Password": config.crons.password,
+        "Password": config.creds.password,
         "CoordsX": planet.x,
         "CoordsY": planet.y,
         "CoordsZ": planet.z

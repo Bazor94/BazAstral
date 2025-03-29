@@ -20,14 +20,18 @@ def colonize_planet(base_coords, coords, min_space, mission_num):
 
     x, y, z = map(int, coords.split(':'))
     for i in range (0, mission_num):
-        logger.info(f'sending colonization mission', extra={"action": "colonize"})
+        logger.info(f'sending colonization mission', extra={"planet": base_planet, "action": "colonize"})
         fleet_service.colonize_planet(x, y, z, base_planet.id)
         time.sleep(10)
 
     missions = fleet_service.get_missions()['Colonize']
-    time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 1
-
-    logger.info(f'initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"action": "colonize"})
+    planet_missions = [m for m in missions if m.planet.coords == base_coords]
+    if len(planet_missions) == 0:
+        logger.error('there are no colonize missions', extra={"planet": base_planet, "action": "colonize"})
+        return
+    
+    time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 3
+    logger.info(f'initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
     time.sleep(time_sleep)
 
     for i in range (0, mission_num):
@@ -37,19 +41,25 @@ def colonize_planet(base_coords, coords, min_space, mission_num):
         if target_planet is not None:
             fields = home.get_fields(target_planet)
             if int(fields) < int(min_space):
-                logger.info(f'deleting a planet with {fields} fields', extra={"action": "colonize"})
+                logger.info(f'deleting a planet with {fields} fields', extra={"planet": base_planet, "action": "colonize"})
                 referer_url = planet_ep.get_abandon_planet(target_planet)
                 planet_ep.abandon_planet(target_planet, referer_url)
-        else:
-            pass
+            else:
+                logger.info(f'saving a planet with {fields} fields', extra={"planet": base_planet, "action": "colonize"})
+                return
 
         missions = fleet_service.get_missions()['Colonize']
-        if len(missions) == 0:
+        planet_missions = [m for m in missions if m.planet.coords == base_coords]
+        if len(planet_missions) == 0:
             return
         
-        time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 1
+        if planet_missions[0].arrive_date < datetime.now():
+            logger.warning(f'arrive_date is earlier than now {planet_missions[0]}', extra={"planet": base_planet, "action": "colonize"})
+            time_sleep = 3
+        else:
+            time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 1
 
-        logger.info(f'sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"action": "colonize"})
+        logger.info(f'sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
         time.sleep(time_sleep)
     
     

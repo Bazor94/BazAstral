@@ -128,7 +128,7 @@ class App(tk.Tk):
         self.mission_num_entry.grid(row=0, column=7, padx=5, pady=5)
 
         # Przycisk "Colonize"
-        self.colonize_button = ttk.Button(colonize_frame, text="Colonize", command=self.colonize)
+        self.colonize_button = ttk.Button(colonize_frame, text="Colonize", command=self.colonize_command)
         self.colonize_button.grid(row=0, column=8, padx=5, pady=5)
 
         # Logi w zakładce Asteroid
@@ -183,14 +183,15 @@ class App(tk.Tk):
             save_config()
 
 
-    def colonize(self):
+    def colonize_command(self):
         coords_from = self.coords_from_entry.get()
         coords_to = self.coords_to_entry.get()
         wanted_fields = int(self.wanted_fields_entry.get())
         mission_num = int(self.mission_num_entry.get())
 
-        colonize_planet.colonize_planet(coords_from, coords_to, wanted_fields, mission_num) 
-
+        t = threading.Thread(target=colonize_planet.colonize_planet, args= (coords_from, coords_to, wanted_fields, mission_num))
+        t.start()
+    
 
     def load_missions(self):
         """Ładuje misje do pamięci i ustawia początkowe wartości"""
