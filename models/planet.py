@@ -21,6 +21,6 @@ def search_for_planet(planets, coords):
         if planet.x == x and planet.y == y and planet.z == z:
             return planet
         
-    logger.error(f"cannot find planet {coords}")
+    logger.error(f"cannot find planet {coords}. Planets len: {len(planets)}")
     return None
         

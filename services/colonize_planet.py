@@ -18,11 +18,11 @@ def colonize_planet(base_coords, coords, min_space, mission_num):
         planet_ep.abandon_planet(target_planet, referer_url)
 
 
-    # x, y, z = map(int, coords.split(':'))
-    # for i in range (0, mission_num):
-    #     logger.info(f'{coords} | sending colonization mission', extra={"planet": base_planet, "action": "colonize"})
-    #     fleet_service.colonize_planet(x, y, z, base_planet.id)
-    #     time.sleep(10)
+    x, y, z = map(int, coords.split(':'))
+    for i in range (0, mission_num):
+        logger.info(f'{coords} | sending colonization mission', extra={"planet": base_planet, "action": "colonize"})
+        fleet_service.colonize_planet(x, y, z, base_planet.id)
+        time.sleep(10)
 
     missions = fleet_service.get_missions()['Colonize']
     planet_missions = [m for m in missions if m.planet.coords == base_coords]
@@ -30,7 +30,7 @@ def colonize_planet(base_coords, coords, min_space, mission_num):
         logger.error('{coords} | there are no colonize missions', extra={"planet": base_planet, "action": "colonize"})
         return
     
-    time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 3 + 3600
+    time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 3
     logger.info(f'{coords} | initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
     time.sleep(time_sleep)
 
@@ -57,7 +57,7 @@ def colonize_planet(base_coords, coords, min_space, mission_num):
             logger.warning(f'{coords} | arrive_date is earlier than now {planet_missions[0].dict()}', extra={"planet": base_planet, "action": "colonize"})
             time_sleep = 3
         else:
-            time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 1 + 3600
+            time_sleep = int((planet_missions[0].arrive_date - datetime.now()).total_seconds()) + 1
 
         logger.info(f'{coords} | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
         time.sleep(time_sleep)

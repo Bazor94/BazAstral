@@ -8,3 +8,6 @@ class Mission:
         self.target_coords = coords_to
 
         self.mission_type = mission_type
+
+    def __repr__(self):
+        return f"{self.mission_type}: [{self.planet}]->[{self.target_coords}]: ({self.arrive_date} | {self.back_date}))"
