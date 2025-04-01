@@ -90,5 +90,6 @@ def get_missions():
     missions['Asteroid Mining'] = [mission for mission in fleet_movement if mission.mission_type in ['Asteroid Mining', 'Asteroid Mining (R)']]
     missions['Expedition'] = [mission for mission in fleet_movement if mission.mission_type in ['Expedition', 'Expedition (R)']]
     missions['Colonize'] = [mission for mission in fleet_movement if mission.mission_type in ['Colonize']]
+    missions['Attack'] = [mission for mission in fleet_movement if mission.mission_type in ['Attack', 'Attack (R)']]
 
     return missions

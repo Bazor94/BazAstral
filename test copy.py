@@ -8,6 +8,6 @@ from services import farm_idles
 from EP import galaxydata
 from config import config
 
-stats = farm_idles.get_player_ranks()
-galaxydata.get_plunder_ids(6, 367, stats, 1000, config.server.host+"/home")
-galaxydata.send_plunder()
+ranks = farm_idles.get_player_ranks()
+planet.planets = home.get_planets()
+farm_idles.plunder_galaxy(planet.planets[1].id, ranks, 800, 6, 258, 499, 35)

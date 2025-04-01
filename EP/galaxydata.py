@@ -18,24 +18,25 @@ def get_asteroid(referer_url, x, y):
     return time_left, response.url
 
 
-def get_plunder_ids(x, y, players_rank, minimum_rank, referer_url):
-    response = get_galaxy_data(x, y, referer_url)
+def get_plunder_ids(base_planet_id, x, y, players_rank, minimum_rank, referer_url):
+    response = get_galaxy_data(x, y, referer_url, base_planet_id)
     
     soup = BeautifulSoup(response.text, "html.parser")
     inactive_players = soup.find_all("div", class_="galaxy-item filterInactive")
 
     plunder_ids = []
     for player in inactive_players:
-        player_name = player.find("span", class_="text-area isInactive28 tooltip_sticky").text
+        player_name_tag = player.find("span", class_="text-area isInactive28 tooltip_sticky")
+        if player_name_tag == None:
+            continue
+        player_name = player_name_tag.text
+
         player_rank = players_rank.get(player_name, 999999)
 
         if player_rank < minimum_rank:
-            plunder_id = player.find("span", class_="text-area isInactive28 tooltip_sticky").text
-            plunder_ids.append(plunder_id)
-
             id_wrapper = player.find("a", class_="btnActionPlunder tooltip").get("onclick")
             id = id_wrapper.split('\'')[1]
-            plunder_ids.append()
+            plunder_ids.append(id)
 
     return plunder_ids, response.url
 
@@ -48,19 +49,20 @@ def send_plunder(plunder_id, referer_url):
         "Id": plunder_id
     }
 
-    response = requests.get(url, headers=headers_dict, cookies=cookies, json=data)
+    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
 
     return
 
 
-def get_galaxy_data(x, y, referer_site):
+def get_galaxy_data(x, y, referer_site, base_planet_id):
     url = f"{config.server.host}/galaxy/galaxydata"
     headers_dict = {**headers, "referer": referer_site}
 
     params = {
         "x": x,
         "y": y,
-        "_": int(time.time() * 1000)
+        "_": int(time.time() * 1000),
+        "planet": base_planet_id
     }
 
     response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
