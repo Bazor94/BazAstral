@@ -22,6 +22,10 @@ class Asteroid(BaseModel):
     miners_percentage: int
     miners_speed: int
 
+class Plunder(BaseModel):
+    enabled: bool
+    idle_time: int
+
 class Defense(BaseModel):
     enabled: bool
     interval: int
@@ -37,6 +41,7 @@ class Crons(BaseModel):
     expedition: Expedition
     refresh: Refresh
     bonus: Bonus
+    plunder: Plunder
 
 class Server(BaseModel):
     fleet_speed: int

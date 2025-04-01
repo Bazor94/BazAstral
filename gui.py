@@ -188,8 +188,9 @@ class App(tk.Tk):
         coords_to = self.coords_to_entry.get()
         wanted_fields = int(self.wanted_fields_entry.get())
         mission_num = int(self.mission_num_entry.get())
-
-        t = threading.Thread(target=colonize_planet.colonize_planet, args= (coords_from, coords_to, wanted_fields, mission_num))
+        
+        base_planet = planet.search_for_planet(planet.planets, coords_from)
+        t = threading.Thread(target=colonize_planet.colonize_planet, args= (base_planet, coords_to, wanted_fields, mission_num))
         t.start()
     
 
