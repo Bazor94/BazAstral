@@ -6,12 +6,7 @@ import time
 import models.planet as p
 from models import planet
 import threads
-from crons import asteroid
-from crons import expedition
-from crons import refresh
-from crons import collect
-from crons import defense
-from crons import bonus
+from crons import asteroid, expedition, plunder, refresh, collect, defense, bonus
 from services import build_defense
 
 def run_crons():
@@ -35,6 +30,9 @@ def run_crons():
     # expedition
     main_planet = p.search_for_planet(planet.planets, config.crons.asteroid.coords[0])
     threads_list.append(threading.Thread(target=expedition.send_expedition_cron, args=(main_planet,)))
+
+    # plunder cron
+    threads_list.append(threading.Thread(target=plunder.plunder_cron))
 
     # collect resources cron
     main_planet = p.search_for_planet(planet.planets, config.crons.asteroid.coords[0])

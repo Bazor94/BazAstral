@@ -28,6 +28,14 @@ crons:
   refresh:
     enabled: true
     interval: 7200
+  plunder:
+    enabled: true
+    idle_time: 300
+    max_missions: 40
+    min_rank: 1000
+    planets:
+    - base_coords: 6:368:7
+      y_limit: 200:499
 server:
   fleet_speed: 8
   host: https://falcon.ogamex.net

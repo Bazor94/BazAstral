@@ -1,5 +1,5 @@
 import yaml
-
+from typing import List
 from pydantic import BaseModel
 import yaml
 
@@ -22,9 +22,16 @@ class Asteroid(BaseModel):
     miners_percentage: int
     miners_speed: int
 
+class Planet(BaseModel):
+    base_coords: str
+    y_limit: str
+
 class Plunder(BaseModel):
     enabled: bool
     idle_time: int
+    min_rank: int
+    planets: List[Planet]
+    max_missions: int
 
 class Defense(BaseModel):
     enabled: bool

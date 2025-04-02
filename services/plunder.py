@@ -39,6 +39,10 @@ def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plu
             if threads.stop_threads.is_set() or not threads.running_threads['plunder'].is_set():
                 return
 
-            galaxydata.send_plunder(id, referer_url)
+            try:
+                galaxydata.send_plunder(id, referer_url)
+            except Exception as e:
+                logger.warning(e)
+
             plunder_missions += 1
             
