@@ -25,6 +25,8 @@ crons:
   expedition:
     count: 12
     enabled: true
+    planets:
+      - 6:368:7
   refresh:
     enabled: true
     interval: 7200

@@ -40,6 +40,7 @@ class Defense(BaseModel):
 class Expedition(BaseModel):
     enabled: bool
     count: int
+    planets: list
 
 class Crons(BaseModel):
     asteroid: Asteroid
@@ -85,7 +86,7 @@ cookies = {
     'gameAuthToken': config.creds.game_auth_token,
     'cf_clearance': config.creds.cf_clearance,
     'lang': 'en',
-    'timeZoneOffset': '60',
+    'timeZoneOffset': '120',
     '_gid': 'GA1.2.441450251.1739041032',
     '_ga': 'GA1.1.38274606.1739041032',
     '_ga_65PNDYM0LK': 'GS1.1.1739048141.3.0.1739048141.60.0.0'

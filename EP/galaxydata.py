@@ -4,8 +4,8 @@ from config import config, headers, cookies
 import time
 
 
-def get_asteroid(referer_url, x, y):
-    response = get_galaxy_data(x, y, referer_url)
+def get_asteroid(referer_url, x, y, planet_id):
+    response = get_galaxy_data(x, y, referer_url, planet_id)
 
     soup = BeautifulSoup(response.text, "html.parser")
     asteroid_link = soup.find("a", class_="btn-asteroid")

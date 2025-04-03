@@ -25,11 +25,11 @@ def get_closest_asteroid_range(ranges, y):
 
     return ranges[closest_asteroid]
 
-def get_asteroid_y(x, y_from, y_to):
+def get_asteroid_y(x, y_from, y_to, planet_id):
     _, referal_url = galaxy.get_galaxy_html() # only for referal_url purposes (anti_bot?)
 
     for i in range(y_from, y_to):
-        time_left, referal_url = galaxydata.get_asteroid(referal_url, x, i)
+        time_left, referal_url = galaxydata.get_asteroid(referal_url, x, i, planet_id)
         if time_left is not None:
             time_parsed = time_left.strip("()").split(":")
             if len(time_parsed) == 1:
@@ -49,7 +49,7 @@ def get_closest_asteroid(p, is_asteroid_taken):
 
     while len(ranges) > 0:
         closest_asteroid_range = get_closest_asteroid_range(ranges, p.y)
-        asteroid_y, time_left = get_asteroid_y(p.x, closest_asteroid_range[0], closest_asteroid_range[1])
+        asteroid_y, time_left = get_asteroid_y(p.x, closest_asteroid_range[0], closest_asteroid_range[1], p.id)
         logger.info(f'ranges {ranges} - closest range:{closest_asteroid_range} - y: {asteroid_y}', extra={"planet": p, "action": "asteroid"})
         if asteroid_y is None:
             continue

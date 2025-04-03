@@ -11,7 +11,7 @@ import threads
 
 def colonize_planet(base_planet, coords, min_space, mission_num, delete_initial_planet=True):
     if delete_initial_planet:
-        delete_planet(coords)
+        delete_planet(base_planet, coords, min_space)
 
     x, y, z = map(int, coords.split(':'))
     for i in range (0, mission_num):
@@ -19,34 +19,37 @@ def colonize_planet(base_planet, coords, min_space, mission_num, delete_initial_
         fleet_service.colonize_planet(x, y, z, base_planet.id)
         time.sleep(10)
 
-    missions = fleet_service.get_missions()['Colonize']
-    planet_missions = [m for m in missions if m.target_coords == coords]
-    if len(planet_missions) == 0:
+    missions = get_missions_from_coords(coords)
+    if len(missions) == 0:
         logger.error(f'{coords} | there are no colonize missions', extra={"planet": base_planet, "action": "colonize"})
         return
     
-    time_sleep = int((planet_missions[0].arrive_date - datetime.now(timezone.utc)).total_seconds()) + 3
+    time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 3
     logger.info(f'{coords} | initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
     time.sleep(time_sleep)
 
-    for i in range (0, mission_num):
+    mission_num = len(missions)
+    while mission_num > 0:
         is_deleted = delete_planet(base_planet, coords, min_space)
         if is_deleted == False:
             return
 
-        missions = fleet_service.get_missions()['Colonize']
-        planet_missions = [m for m in missions if m.target_coords == coords]
-        if len(planet_missions) == 0:
+        missions = get_missions_from_coords(coords)
+        mission_num = len(missions)
+        if mission_num == 0:
             return
         
-        if planet_missions[0].arrive_date > datetime.now(timezone.utc):
-            time_sleep = int((planet_missions[0].arrive_date - datetime.now(timezone.utc)).total_seconds()) + 1 + 3600
+        if missions[0].arrive_date > datetime.now():
+            time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 1
             logger.info(f'{coords} | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
             time.sleep(time_sleep)
         
 
-def get_missions_from_coords():
-    pass
+def get_missions_from_coords(coords):
+    missions = fleet_service.get_missions()['Colonize']
+    planet_missions = [m for m in missions if m.target_coords == coords]
+
+    return planet_missions
 
 
 @threads.locker(threads.is_idle)

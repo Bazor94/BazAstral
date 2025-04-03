@@ -5,7 +5,7 @@ from EP import bonus as bonus_ep
 
 @threads.stoper(threads.stop_threads, threads.running_threads['bonus'])
 def promote_cron():
-    time = bonus_ep.get_promote_timeout()
+    token, time = bonus_ep.get_promote_timeout()
 
     if time != None:
         time_sleep = int(time.total_seconds())
@@ -13,7 +13,7 @@ def promote_cron():
         threads.stop_threads.wait(time_sleep)
 
     logger.info(f'visiting websites', extra={"action": "bonus"})
-    bonus_ep.visit_all_promotes()
+    bonus_ep.visit_all_promotes(token)
 
 @threads.stoper(threads.stop_threads, threads.running_threads['bonus'])
 def online_bonus_cron():

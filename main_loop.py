@@ -28,7 +28,7 @@ def run_crons():
     threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.crons.asteroid.fs, config.crons.asteroid.is_from_moon)))
 
     # expedition
-    main_planet = p.search_for_planet(planet.planets, config.crons.asteroid.coords[0])
+    main_planet = p.search_for_planet(planet.planets, config.crons.expedition.planets[0])
     threads_list.append(threading.Thread(target=expedition.send_expedition_cron, args=(main_planet,)))
 
     # plunder cron

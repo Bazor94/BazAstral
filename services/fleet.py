@@ -6,6 +6,7 @@ import threads
 mission_type_asteroid = "12"
 mission_type_exp = "1"
 mission_type_transport = "4"
+mission_type_deploy = "5"
 mission_type_colonize = "2"
 planetTypePlanet = 1
 planetTypeMoon = 2
@@ -55,14 +56,29 @@ def send_expedition_with_resources(planet):
 
 
 @threads.locker(threads.is_idle)
-def split_battle_ships(planet):
-    ships, referer_url = fleet.get_fleet()
-    battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER']}
-    fleet.send_fleet_2(battle_ships, referer_url)
-    resp = fleet.send_fleet_3(battle_ships, planet.x, planet.y, 16, referer_url)
-    cargo = resp["CargoCapacity"]
+def deploy_ships(planet, target_planet, ships):
+    planet_ships, referer_url = fleet.get_fleet(planet.moon_id)
 
-    fleet.submit_fleet(battle_ships, planet.x, planet.y, 16, mission_type_exp, 2, referer_url)
+    for ship in ships:
+        planet_ship = get_ships(planet_ships, ship['ShipType'])
+        if planet_ship is None:
+            return False
+        
+        if planet_ship['Quantity'] < ship['Quantity']:
+            return False
+
+    ships_dict = {'Ships': ships}
+    fleet.send_fleet_2(ships_dict, referer_url)
+    fleet.send_fleet_3(ships_dict, target_planet.x, target_planet.y, target_planet.z, referer_url)
+    fleet.submit_fleet(ships_dict, target_planet.x, target_planet.y, target_planet.z, mission_type_deploy, 2, referer_url)
+
+
+def get_ships(ships, type):
+    for ship in ships['Ships']:
+        if ship['ShipType'] == type:
+            return ship
+        
+    return None
 
 
 @threads.locker(threads.is_idle)

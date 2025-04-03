@@ -7,6 +7,7 @@ import threads
 import time
 from services import fleet as fleet_service
 from logger import logger
+import math
 
 time_delay = 15
 
@@ -41,3 +42,31 @@ def get_fleet_expedition_movement():
     expeditions = fleet_service.get_missions()['Expedition']
 
     return expeditions
+
+
+def deploy_split_ships(planets, main_planet):
+    ships, _ = fleet.get_fleet(main_planet.moon_id)
+    ships = ships['Ships']
+    planet_ships = calc_split_ships(ships, planets)
+    planets.remove(main_planet)
+
+    for planet in planets:
+        ships_to_deploy = planet_ships[planet.coords]
+        fleet_service.deploy_ships(main_planet, planet, ships_to_deploy)
+
+
+def calc_split_ships(ships, planets):
+    planets_num = len(planets)
+    planet_ships = {}
+    for i, planet in enumerate(planets):
+        planet_ships[planet.coords] = []
+
+        for ship in ships:
+            quantity = math.floor(ship['Quantity'] / planets_num)
+            if ship['Quantity'] % planets_num >= i + 1:
+                quantity += 1
+            
+            planet_ships[planet.coords].append({"ShipType": ship["ShipType"], "Quantity": quantity})
+
+    return planet_ships
+        
