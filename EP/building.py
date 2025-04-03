@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from config import config, headers, cookies
 import time
 from datetime import datetime
-from models import mission
+from models import models
 import json
 
 

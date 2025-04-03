@@ -7,7 +7,7 @@ import EP.galaxydata as galaxydata
 import EP.galaxy as galaxy
 from EP import partial_asteroid
 from EP import fleet
-from services import fleet as fleet_service
+from services import fleet_service as fleet_service
 import threads
 from logger import logger
 

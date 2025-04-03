@@ -1,6 +1,6 @@
-from services import fleet as fleet_service
+from services import fleet_service as fleet_service
 from EP import planet as planet_ep
-from models import planet
+from models import models
 from EP import home
 import time
 from datetime import datetime, timedelta, timezone
@@ -55,7 +55,7 @@ def get_missions_from_coords(coords):
 @threads.locker(threads.is_idle)
 def delete_planet(base_planet, coords, min_space):
     planets = home.get_planets()
-    target_planet = planet.search_for_planet(planets, coords)
+    target_planet = models.search_for_planet(planets, coords)
 
     if target_planet is not None:
         fields = home.get_fields(target_planet)

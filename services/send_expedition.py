@@ -5,9 +5,10 @@ import logging
 import helpers
 import threads
 import time
-from services import fleet as fleet_service
+from services import fleet_service
 from logger import logger
 import math
+from models import models
 
 time_delay = 15
 
@@ -42,6 +43,12 @@ def get_fleet_expedition_movement():
     expeditions = fleet_service.get_missions()['Expedition']
 
     return expeditions
+
+
+def send_expedition_with_resources(planet: models.Planet, resources: models.Resources):
+    if models.missions['Expedition']
+
+
 
 
 def deploy_split_ships(planets, main_planet):

@@ -2,7 +2,7 @@ from EP import staticstics
 from EP import galaxydata
 from config import config
 import math
-from services import fleet as fleet_service
+from services import fleet_service as fleet_service
 import threads
 from logger import logger
 import helpers
@@ -22,7 +22,7 @@ def get_player_ranks(min_rank=1000):
     return stats
 
 def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plunder_missions): 
-    missions = fleet_service.get_missions()['Attack']
+    missions = get_plunder_mission_per_planet(base_planet)
     plunder_missions = len(missions)
    
     referer_url = f'{config.server.host}/galaxy?planet={base_planet.id}'
@@ -33,16 +33,21 @@ def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plu
             while plunder_missions >= max_plunder_missions:
                 logger.info(f'idle sleeping for {helpers.format_seconds(idle_wait)}. Till {datetime.now() + timedelta(seconds=idle_wait)}', extra={"planet": base_planet, "action": "plunder"})
                 threads.stop_threads.wait(idle_wait)
-                missions = fleet_service.get_missions()['Attack']
+                missions = get_plunder_mission_per_planet(base_planet)
                 plunder_missions = len(missions)
 
             if threads.stop_threads.is_set() or not threads.running_threads['plunder'].is_set():
                 return
 
             try:
-                galaxydata.send_plunder(id, referer_url)
+                galaxydata.send_plunder(id, base_planet.id, referer_url)
             except Exception as e:
                 logger.warning(e)
 
             plunder_missions += 1
             
+def get_plunder_mission_per_planet(planet):
+    missions = fleet_service.get_missions()['Attack']
+    planet_mission = [m for m in missions if m.planet == planet]
+
+    return planet_mission

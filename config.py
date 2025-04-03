@@ -25,13 +25,13 @@ class Asteroid(BaseModel):
 class Planet(BaseModel):
     base_coords: str
     y_limit: str
+    max_missions: int
 
 class Plunder(BaseModel):
     enabled: bool
     idle_time: int
     min_rank: int
     planets: List[Planet]
-    max_missions: int
 
 class Defense(BaseModel):
     enabled: bool

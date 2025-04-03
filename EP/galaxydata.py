@@ -41,15 +41,19 @@ def get_plunder_ids(base_planet_id, x, y, players_rank, minimum_rank, referer_ur
     return plunder_ids, response.url
 
 
-def send_plunder(plunder_id, referer_url):
+def send_plunder(plunder_id, planet_id, referer_url):
     url = f"{config.server.host}/galaxy/sendplunder"
     headers_dict = {**headers, "referer": referer_url}
+
+    params = {
+        "planet": planet_id
+    }
 
     data = {
         "Id": plunder_id
     }
 
-    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
+    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data, params=params)
 
     return
 

@@ -1,27 +1,7 @@
 from config import config, headers, cookies
 import http_requester as requests
 from bs4 import BeautifulSoup
-
-class Resources:
-    def __init__(self, metal, crystal, deuterium):
-        self.metal = metal
-        self.crystal = crystal
-        self.deuterium = deuterium
-
-class PlanetEmpire:
-    def __init__(self, planet):
-        self.planet = planet
-    
-    def set_resources(self, resources: Resources):
-        self.resources = resources
-
-    def set_moon_resources(self, resources: Resources):
-        self.moon_resources = resources
-
-
-class Empire:
-    def __init__(self, planet_empires):
-        self.planet_empires = planet_empires
+from models import empire
 
 
 def str2int(resource_str):

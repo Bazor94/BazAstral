@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from config import config, headers, cookies
 import time
 from datetime import datetime
-from models import mission
+from models import models
 import json
 
 def get_fleet(planet_id):
@@ -55,7 +55,7 @@ def send_fleet_3(ships, x, y, z, referer_url):
         "TargetY": y,
         "TargetZ": z,
         "TargetPlanetType": 1,
-        "SpeedPercentage": 100,
+        "SpeedPercentage": 100
     }
     data.update(ships)
 
@@ -69,7 +69,7 @@ def send_fleet_3(ships, x, y, z, referer_url):
     return response_dict
 
 
-def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed=100):
+def submit_fleet(ships, x, y, z, mission_type, target_planet, resources: models.Resources, referer_url, speed=100, hold_time_on_minutes=0):
     url = f"{config.server.host}/fleet/submitfleet"
     headers_dict = {**headers, "referer": referer_url }
 
@@ -80,7 +80,11 @@ def submit_fleet(ships, x, y, z, mission_type, target_planet, referer_url, speed
         "TargetPlanetType": 1,
         "SpeedPercentage": speed,
         "MissionType": mission_type,
-        "TargetPlanetType": target_planet
+        "TargetPlanetType": target_planet,
+        "Crystal": resources.crystal if resources is not None else 0,
+        "Deuterium": resources.deuterium if resources is not None else 0,
+        "Metal": resources.metal if resources is not None else 0,
+        "HoldTimeOnMinutes": hold_time_on_minutes
     }
     data.update(ships)
 
@@ -119,7 +123,7 @@ def send_autoexpedition_fleet(ships, exp_count, referer_url):
 
     return response.text, response.url
 
-def get_feet_movement():
+def get_feet_movement() -> models.Mission:
     url = f"{config.server.host}/fleet/fleetmovements"
     headers_dict = {**headers, "referer": f"{config.server.host}/fleet" }
 
@@ -148,7 +152,7 @@ def get_feet_movement():
             arrive_date = datetime.strptime(date_left.text.strip(), "%d.%m.%Y %H:%M:%S")
             back_date = datetime.strptime(date_right.text.strip(), "%d.%m.%Y %H:%M:%S")
 
-        missions.append(mission.Mission(arrive_date, back_date, mission_type, coords_from, coords_to))
+        missions.append(models.Mission(arrive_date, back_date, mission_type, coords_from, coords_to))
 
     return missions, response.url
 

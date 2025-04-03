@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import logging
-from models import planet
+import models
 
 class TerminalHandler(logging.Handler):
     def __init__(self):

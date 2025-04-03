@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+import models.models
 import threads
-from services import fleet
+from services import fleet_service
 from datetime import datetime, timedelta
 from EP import home
-from models import planet
 from collections import defaultdict
 import main_loop
 import threading
@@ -96,8 +96,8 @@ class App(tk.Tk):
         self.home_tab.columnconfigure(1, weight=1)
 
         # Dane Asteroid Mining i Expeditions
-        planet.planets = home.get_planets()
-        missions = fleet.get_missions()
+        models.models.planets = home.get_planets()
+        missions = fleet_service.get_missions()
         for mission in missions['Asteroid Mining']:
             item = (mission.planet.name, mission.back_date - datetime.now(), mission.target_coords)
             self.asteroid_list.insert("", "end", values=item)
@@ -189,14 +189,14 @@ class App(tk.Tk):
         wanted_fields = int(self.wanted_fields_entry.get())
         mission_num = int(self.mission_num_entry.get())
         
-        base_planet = planet.search_for_planet(planet.planets, coords_from)
+        base_planet = models.models.search_for_planet(models.models.planets, coords_from)
         t = threading.Thread(target=colonize_planet.colonize_planet, args= (base_planet, coords_to, wanted_fields, mission_num))
         t.start()
     
 
     def load_missions(self):
         """Ładuje misje do pamięci i ustawia początkowe wartości"""
-        missions = fleet.get_missions()
+        missions = fleet_service.get_missions()
         self.mission_data = {"Asteroid Mining": [], "Expedition": []}
 
         # Czyszczenie widoków

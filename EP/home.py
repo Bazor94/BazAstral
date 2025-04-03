@@ -1,7 +1,7 @@
 import http_requester as requests
 from config import config, headers, cookies
 from bs4 import BeautifulSoup
-import models.planet as planet
+import models.models as planet
 import threads
 
 
