@@ -21,7 +21,7 @@ def run_crons():
     for coord in config.crons.asteroid.coords:
         planets.append(models.search_for_planet(models.planets, coord))
 
-    # build_defense.build_max_platforms_all_planets(planet.planets)
+    build_defense.build_max_platforms_all_planets(models.planets)
 
     # asteroids cron
     threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.crons.asteroid.fs, config.crons.asteroid.is_from_moon)))

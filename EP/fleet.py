@@ -15,6 +15,23 @@ def get_fleet(planet_id):
 
     return parse_ships(response.text), response.url
 
+
+def get_fleet_and_resources(planet_id):
+    url = f"{config.server.host}/fleet"
+    headers_dict = {**headers, "referer": f"{config.server.host}/home" }
+    params = {"planet": planet_id}
+
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
+
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    metal = int(soup.find("span", id="metal-amount").text.replace(".", ""))
+    crystal = int(soup.find("span", id="crystal-amount").text.replace(".", ""))
+    deuterium = int(soup.find("span", id="deuterium-amount").text.replace(".", ""))
+
+    return parse_ships(response.text), models.Resources(metal, crystal, deuterium), response.url
+
+
 def parse_ships(raw_html):
     soup = BeautifulSoup(raw_html, "html.parser")
 

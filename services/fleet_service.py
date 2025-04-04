@@ -46,8 +46,8 @@ def transport_resources(x, y, z, resources: models.Resources): # TODO not workin
 
 
 @threads.locker(threads.is_idle)
-def send_expedition_with_resources(planet, resources: models.Resources, hold_time_on_minutes=60):
-    ships, referer_url = fleet.get_fleet()
+def send_expedition_with_resources(planet, hold_time_on_minutes=60):
+    ships, resources, referer_url = fleet.get_fleet_and_resources(planet.moon_id)
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER']}
     fleet.send_fleet_2(battle_ships, referer_url)
     resp = fleet.send_fleet_3(battle_ships, planet.x, planet.y, 16, referer_url)

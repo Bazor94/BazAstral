@@ -1,10 +1,4 @@
-expeditionType = 'Expedition'
-expeditionReturnType = 'Expedition (R)'
-
-
-missions = {}
 planets = []
-
 
 class Mission:
     def __init__(self, arrive_date, back_date, mission_type: str, coords_from: str, coords_to: str):
@@ -18,9 +12,6 @@ class Mission:
     def __repr__(self):
         return f"{self.mission_type}: [{self.planet}]->[{self.target_coords}]: ({self.arrive_date} | {self.back_date}))"
 
-
-def getExpeditionMissions():
-    return missions[expeditionType] + missions[expeditionReturnType]
 
 
 class Planet:

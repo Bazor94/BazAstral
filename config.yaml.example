@@ -27,6 +27,7 @@ crons:
     enabled: true
     planets:
       - 6:368:7
+    time: 60
   refresh:
     enabled: true
     interval: 7200

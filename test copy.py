@@ -1,4 +1,4 @@
-import models.models
+from models import models
 from services import colonize_planet
 from EP import home
 from EP import login
@@ -36,8 +36,9 @@ from logger import logger
 # planets = get_planets_from_coords(config.crons.expedition.planets)
 # send_expedition.deploy_split_ships(planets, models.models.planets[1])
 
-
+home.get_planets()
 fleet_service.update_missions()
+exp = models.getExpeditionMissions()
 print('xd')
 
 

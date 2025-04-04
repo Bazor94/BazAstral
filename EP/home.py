@@ -52,4 +52,5 @@ def get_planets():
         p = planet.Planet(coords_text, x, y, z, planet_name, planet_id, moon_id)
         planets.append(p)
 
+    planet.planets = planets
     return planets
