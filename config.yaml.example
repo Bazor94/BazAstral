@@ -26,8 +26,19 @@ crons:
     count: 12
     enabled: true
     planets:
-      - 6:368:7
-    time: 60
+    - 6:364:12
+    - 6:368:7
+    - 6:349:10
+    - 6:248:6
+    - 6:244:5
+    - 6:229:11
+    - 6:220:11
+    - 6:215:11
+    - 6:213:11
+    - 5:241:11
+    - 4:256:5
+    - 6:117:7
+    time: 40
   refresh:
     enabled: true
     interval: 7200
@@ -37,11 +48,29 @@ crons:
     min_rank: 1000
     planets:
     - base_coords: 6:368:7
+      max_missions: 4
       y_limit: 250:499
-      max_missions: 15
     - base_coords: 6:117:7
+      max_missions: 4
       y_limit: 1:249
-      max_missions: 15
+    - base_coords: 5:241:11
+      max_missions: 6
+      y_limit: 1:499
+    - base_coords: 4:256:5
+      max_missions: 6
+      y_limit: 1:499
+    - base_coords: 3:160:6
+      max_missions: 4
+      y_limit: 1:249
+    - base_coords: 3:339:6
+      max_missions: 4
+      y_limit: 250:499
+    - base_coords: 2:178:11
+      max_missions: 4
+      y_limit: 1:249
+    - base_coords: 2:338:5
+      max_missions: 4
+      y_limit: 250:499
 server:
   fleet_speed: 8
   host: https://falcon.ogamex.net
