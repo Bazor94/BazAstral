@@ -6,7 +6,7 @@ import time
 from models import models
 import threads
 from crons import asteroid, expedition, plunder, refresh, collect, defense, bonus
-from services import build_defense
+from services import build_defense, send_expedition
 
 def run_crons():
     threads_list = []
@@ -21,14 +21,15 @@ def run_crons():
     for coord in config.crons.asteroid.coords:
         planets.append(models.search_for_planet(models.planets, coord))
 
-    build_defense.build_max_platforms_all_planets(models.planets)
+    # build_defense.build_max_platforms_all_planets(models.planets)
 
     # asteroids cron
     threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.crons.asteroid.fs, config.crons.asteroid.is_from_moon)))
 
     # expedition
+    exp_planets = send_expedition.get_planets_from_coords(config.crons.expedition.planets)
     main_planet = models.search_for_planet(models.planets, config.crons.expedition.planets[0])
-    threads_list.append(threading.Thread(target=expedition.send_expedition_cron, args=(main_planet,)))
+    threads_list.append(threading.Thread(target=expedition.send_expedition_cron, args=(exp_planets,)))
 
     # plunder cron
     threads_list.append(threading.Thread(target=plunder.plunder_cron))
@@ -49,6 +50,7 @@ def run_crons():
     for i, thread in enumerate(threads_list):
         if i > 0: # nie startuj pierwszego threada czyli refresh
             thread.start()
+            time.sleep(30)
 
     try:
         while True:

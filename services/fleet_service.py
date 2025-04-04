@@ -53,7 +53,7 @@ def send_expedition_with_resources(planet, hold_time_on_minutes=60):
     resp = fleet.send_fleet_3(battle_ships, planet.x, planet.y, 16, referer_url)
     cargo_cap = resp["CargoCapacity"]
 
-    cargo = models.Resources()
+    cargo = models.Resources(0, 0, 0)
     if cargo_cap < resources.deuterium:
         cargo.deuterium = cargo_cap
     elif cargo_cap < resources.deuterium + resources.crystal:

@@ -11,6 +11,7 @@ import math
 from models import models
 
 time_delay = 15
+time_exception_delay=120
 
 @threads.locker(threads.is_idle)
 def old_send_expedition(planet):
@@ -39,22 +40,38 @@ def old_send_expedition_if_free(planet):
         threads.stop_threads.wait(time_delay)
 
 
+def get_planets_from_coords(planet_coords):
+    planets = []
+
+    for planet_coord in planet_coords:
+        planet_object = models.search_for_planet(models.planets, planet_coord)
+        if planet_object is None:
+            logger.error(f"cannot find planet {planet_coords}. Planets len: {len(planets)}")
+            continue
+
+        planets.append(planet_object)
+
+    return planets
+
+
 def send_expedition_if_free(planet):
     expeditions = get_planet_fleet_expedition_movement(planet)
 
     if len(expeditions) > 0:
         exp = expeditions[-1]
         time_sleep = int((exp.back_date - datetime.now()).total_seconds()) + time_delay
-        logger.info(f'initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "expedition"})
+        logger.info(f'sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "expedition"})
         threads.stop_threads.wait(time_sleep)
         return
 
     logger.info(f'sending expedition', extra={"planet": planet, "action": "expedition"})
+    
     try:
         fleet_service.send_expedition_with_resources(planet, config.crons.expedition.time)
+        threads.refresh_missions_gui.put("refresh")
     except Exception as e:
         logging.warning(f'expedition error - {e}', extra={"planet": planet, "action": "expedition"})
-        threads.stop_threads.wait(time_delay)
+        threads.stop_threads.wait(time_exception_delay)
 
 
 def get_fleet_expedition_movement():

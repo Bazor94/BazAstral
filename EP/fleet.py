@@ -79,7 +79,7 @@ def send_fleet_3(ships, x, y, z, referer_url):
     resp = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
 
     try:
-        response_dict = json.loads(resp)
+        response_dict = json.loads(resp.text)
     except:
         return None
     
