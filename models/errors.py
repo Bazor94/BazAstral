@@ -26,3 +26,7 @@ class NotEnoughShipsException(Exception):
 
 class ZeroShipsException(Exception):
     pass
+
+
+class NoShipsCustomException(Exception):
+    pass

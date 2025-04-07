@@ -3,9 +3,7 @@ import logging
 import helpers
 import threading
 from config import config, save_config
-import EP.galaxydata as galaxydata
 import EP.galaxy as galaxy
-from EP import partial_asteroid
 from EP import fleet
 from services import fleet_service as fleet_service
 import threads
@@ -29,7 +27,7 @@ def get_asteroid_y(x, y_from, y_to, planet_id):
     _, referal_url = galaxy.get_galaxy_html() # only for referal_url purposes (anti_bot?)
 
     for i in range(y_from, y_to):
-        time_left, referal_url = galaxydata.get_asteroid(referal_url, x, i, planet_id)
+        time_left, referal_url = galaxy.get_asteroid(referal_url, x, i, planet_id)
         if time_left is not None:
             time_parsed = time_left.strip("()").split(":")
             if len(time_parsed) == 1:
@@ -42,10 +40,10 @@ def get_asteroid_y(x, y_from, y_to, planet_id):
 
     return None, None
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def get_closest_asteroid(p, is_asteroid_taken):
     _, referal_url = galaxy.get_galaxy_html()
-    ranges = partial_asteroid.get_asteroid_locations(referal_url)
+    ranges = galaxy.get_asteroid_locations(referal_url)
 
     while len(ranges) > 0:
         closest_asteroid_range = get_closest_asteroid_range(ranges, p.y)
@@ -86,7 +84,7 @@ def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
     if len(missions) != 0:
         mission = missions[-1]
         time_sleep = int((mission.back_date - datetime.now()).total_seconds()) + time_delay_seconds
-        logger.info(f'initial sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "asteroid"})
+        logger.sleep_log("asteroid", planet, time_sleep, prefix="initial")
         threads.stop_threads.wait(time_sleep)
         
     asteroid_y, time_needed = get_closest_asteroid(planet, is_asteroid_taken)
@@ -101,7 +99,7 @@ def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
             logger.warning(f'Mining Exception: {e}. Continue', extra={"planet": planet, "action": "asteroid"})
 
             time_sleep = idle_time
-            logger.info(f'exception sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "asteroid"})
+            logger.sleep_log("asteroid", planet, time_sleep, prefix="exception")
             threads.stop_threads.wait(time_sleep)
             return
         
@@ -129,6 +127,6 @@ def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
         time_sleep = idle_time
 
 
-    logger.info(f'sleeping for {helpers.format_seconds(time_sleep)}. Till {datetime.now() + timedelta(seconds=time_sleep)}', extra={"planet": planet, "action": "asteroid"})
+    logger.sleep_log("asteroid", planet, time_sleep)
     threads.stop_threads.wait(time_sleep)
     is_asteroid_taken[asteroid_y] = False

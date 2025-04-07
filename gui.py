@@ -40,19 +40,18 @@ class App(tk.Tk):
         # Tworzenie ramek dla każdej zakładki
         self.home_tab = ttk.Frame(self.notebook)
         self.functions_tab = ttk.Frame(self.notebook)
-        self.asteroid_tab = ttk.Frame(self.notebook)
-        self.expedition_tab = ttk.Frame(self.notebook)
-        self.general_tab = ttk.Frame(self.notebook)
+        self.logs_tab = ttk.Frame(self.notebook)
         self.settings_tab = ttk.Frame(self.notebook)
         
         # Dodawanie ramek do notebooka
         self.notebook.add(self.home_tab, text="Home")
         self.notebook.add(self.functions_tab, text="Functions")
-        self.notebook.add(self.asteroid_tab, text="Asteroid")
-        self.notebook.add(self.expedition_tab, text="Expedition")
-        self.notebook.add(self.general_tab, text="General")
+        self.notebook.add(self.logs_tab, text="Logs")
         self.notebook.add(self.settings_tab, text="Settings")
         
+        # ------------------------------------------
+        # -------------- HOME ----------------------
+        # ------------------------------------------
         # Sekcja Asteroid Mining w Home
         asteroid_mining_frame = ttk.LabelFrame(self.home_tab, text="Asteroid Mining")
         asteroid_mining_frame.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
@@ -145,28 +144,38 @@ class App(tk.Tk):
         self.colonize_button = ttk.Button(colonize_frame, text="Colonize", command=self.colonize_command)
         self.colonize_button.grid(row=0, column=8, padx=5, pady=5)
 
-        # Logi w zakładce Asteroid
-        asteroid_log_frame = ttk.LabelFrame(self.asteroid_tab, text="Asteroid Logs")
-        asteroid_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
-        self.asteroid_log = tk.Text(asteroid_log_frame, height=10, wrap="word")
-        self.asteroid_log.pack(fill="both", expand=True, padx=5, pady=5)
-        
-        # Logi w zakładce Expedition
-        expedition_log_frame = ttk.LabelFrame(self.expedition_tab, text="Expedition Logs")
-        expedition_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
-        self.expedition_log = tk.Text(expedition_log_frame, height=10, wrap="word")
-        self.expedition_log.pack(fill="both", expand=True, padx=5, pady=5)
+        # ------------------------------------------
+        # -------------- LOGS ----------------------
+        # ------------------------------------------
+        self.logs_notebook = ttk.Notebook(self.logs_tab)
+        self.logs_notebook.pack(fill="both", expand=True)
 
-        # Logi w zakładce Expedition
-        general_log_frame = ttk.LabelFrame(self.general_tab, text="Expedition Logs")
-        general_log_frame.pack(fill="both", expand=True, padx=10, pady=5)
-        self.general_log = tk.Text(general_log_frame, height=10, wrap="word")
-        self.general_log.pack(fill="both", expand=True, padx=5, pady=5)
+        log_tabs = {
+            "Asteroid": "asteroid_log",
+            "Expedition": "expedition_log",
+            "General": "general_log",
+            "Colonize": "colonize_log",
+            "Plunder": "plunder_log"
+        }
+
+        for tab_name, attr_name in log_tabs.items():
+            tab_frame = ttk.Frame(self.logs_notebook)
+            self.logs_notebook.add(tab_frame, text=tab_name)
+
+            log_frame = ttk.LabelFrame(tab_frame, text=f"{tab_name} Logs")
+            log_frame.pack(fill="both", expand=True, padx=10, pady=5)
+
+            text_widget = tk.Text(log_frame, height=10, wrap="word")
+            text_widget.pack(fill="both", expand=True, padx=5, pady=5)
+
+            # Zapisz referencję np. self.asteroid_log, self.colonize_log, itd.
+            setattr(self, attr_name, text_widget)
         
         # Przykładowa zawartość zakładki Settings
         ttk.Label(self.settings_tab, text="Settings Panel").pack(pady=20)
+        build_asteroid_config_frame(self.settings_tab, config)
 
-        widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, self.general_log)
+        widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, self.plunder_log, self.colonize_log, self.general_log )
         widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
         logger.logger.addHandler(widget_handler)
 
@@ -279,6 +288,67 @@ class App(tk.Tk):
             self.autoexpedition_list.insert("", "end", values=(mission[0], formatted_time, mission[2]))
 
         self.after(1000, self.refresh_view)  # Odśwież co sekundę
+
+
+def build_asteroid_config_frame(parent, config):
+    asteroid = config.crons.asteroid
+    frame = ttk.LabelFrame(parent, text="Asteroid Config")
+    frame.pack(fill="x", padx=10, pady=10)
+
+    # enabled (checkbox)
+    enabled_var = tk.BooleanVar(value=asteroid.enabled)
+    ttk.Checkbutton(frame, text="Enabled", variable=enabled_var,
+                    command=lambda: [setattr(asteroid, "enabled", enabled_var.get()), save_config()]
+    ).pack(anchor="w")
+
+    # is_from_moon (checkbox)
+    moon_var = tk.BooleanVar(value=asteroid.is_from_moon)
+    ttk.Checkbutton(frame, text="Is from Moon", variable=moon_var,
+                    command=lambda: [setattr(asteroid, "is_from_moon", moon_var.get()), save_config()]
+    ).pack(anchor="w")
+
+    # miners_percentage
+    percentage_var = tk.StringVar(value=str(asteroid.miners_percentage))
+    def on_percentage_change(*_):
+        try:
+            asteroid.miners_percentage = int(percentage_var.get())
+            save_config()
+        except ValueError:
+            pass
+    ttk.Label(frame, text="Miners %:").pack(anchor="w")
+    ttk.Entry(frame, textvariable=percentage_var).pack(anchor="w", fill="x")
+    percentage_var.trace_add("write", on_percentage_change)
+
+    # --- coords list ---
+    coords_frame = ttk.LabelFrame(frame, text="Asteroid Coords")
+    coords_frame.pack(fill="x", pady=10)
+
+    coords_listbox = tk.Listbox(coords_frame, height=5)
+    coords_listbox.pack(fill="x", padx=5, pady=5)
+
+    # Wypełnij listbox z istniejących koordynatów
+    for coord in asteroid.coords:
+        coords_listbox.insert(tk.END, coord)
+
+    # Entry + Dodaj
+    add_frame = ttk.Frame(coords_frame)
+    add_frame.pack(fill="x", padx=5)
+
+    new_coord_var = tk.StringVar()
+    ttk.Entry(add_frame, textvariable=new_coord_var).pack(side="left", fill="x", expand=True)
+    
+    def add_coord():
+        new = new_coord_var.get().strip()
+        if new and new not in asteroid.coords:
+            asteroid.coords.append(new)
+            coords_listbox.insert(tk.END, new)
+            new_coord_var.set("")
+            save_config()
+
+    ttk.Button(add_frame, text="Dodaj", command=add_coord).pack(side="right", padx=5)
+
+    return frame
+
 
 
 if __name__ == "__main__":

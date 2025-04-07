@@ -13,7 +13,7 @@ planetTypePlanet = 1
 planetTypeMoon = 2
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def send_full_miners(x, y, from_planet_id, percent_miners):
     ships, referer_url = fleet.get_fleet(from_planet_id)
     miners = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'ASTEROID_MINER']} 
@@ -27,7 +27,7 @@ def send_full_miners(x, y, from_planet_id, percent_miners):
     threads.refresh_missions_gui.put("refresh")
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):
     ships, referer_url = fleet.get_fleet(from_planet_id)
     miners = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'ASTEROID_MINER']}
@@ -36,7 +36,7 @@ def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):
     fleet.submit_fleet(miners, x, y, z, mission_type_transport, 2, None, referer_url, speed)
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def transport_resources(x, y, z, resources: models.Resources): # TODO not working yet
     ships, referer_url = fleet.get_fleet()
     cargos = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] in ['LIGHT_CARGO', 'HEAVY_CARGO']]}
@@ -45,10 +45,13 @@ def transport_resources(x, y, z, resources: models.Resources): # TODO not workin
     fleet.submit_fleet(cargos, x, y, z, mission_type_transport, 2, resources, referer_url)
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def send_expedition_with_resources(planet, hold_time_on_minutes=60):
     ships, resources, referer_url = fleet.get_fleet_and_resources(planet.moon_id)
     battle_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] != 'ASTEROID_MINER']}
+    if len(battle_ships['Ships']) == 0:
+        raise errors.NoShipsCustomException("zero battle ships")
+    
     fleet.send_fleet_2(battle_ships, referer_url)
     resp = fleet.send_fleet_3(battle_ships, planet.x, planet.y, 16, referer_url)
     cargo_cap = resp["CargoCapacity"]
@@ -71,7 +74,7 @@ def send_expedition_with_resources(planet, hold_time_on_minutes=60):
     fleet.submit_fleet(battle_ships, planet.x, planet.y, 16, mission_type_exp, 2, cargo, referer_url, hold_time_on_minutes=hold_time_on_minutes)
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def deploy_ships(planet, target_planet, ships):
     planet_ships, referer_url = fleet.get_fleet(planet.moon_id)
 
@@ -97,14 +100,14 @@ def get_ships(ships, type):
     return None
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def collect_all_resources(planet_id, planet_ids, ships):
     _, referer_url = fleet.get_fleet(planet_id)
     _, referer_url = fleet.get_collect_resources(planet_id, referer_url)
     fleet.collect_all_resources(planet_id, planet_ids, ships, referer_url)
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def colonize_planet(x, y, z, from_planet_id):
     ships, referer_url = fleet.get_fleet(from_planet_id)
     colony_ship = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'COLONY_SHIP']}
@@ -114,7 +117,7 @@ def colonize_planet(x, y, z, from_planet_id):
     fleet.submit_fleet(colony_ship, x, y, z, mission_type_colonize, 1, None, referer_url)
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def get_missions():
     fleet_movement, _ = fleet.get_feet_movement()
     

@@ -15,7 +15,6 @@ def send_expedition_cron(planets):
     for planet in planets:
         thread = threading.Thread(target=send_expedition_single_cron, args=(planet,))
         threads.append(thread)
-        time.sleep(15)
         thread.start()
 
     for thread in threads:

@@ -21,28 +21,37 @@ def get_promote_timeout():
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    provider_vote = soup.find('div', class_='provider-vote')
-    provider_vote = provider_vote.find('a')
-    if provider_vote is not None:
-        link = provider_vote['href']
-        parsed_url = urlparse.urlparse(link)
-        token = urlparse.parse_qs(parsed_url.query).get('token', [None])[0]
+    provider_vote_divs = soup.find_all('div', class_='provider-vote')
+
+    max_delta_time = timedelta()
+    for provider_vote_div in provider_vote_divs:
+        provider_vote = provider_vote_div.find('a')
+        if provider_vote is not None:
+            link = provider_vote['href']
+            parsed_url = urlparse.urlparse(link)
+            token = urlparse.parse_qs(parsed_url.query).get('token', [None])[0]
+
+            continue
+
+        time_text_span = soup.find('span', class_='x-vote-time')
+        if time_text_span == None:
+            continue
+
+        t = time_text_span.text.split(':')
+        if len(t) == 3:
+            delta = timedelta(hours=int(t[0]), minutes=int(t[1]), seconds=int(t[2]))
+        elif len(t) == 2:
+            delta = timedelta(minutes=int(t[0]), seconds=int(t[1]))
+        elif len(t) == 1:
+            delta = timedelta(seconds=int(t[0]))
+
+        if delta > max_delta_time:
+            max_delta_time = delta
+
+    if max_delta_time.seconds == 0:
         return token, None
 
-    
-    time_text_span = soup.find('span', class_='x-vote-time')
-    if time_text_span == None:
-        return None, None
-    
-    t = time_text_span.text.split(':')
-    if len(t) == 3:
-        delta = timedelta(hours=int(t[0]), minutes=int(t[1]), seconds=int(t[2]))
-    elif len(t) == 2:
-        delta = timedelta(minutes=int(t[0]), seconds=int(t[1]))
-    elif len(t) == 1:
-        delta = timedelta(seconds=int(t[0]))
-
-    return None, delta
+    return None, max_delta_time
 
 def is_online_bonus_present():
     url = f"{config.server.host}/home"

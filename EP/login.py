@@ -11,7 +11,7 @@ from config import config, save_config, reload_cookies
 import helpers
 import threads
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def login():
     print('login start')
     # Konfiguracja opcji dla Chrome
@@ -74,7 +74,7 @@ def login():
         raise Exception("Wystąpił błąd przy logowaniu")
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def refresh(driver):
     driver.refresh()
 

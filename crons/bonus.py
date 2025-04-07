@@ -9,7 +9,7 @@ def promote_cron():
 
     if time != None:
         time_sleep = int(time.total_seconds())
-        logger.info(f'sleeping for {time_sleep}', extra={"action": "bonus"})
+        logger.sleep_log("bonus", None, time_sleep)
         threads.stop_threads.wait(time_sleep)
 
     logger.info(f'visiting websites', extra={"action": "bonus"})

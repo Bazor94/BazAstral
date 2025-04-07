@@ -50,7 +50,6 @@ def run_crons():
     for i, thread in enumerate(threads_list):
         if i > 0: # nie startuj pierwszego threada czyli refresh
             thread.start()
-            time.sleep(30)
 
     try:
         while True:

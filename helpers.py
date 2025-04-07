@@ -3,10 +3,12 @@ from config import config
 import time
 import unittest
 
+
 def format_seconds(time_needed):
     minutes = time_needed // 60  # Dzielenie całkowite, aby uzyskać minuty
     seconds = time_needed % 60  # Reszta z dzielenia, aby uzyskać sekundy
     return f"{minutes:02}:{seconds:02}"  # Formatuje w postaci mm:ss
+
 
 def calculate_distance(x_from, y_from, z_from, x_to, y_to, z_to) -> int:
     if x_from == x_to:
@@ -47,17 +49,3 @@ class TestFleetCalculations(unittest.TestCase):
 
         # Porównanie obliczonego czasu z oczekiwanym
         self.assertEqual(time, expected_time)
-
-def ensure_not_idle(is_idle):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            while is_idle.is_set():
-                time.sleep(1)
-
-            is_idle.set()
-            result = func(*args, **kwargs)
-            is_idle.clear()
-            return result
-
-        return wrapper
-    return decorator

@@ -1,5 +1,5 @@
 from EP import staticstics
-from EP import galaxydata
+from EP import galaxy
 from config import config
 import math
 from services import fleet_service as fleet_service
@@ -27,11 +27,15 @@ def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plu
    
     referer_url = f'{config.server.host}/galaxy?planet={base_planet.id}'
     for y in range (min_y, max_y):
-        plunder_ids, referer_url = galaxydata.get_plunder_ids(base_planet.id, x, y, player_ranks, min_rank, referer_url)
+        try:
+            plunder_ids, referer_url = galaxy.get_plunder_ids(base_planet.id, x, y, player_ranks, min_rank, referer_url)
+        except Exception as e:
+            logger.warning(e)
+            continue
 
         for id in plunder_ids:
             while plunder_missions >= max_plunder_missions:
-                logger.info(f'idle sleeping for {helpers.format_seconds(idle_wait)}. Till {datetime.now() + timedelta(seconds=idle_wait)}', extra={"planet": base_planet, "action": "plunder"})
+                logger.sleep_log("plunder", base_planet, idle_wait, prefix='idle')
                 threads.stop_threads.wait(idle_wait)
                 missions = get_plunder_mission_per_planet(base_planet)
                 plunder_missions = len(missions)
@@ -40,7 +44,7 @@ def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plu
                 return
 
             try:
-                galaxydata.send_plunder(id, base_planet.id, referer_url)
+                galaxy.send_plunder(id, base_planet.id, referer_url)
             except Exception as e:
                 logger.warning(e)
 

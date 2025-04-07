@@ -2,8 +2,7 @@ import threading
 from config import config
 import queue
 
-is_idle = threading.Event()
-is_idle.set()
+mutex = threading.Lock()
 
 stop_threads = threading.Event()
 
@@ -15,16 +14,11 @@ for key, value in config.crons.dict().items():
     running_threads[key].set() if value['enabled'] else running_threads[key].clear()
 
 
-def locker(is_idle):
+def locker():
     def decorator(func):
         def wrapper(*args, **kwargs):
-            is_idle.wait(60)
-            is_idle.clear()
-
-            try:
+            with mutex:
                 return func(*args, **kwargs) 
-            finally:
-                is_idle.set()
             
         return wrapper
     return decorator

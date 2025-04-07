@@ -30,7 +30,7 @@ def get_fields(planet):
     return value
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def get_planets():
     html = home()
     soup = BeautifulSoup(html, 'html.parser')

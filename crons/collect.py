@@ -15,5 +15,5 @@ def collect_all_resources_cron(planet, planets):
 @threads.stoper(threads.stop_threads, threads.running_threads['collect'])
 def collect(main_planet_id, other_planet_ids, cargos):
     fleet_service.collect_all_resources(main_planet_id, other_planet_ids, cargos)
-    logger.info(f'sleeping for {config.crons.collect.interval}', extra={"action": "collect"})
+    logger.sleep_log("collect", None, config.crons.collect.interval)
     threads.stop_threads.wait(config.crons.collect.interval)

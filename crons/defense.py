@@ -12,5 +12,5 @@ def build_def_cron(planet):
 @threads.stoper(threads.stop_threads, threads.running_threads['defense'])
 def build_def(planet):
     defense_service.build_max_defense_one_planet(planet)
-    logger.info(f'sleeping for {config.crons.defense.interval}', extra={"action": "defense"})
+    logger.sleep_log("defense", planet, config.crons.defense.interval)
     threads.stop_threads.wait(config.crons.defense.interval)

@@ -25,7 +25,7 @@ def colonize_planet(base_planet, coords, min_space, mission_num, delete_initial_
         return
     
     time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 3
-    logger.info(f'{coords} | initial sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
+    logger.sleep_log("colonize", base_planet, time_sleep, prefix=f'{coords} | initial')
     time.sleep(time_sleep)
 
     mission_num = len(missions)
@@ -41,7 +41,7 @@ def colonize_planet(base_planet, coords, min_space, mission_num, delete_initial_
         
         if missions[0].arrive_date > datetime.now():
             time_sleep = int((missions[0].arrive_date - datetime.now()).total_seconds()) + 1
-            logger.info(f'{coords} | sleeping for  {helpers.format_seconds(time_sleep)}. Till {datetime.now() +timedelta(seconds=time_sleep)}', extra={"planet": base_planet, "action": "colonize"})
+            logger.sleep_log("colonize", base_planet, time_sleep, prefix=f'{coords} |')
             time.sleep(time_sleep)
         
 
@@ -52,7 +52,7 @@ def get_missions_from_coords(coords):
     return planet_missions
 
 
-@threads.locker(threads.is_idle)
+@threads.locker()
 def delete_planet(base_planet, coords, min_space):
     planets = home.get_planets()
     target_planet = models.search_for_planet(planets, coords)

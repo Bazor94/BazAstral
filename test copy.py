@@ -5,7 +5,7 @@ from EP import login
 from EP import staticstics
 import threading
 from services import plunder
-from EP import galaxydata
+from EP import galaxy
 from config import config
 from services import build_defense
 from services import fleet_service
