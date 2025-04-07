@@ -103,6 +103,20 @@ class App(tk.Tk):
             self.asteroid_list.insert("", "end", values=item)
         
 
+        # Sekcja general
+        general_frame = ttk.LabelFrame(self.home_tab, text="General")
+        general_frame.grid(row=1, column=0, padx=10, pady=5, sticky="nsew")
+
+        self.plunder_checkbox_var = tk.BooleanVar(value=threads.running_threads['plunder'].is_set())
+        self.plunder_checkbox = ttk.Checkbutton(
+            general_frame, 
+            text="Enable Plunder", 
+            variable=self.plunder_checkbox_var, 
+            command=self.toggle_plunder
+        )
+        self.plunder_checkbox.pack(anchor="w", padx=5, pady=5)
+
+
         # Sekcja Funkcji
         colonize_frame = ttk.LabelFrame(self.functions_tab, text="Colonize")
         colonize_frame.pack(fill="x", padx=10, pady=5)
@@ -180,6 +194,17 @@ class App(tk.Tk):
         else:
             threads.running_threads['asteroid'].clear()
             config.crons.asteroid.enabled = False
+            save_config()
+
+
+    def toggle_plunder(self):
+        if self.plunder_checkbox_var.get():
+            threads.running_threads['plunder'].set()
+            config.crons.plunder.enabled = True
+            save_config()
+        else:
+            threads.running_threads['plunder'].clear()
+            config.crons.plunder.enabled = False
             save_config()
 
 

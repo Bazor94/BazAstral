@@ -39,7 +39,6 @@ class Defense(BaseModel):
 
 class Expedition(BaseModel):
     enabled: bool
-    count: int
     planets: list
     time: int
 
