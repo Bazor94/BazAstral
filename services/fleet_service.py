@@ -37,12 +37,41 @@ def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):
 
 
 @threads.locker()
-def transport_resources(x, y, z, resources: models.Resources): # TODO not working yet
-    ships, referer_url = fleet.get_fleet()
-    cargos = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] in ['LIGHT_CARGO', 'HEAVY_CARGO']]}
-    fleet.send_fleet_2(cargos, referer_url)
-    fleet.send_fleet_3(cargos, x, y, z, referer_url)
-    fleet.submit_fleet(cargos, x, y, z, mission_type_transport, 2, resources, referer_url)
+def transport_resources(base_planet, is_from_moon, x, y, z, is_to_moon, resources: models.Resources):
+    base_planet_id = base_planet.id if is_from_moon else base_planet.moon_id
+
+    ships, resources, referer_url = fleet.get_fleet_and_resources(base_planet_id)
+    cargo_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'LIGHT_CARGO']}
+    if len(cargo_ships['Ships']) == 0:
+        raise errors.NoShipsCustomException("zero cargo ships")
+    
+    fleet.send_fleet_2(cargo_ships, referer_url)
+    resp = fleet.send_fleet_3(cargo_ships, x, y, z, referer_url)
+    cargo_cap = resp["CargoCapacity"]
+
+    if cargo_cap < resources.deuterium + resources.crystal + resources.metal:
+        cargo_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] in ['LIGHT_CARGO', 'HEAVY_CARGO']]}
+        fleet.send_fleet_2(cargo_ships, referer_url)
+        resp = fleet.send_fleet_3(cargo_ships, x, y, z, referer_url)
+        cargo_cap = resp["CargoCapacity"]
+
+    cargo = models.Resources(0, 0, 0)
+    if cargo_cap < resources.deuterium:
+        cargo.deuterium = cargo_cap
+    elif cargo_cap < resources.deuterium + resources.crystal:
+        cargo.deuterium = resources.deuterium
+        cargo.crystal = cargo_cap - resources.deuterium
+    elif cargo_cap < resources.deuterium + resources.crystal + resources.metal:
+        cargo.deuterium = resources.deuterium
+        cargo.crystal = resources.crystal
+        cargo.metal = cargo_cap - resources.metal - resources.crystal
+    else:
+        cargo.deuterium = resources.deuterium
+        cargo.crystal = resources.crystal
+        cargo.metal = resources.metal
+
+    moon_var = 2 if is_to_moon else 1
+    fleet.submit_fleet(cargo_ships, x, y, z, mission_type_transport, moon_var, cargo, referer_url)
 
 
 @threads.locker()
@@ -72,6 +101,7 @@ def send_expedition_with_resources(planet, hold_time_on_minutes=60):
         cargo.metal = resources.metal
 
     fleet.submit_fleet(battle_ships, planet.x, planet.y, 16, mission_type_exp, 2, cargo, referer_url, hold_time_on_minutes=hold_time_on_minutes)
+
 
 
 @threads.locker()

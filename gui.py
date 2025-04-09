@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import models.models
+from models import models
 import threads
 from services import fleet_service
 from datetime import datetime, timedelta
@@ -95,7 +95,7 @@ class App(tk.Tk):
         self.home_tab.columnconfigure(1, weight=1)
 
         # Dane Asteroid Mining i Expeditions
-        models.models.planets = home.get_planets()
+        models.planets = home.get_planets()
         missions = fleet_service.get_missions()
         for mission in missions['Asteroid Mining']:
             item = (mission.planet.name, mission.back_date - datetime.now(), mission.target_coords)
@@ -165,15 +165,46 @@ class App(tk.Tk):
             log_frame = ttk.LabelFrame(tab_frame, text=f"{tab_name} Logs")
             log_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
+            # 🔍 Wyszukiwarka
+            search_frame = ttk.Frame(log_frame)
+            search_frame.pack(fill="x", padx=5, pady=2)
+
+            search_var = tk.StringVar()
+
+            entry = ttk.Entry(search_frame, textvariable=search_var)
+            entry.pack(side="left", fill="x", expand=True)
+
             text_widget = tk.Text(log_frame, height=10, wrap="word")
             text_widget.pack(fill="both", expand=True, padx=5, pady=5)
 
-            # Zapisz referencję np. self.asteroid_log, self.colonize_log, itd.
+            def make_search(widget, var):
+                def search_logs(*_):
+                    widget.tag_remove("highlight", "1.0", tk.END)
+                    query = var.get()
+                    if not query:
+                        return
+                    start = "1.0"
+                    while True:
+                        pos = widget.search(query, start, stopindex=tk.END)
+                        if not pos:
+                            break
+                        end_pos = f"{pos}+{len(query)}c"
+                        widget.tag_add("highlight", pos, end_pos)
+                        widget.tag_config("highlight", background="yellow")
+                        start = end_pos
+                    if widget.tag_ranges("highlight"):
+                        widget.see(widget.tag_ranges("highlight")[0])
+                return search_logs
+
+            search_var.trace_add("write", make_search(text_widget, search_var))
+
             setattr(self, attr_name, text_widget)
+
         
         # Przykładowa zawartość zakładki Settings
         ttk.Label(self.settings_tab, text="Settings Panel").pack(pady=20)
-        build_asteroid_config_frame(self.settings_tab, config)
+        build_asteroid_config_frame(self.settings_tab)
+        build_expedition_config_frame(self.settings_tab)
 
         widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, self.plunder_log, self.colonize_log, self.general_log )
         widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
@@ -290,62 +321,175 @@ class App(tk.Tk):
         self.after(1000, self.refresh_view)  # Odśwież co sekundę
 
 
-def build_asteroid_config_frame(parent, config):
+def build_asteroid_config_frame(parent):
     asteroid = config.crons.asteroid
     frame = ttk.LabelFrame(parent, text="Asteroid Config")
     frame.pack(fill="x", padx=10, pady=10)
 
     # enabled (checkbox)
     enabled_var = tk.BooleanVar(value=asteroid.enabled)
-    ttk.Checkbutton(frame, text="Enabled", variable=enabled_var,
-                    command=lambda: [setattr(asteroid, "enabled", enabled_var.get()), save_config()]
+    ttk.Checkbutton(
+        frame, text="Enabled", variable=enabled_var,
+        command=lambda: [change_asteroid_is_enabled(enabled_var), save_config()]
     ).pack(anchor="w")
+
+    def change_asteroid_is_enabled(enabled_var):
+        asteroid.enabled = enabled_var.get()
 
     # is_from_moon (checkbox)
     moon_var = tk.BooleanVar(value=asteroid.is_from_moon)
-    ttk.Checkbutton(frame, text="Is from Moon", variable=moon_var,
-                    command=lambda: [setattr(asteroid, "is_from_moon", moon_var.get()), save_config()]
+    ttk.Checkbutton(
+        frame, text="Is from Moon", variable=moon_var,
+        command=lambda: [change_asteroid_is_from_moon(moon_var), save_config()]
     ).pack(anchor="w")
+
+    def change_asteroid_is_from_moon(moon_var):
+        asteroid.is_from_moon = moon_var.get()
 
     # miners_percentage
     percentage_var = tk.StringVar(value=str(asteroid.miners_percentage))
+
     def on_percentage_change(*_):
         try:
-            asteroid.miners_percentage = int(percentage_var.get())
+            config.crons.asteroid.miners_percentage = int(percentage_var.get())
             save_config()
         except ValueError:
             pass
+
     ttk.Label(frame, text="Miners %:").pack(anchor="w")
-    ttk.Entry(frame, textvariable=percentage_var).pack(anchor="w", fill="x")
+    ttk.Entry(frame, textvariable=percentage_var, width=5).pack(anchor="w")
     percentage_var.trace_add("write", on_percentage_change)
 
-    # --- coords list ---
-    coords_frame = ttk.LabelFrame(frame, text="Asteroid Coords")
-    coords_frame.pack(fill="x", pady=10)
+    # --- Asteroid Coords ---
+    ttk.Label(frame, text="Asteroid Coords:").pack(anchor="w")
 
-    coords_listbox = tk.Listbox(coords_frame, height=5)
-    coords_listbox.pack(fill="x", padx=5, pady=5)
+    coords_listbox = tk.Listbox(frame, height=5, width=25)
+    coords_listbox.pack(pady=(0, 5), anchor="w")
 
-    # Wypełnij listbox z istniejących koordynatów
     for coord in asteroid.coords:
-        coords_listbox.insert(tk.END, coord)
+        planet = models.search_for_planet(models.planets, coord)
+        coords_listbox.insert(tk.END, planet)
 
-    # Entry + Dodaj
-    add_frame = ttk.Frame(coords_frame)
-    add_frame.pack(fill="x", padx=5)
+    def open_planet_selection_window():
+        # Tworzymy nowe okno
+        planet_window = tk.Toplevel(frame)
+        planet_window.title("Select Planet")
+        
+        # Lista planet
+        planet_listbox = tk.Listbox(planet_window, height=10, width=30)
+        planet_listbox.pack(padx=10, pady=10)
 
-    new_coord_var = tk.StringVar()
-    ttk.Entry(add_frame, textvariable=new_coord_var).pack(side="left", fill="x", expand=True)
-    
-    def add_coord():
-        new = new_coord_var.get().strip()
-        if new and new not in asteroid.coords:
-            asteroid.coords.append(new)
-            coords_listbox.insert(tk.END, new)
-            new_coord_var.set("")
+        # Zakładamy, że planet.planet zawiera listę dostępnych planet
+        for planet in models.planets:
+            planet_listbox.insert(tk.END, planet)
+
+        def add_selected_planet():
+            selected_planet = planet_listbox.curselection()
+            if selected_planet:
+                selected_planet = planet_listbox.get(selected_planet[0])
+                coords = selected_planet.split(' ')[1]
+                if coords not in asteroid.coords:
+                    asteroid.coords.append(coords)
+                    coords_listbox.insert(tk.END, coords)
+                    save_config()
+            planet_window.destroy()
+
+        # Przyciski
+        ttk.Button(planet_window, text="Add", command=add_selected_planet).pack(pady=5)
+        ttk.Button(planet_window, text="Cancel", command=planet_window.destroy).pack(pady=5)
+
+    # Przycisk do otwarcia okna wyboru planety
+    ttk.Button(frame, text="Dodaj Planetę", command=open_planet_selection_window).pack(side="left", padx=5)
+
+    def remove_selected_coord():
+        selected = coords_listbox.curselection()
+        if selected:
+            index = selected[0]
+            value = coords_listbox.get(index)
+            asteroid.coords.remove(value)
+            coords_listbox.delete(index)
             save_config()
 
-    ttk.Button(add_frame, text="Dodaj", command=add_coord).pack(side="right", padx=5)
+    ttk.Button(frame, text="Usuń", command=remove_selected_coord).pack(side="left", padx=5)
+
+    return frame
+
+def build_expedition_config_frame(parent):
+    expedition = config.crons.expedition
+    frame = ttk.LabelFrame(parent, text="Expedition Config")
+    frame.pack(fill="x", padx=10, pady=10)
+
+    # enabled (checkbox)
+    enabled_var = tk.BooleanVar(value=expedition.enabled)
+    ttk.Checkbutton(
+        frame, text="Enabled", variable=enabled_var,
+        command=lambda: [set_enabled(), save_config()]
+    ).pack(anchor="w")
+
+    def set_enabled():
+        expedition.enabled = enabled_var.get()
+
+    # time (entry)
+    time_var = tk.StringVar(value=str(expedition.time))
+
+    def on_time_change(*_):
+        try:
+            expedition.time = int(time_var.get())
+            save_config()
+        except ValueError:
+            pass
+
+    ttk.Label(frame, text="Expedition Time (min):").pack(anchor="w")
+    ttk.Entry(frame, textvariable=time_var, width=5).pack(anchor="w")
+    time_var.trace_add("write", on_time_change)
+
+    # --- Expedition Planets ---
+    ttk.Label(frame, text="Expedition Planets:").pack(anchor="w")
+
+    planets_listbox = tk.Listbox(frame, height=8, width=25)
+    planets_listbox.pack(pady=(0, 5), anchor="w")
+
+    for coord in expedition.planets:
+        planet = models.search_for_planet(models.planets, coord)
+        planets_listbox.insert(tk.END, planet)
+
+    def open_planet_selection_window():
+        planet_window = tk.Toplevel(frame)
+        planet_window.title("Select Planet")
+
+        planet_listbox = tk.Listbox(planet_window, height=10, width=30)
+        planet_listbox.pack(padx=10, pady=10)
+
+        for planet in models.planets:
+            planet_listbox.insert(tk.END, planet)
+
+        def add_selected_planet():
+            selected = planet_listbox.curselection()
+            if selected:
+                selected_planet = planet_listbox.get(selected[0])
+                coords = selected_planet.split(' ')[1]  # Zakładamy np. "Earth [6:123:7]"
+                if coords not in expedition.planets:
+                    expedition.planets.append(coords)
+                    planets_listbox.insert(tk.END, selected_planet)
+                    save_config()
+            planet_window.destroy()
+
+        ttk.Button(planet_window, text="Add", command=add_selected_planet).pack(pady=5)
+        ttk.Button(planet_window, text="Cancel", command=planet_window.destroy).pack(pady=5)
+
+    ttk.Button(frame, text="Dodaj Planetę", command=open_planet_selection_window).pack(side="left", padx=5)
+
+    def remove_selected_planet():
+        selected = planets_listbox.curselection()
+        if selected:
+            index = selected[0]
+            display_value = planets_listbox.get(index)
+            coords = display_value.split(' ')[1]
+            expedition.planets.remove(coords)
+            planets_listbox.delete(index)
+            save_config()
+
+    ttk.Button(frame, text="Usuń", command=remove_selected_planet).pack(side="left", padx=5)
 
     return frame
 

@@ -18,7 +18,6 @@ class Asteroid(BaseModel):
     enabled: bool
     is_from_moon: bool
     coords: list
-    fs: list
     miners_percentage: int
     miners_speed: int
 
@@ -41,6 +40,8 @@ class Expedition(BaseModel):
     enabled: bool
     planets: list
     time: int
+    send_resources: bool
+    wanted_deuterium: int
 
 class Crons(BaseModel):
     asteroid: Asteroid

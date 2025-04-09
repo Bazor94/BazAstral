@@ -9,8 +9,6 @@ crons:
     coords:
     - 2:308:4
     enabled: true
-    fs:
-    - 2:299:6
     is_from_moon: false
     miners_percentage: 60
     miners_speed: 115200
@@ -39,6 +37,8 @@ crons:
     - 4:256:5
     - 6:117:7
     time: 40
+    send_resources: true
+    wanted_deuterium:200000000000
   refresh:
     enabled: true
     interval: 7200

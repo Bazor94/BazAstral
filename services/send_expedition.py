@@ -1,10 +1,7 @@
 from EP import fleet
 from config import config
-from datetime import datetime, timedelta
-import logging
-import helpers
+from datetime import datetime
 import threads
-import time
 from services import fleet_service
 from logger import logger
 import math
@@ -37,6 +34,13 @@ def send_expedition_if_free(planet):
         logger.sleep_log("expedition", planet, time_sleep)
         threads.stop_threads.wait(time_sleep)
         return
+    
+    if config.crons.expedition.send_resources:
+        logger.info(f'sending resources', extra={"planet": planet, "action": "expedition"})
+        try:
+            transport_resources_to_planet(planet, config.crons.expedition.wanted_deuterium)
+        except Exception as e:
+            pass
 
     logger.info(f'sending expedition', extra={"planet": planet, "action": "expedition"})
     
@@ -48,6 +52,19 @@ def send_expedition_if_free(planet):
         threads.stop_threads.wait(time_exception_delay)
 
 
+def transport_resources_to_planet(planet, wanted_deuterium):
+    _, resources, _ = fleet.get_fleet_and_resources(planet.moon_id)
+    
+    if resources.deuterium < wanted_deuterium:
+        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}')
+        resources.deuterium = 0
+    else:
+        resources.deuterium = resources.deuterium - wanted_deuterium
+
+    x, y, z = planet.x, planet.y, planet.z
+    fleet_service.transport_resources(planet, True, x, y, z, False, resources)
+
+
 def get_fleet_expedition_movement():
     expeditions = fleet_service.get_missions()['Expedition']
 
@@ -56,7 +73,7 @@ def get_fleet_expedition_movement():
 
 def get_planet_fleet_expedition_movement(planet):
     expeditions = fleet_service.get_missions()['Expedition']
-    planet_exps = [e for e in expeditions if e.planet == planet]
+    planet_exps = [e for e in expeditions if e.planet.coords == planet.coords]
 
     return planet_exps
 
@@ -86,6 +103,7 @@ def calc_split_ships(ships, planets):
             planet_ships[planet.coords].append({"ShipType": ship["ShipType"], "Quantity": quantity})
 
     return planet_ships
+
         
 
 # @threads.locker(threads.is_idle)

@@ -26,7 +26,7 @@ def get_closest_asteroid_range(ranges, y):
 def get_asteroid_y(x, y_from, y_to, planet_id):
     _, referal_url = galaxy.get_galaxy_html() # only for referal_url purposes (anti_bot?)
 
-    for i in range(y_from, y_to):
+    for i in range(y_from, y_to + 1):
         time_left, referal_url = galaxy.get_asteroid(referal_url, x, i, planet_id)
         if time_left is not None:
             time_parsed = time_left.strip("()").split(":")
@@ -67,12 +67,12 @@ def get_closest_asteroid(p, is_asteroid_taken):
         
 def get_fleet_asteroids_movement(planet):
     missions = fleet_service.get_missions()['Asteroid Mining']
-    asteroid_missions = [mission for mission in missions if mission.planet == planet]
+    asteroid_missions = [mission for mission in missions if mission.planet.coords == planet.coords]
 
     return asteroid_missions
 
 
-def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
+def send_miners(planet, is_asteroid_taken, is_from_moon):
     base_id = planet.moon_id if is_from_moon else planet.id
     missions = get_fleet_asteroids_movement(planet)
 
@@ -107,20 +107,6 @@ def send_miners(planet, fs, is_asteroid_taken, is_from_moon):
             config.crons.asteroid.miners_percentage -= 2
             save_config()
         time_sleep = time_needed * 2 + time_delay_seconds
-
-    elif is_from_moon:
-        speed = 50
-        fs_x, fs_y, fs_z = map(int, fs.split(':'))
-        fs_time = 2 * helpers.calculate_time(planet.x, planet.y, planet.z, fs_x, fs_y, fs_z, config.cron.asteroid.miners_speed, speed)
-        logger.info(f'sending fs to {fs}. Fleet time: {helpers.format_seconds(fs_time)}', extra={"planet": planet, "action": "asteroid"})
-
-        try:
-            fleet_service.send_full_miners_fs(fs_x, fs_y, fs_z, base_id, speed)
-        except Exception as e:
-            logger.warning(f'FS Exception: {e}. Continue', extra={"planet": planet, "action": "asteroid"})
-            return
-        
-        time_sleep = fs_time + time_delay_seconds
     
     else:
         logger.warning(f'miners waiting', extra={"planet": planet, "action": "asteroid"})

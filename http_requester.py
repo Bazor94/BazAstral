@@ -7,6 +7,9 @@ import json
 import models.errors as errors
 
 
+rate_limiting_sleep = 15
+
+
 def get(url, params=None, **kwargs):
     headers = kwargs.get("headers", {}) 
     cookies = kwargs.get("cookies", {})
@@ -14,6 +17,9 @@ def get(url, params=None, **kwargs):
 
     if response.status_code != 200:
         logging.warning(f"{url} with params: {params} and kwargs {kwargs} returned status code {response.status_code}")
+        if response.status_code == 429:
+            time.sleep(rate_limiting_sleep)
+        
         raise ValueError(f"{url} status code is not 200")
 
     soup = BeautifulSoup(response.text, 'html.parser')

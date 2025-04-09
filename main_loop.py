@@ -24,7 +24,7 @@ def run_crons():
     # build_defense.build_max_platforms_all_planets(models.planets)
 
     # asteroids cron
-    threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.crons.asteroid.fs, config.crons.asteroid.is_from_moon)))
+    threads_list.append(threading.Thread(target=asteroid.mine_asteroids_cron, args=(planets, config.crons.asteroid.is_from_moon)))
 
     # expedition
     exp_planets = send_expedition.get_planets_from_coords(config.crons.expedition.planets)

@@ -52,6 +52,6 @@ def plunder_galaxy(base_planet, player_ranks, min_rank, x, min_y, max_y, max_plu
             
 def get_plunder_mission_per_planet(planet):
     missions = fleet_service.get_missions()['Attack']
-    planet_mission = [m for m in missions if m.planet == planet]
+    planet_mission = [m for m in missions if m.planet.coords == planet.coords]
 
     return planet_mission

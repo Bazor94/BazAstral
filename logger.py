@@ -40,7 +40,6 @@ class WidgetHandler(logging.Handler):
             widget = self.general_widget
 
         widget.insert("end", log_entry + "\n")
-        widget.see("end") 
 
 
 def sleep_log(action, planet, time_sleep, prefix=""):
