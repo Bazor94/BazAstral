@@ -35,6 +35,11 @@ def send_expedition_if_free(planet):
         threads.stop_threads.wait(time_sleep)
         return
     
+    _, resources, _ = fleet.get_fleet_and_resources(planet.moon_id)
+    if resources.deuterium < config.crons.expedition.wanted_deuterium / 2:
+        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}')
+        resources.deuterium = 0
+    
     if config.crons.expedition.send_resources:
         logger.info(f'sending resources', extra={"planet": planet, "action": "expedition"})
         try:
@@ -56,7 +61,6 @@ def transport_resources_to_planet(planet, wanted_deuterium):
     _, resources, _ = fleet.get_fleet_and_resources(planet.moon_id)
     
     if resources.deuterium < wanted_deuterium:
-        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}', extras={"planet": planet, "action": "expedition"})
         resources.deuterium = 0
     else:
         resources.deuterium = resources.deuterium - wanted_deuterium
