@@ -38,9 +38,9 @@ def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):
 
 @threads.locker()
 def transport_resources(base_planet, is_from_moon, x, y, z, is_to_moon, resources: models.Resources):
-    base_planet_id = base_planet.id if is_from_moon else base_planet.moon_id
+    base_planet_id = base_planet.moon_id if is_from_moon else base_planet.id
 
-    ships, resources, referer_url = fleet.get_fleet_and_resources(base_planet_id)
+    ships, _, referer_url = fleet.get_fleet_and_resources(base_planet_id)
     cargo_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'LIGHT_CARGO']}
     if len(cargo_ships['Ships']) == 0:
         raise errors.NoShipsCustomException("zero cargo ships")

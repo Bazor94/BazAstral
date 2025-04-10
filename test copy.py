@@ -14,32 +14,12 @@ from EP import fleet
 from logger import logger
 
 
-def get_planets_from_coords(planet_coords):
-    planets = []
-
-    for planet_coord in planet_coords:
-        planet_object = models.search_for_planet(models.planets, planet_coord)
-        if planet_object is None:
-            logger.error(f"cannot find planet {planet_coords}. Planets len: {len(planets)}")
-            continue
-
-        planets.append(planet_object)
-
-    return planets
 
 models.planets = home.get_planets()
-# # ranks = plunder.get_player_ranks()
-# # plunder.plunder_galaxy(planet.planets[1], ranks, 800, 6, 1, 499, 45)
-# #build_defense.build_max_platforms_all_planets(planet.planets[0:11])
 
+schuttgard = models.search_for_planet(models.planets, "6:219:11")
+send_expedition.transport_resources_to_planet(schuttgard, 100000000000)
 
-planets = get_planets_from_coords(config.crons.expedition.planets)
-send_expedition.deploy_split_ships(planets, models.planets[1])
-
-# home.get_planets()
-# fleet_service.update_missions()
-# exp = models.getExpeditionMissions()
-# print('xd')
 
 
 

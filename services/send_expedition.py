@@ -56,7 +56,7 @@ def transport_resources_to_planet(planet, wanted_deuterium):
     _, resources, _ = fleet.get_fleet_and_resources(planet.moon_id)
     
     if resources.deuterium < wanted_deuterium:
-        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}')
+        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}', extras={"planet": planet, "action": "expedition"})
         resources.deuterium = 0
     else:
         resources.deuterium = resources.deuterium - wanted_deuterium
