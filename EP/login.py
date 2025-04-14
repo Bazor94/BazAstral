@@ -18,7 +18,7 @@ def login():
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--headless")
+    #chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36")
 
@@ -56,7 +56,7 @@ def login():
         time.sleep(2)  # Poczekaj na zalogowanie
 
         # Kliknięcie w "Play" dla konkretnego serverId
-        server_id = "099324e1-6ea9-442e-a7dd-29d66c9ddc79" # TODO zmienic to zeby bylo bardziej generyczne
+        server_id = "daa7396c-0f03-47a5-85ca-9ddb53e3510c" # TODO zmienic to zeby bylo bardziej generyczne
         play_button = driver.find_element(By.XPATH, f"//a[contains(@href, '/connect?serverId={server_id}')]")
         driver.execute_script("arguments[0].click();", play_button)
         
