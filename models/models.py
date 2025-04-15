@@ -42,6 +42,10 @@ class Resources:
         self.metal = metal
         self.crystal = crystal
         self.deuterium = deuterium
+
+    def __repr__(self):
+        return f"{self.metal} | {self.crystal} | {self.deuterium}"
+
     
 
 class PlanetEmpire:

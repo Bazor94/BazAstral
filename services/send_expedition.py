@@ -41,9 +41,9 @@ def send_expedition_if_free(planet):
         resources.deuterium = 0
     
     if config.crons.expedition.send_resources:
-        logger.info(f'sending resources', extra={"planet": planet, "action": "expedition"})
         try:
             transport_resources_to_planet(planet, config.crons.expedition.wanted_deuterium)
+            threads.stop_threads.wait(40)
         except Exception as e:
             pass
 
@@ -64,6 +64,8 @@ def transport_resources_to_planet(planet, wanted_deuterium):
         resources.deuterium = 0
     else:
         resources.deuterium = resources.deuterium - wanted_deuterium
+
+    logger.info(f'sent resources: {resources}', extra={"planet": planet, "action": "expedition"})
 
     x, y, z = planet.x, planet.y, planet.z
     fleet_service.transport_resources(planet, True, x, y, z, False, resources)

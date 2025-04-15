@@ -202,9 +202,10 @@ class App(tk.Tk):
 
         
         # Przykładowa zawartość zakładki Settings
-        ttk.Label(self.settings_tab, text="Settings Panel").pack(pady=20)
         build_asteroid_config_frame(self.settings_tab)
         build_expedition_config_frame(self.settings_tab)
+        self.settings_tab.columnconfigure(0, weight=1)
+        self.settings_tab.columnconfigure(1, weight=1)
 
         widget_handler = logger.WidgetHandler(self.asteroid_log, self.expedition_log, self.plunder_log, self.colonize_log, self.general_log )
         widget_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
@@ -318,13 +319,16 @@ class App(tk.Tk):
             formatted_time = mission[1] if mission[1] == "done" else str(timedelta(seconds=int(mission[1])))
             self.autoexpedition_list.insert("", "end", values=(mission[0], formatted_time, mission[2]))
 
+        self.autoexpedition_list.insert("", "end", values=("Sum", "-", len(self.mission_data["Expedition"])))
+
         self.after(1000, self.refresh_view)  # Odśwież co sekundę
 
 
 def build_asteroid_config_frame(parent):
     asteroid = config.crons.asteroid
     frame = ttk.LabelFrame(parent, text="Asteroid Config")
-    frame.pack(fill="x", padx=10, pady=10)
+    frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+    #frame.pack(fill="x", padx=10, pady=10)
 
     # enabled (checkbox)
     enabled_var = tk.BooleanVar(value=asteroid.enabled)
@@ -363,7 +367,7 @@ def build_asteroid_config_frame(parent):
     # --- Asteroid Coords ---
     ttk.Label(frame, text="Asteroid Coords:").pack(anchor="w")
 
-    coords_listbox = tk.Listbox(frame, height=5, width=25)
+    coords_listbox = tk.Listbox(frame, height=15, width=30)
     coords_listbox.pack(pady=(0, 5), anchor="w")
 
     for coord in asteroid.coords:
@@ -406,7 +410,7 @@ def build_asteroid_config_frame(parent):
         if selected:
             index = selected[0]
             value = coords_listbox.get(index)
-            asteroid.coords.remove(value)
+            asteroid.coords.remove(value.split(' ')[1])
             coords_listbox.delete(index)
             save_config()
 
@@ -417,7 +421,8 @@ def build_asteroid_config_frame(parent):
 def build_expedition_config_frame(parent):
     expedition = config.crons.expedition
     frame = ttk.LabelFrame(parent, text="Expedition Config")
-    frame.pack(fill="x", padx=10, pady=10)
+    frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+    #frame.pack(fill="x", padx=10, pady=10)
 
     # enabled (checkbox)
     enabled_var = tk.BooleanVar(value=expedition.enabled)
@@ -443,10 +448,34 @@ def build_expedition_config_frame(parent):
     ttk.Entry(frame, textvariable=time_var, width=5).pack(anchor="w")
     time_var.trace_add("write", on_time_change)
 
+    # send resources (checkbox)
+    send_resources_var = tk.BooleanVar(value=expedition.send_resources)
+    ttk.Checkbutton(
+        frame, text="Send Resources", variable=send_resources_var,
+        command=lambda: [set_send_resources(), save_config()]
+    ).pack(anchor="w")
+
+    def set_send_resources():
+        expedition.send_resources = send_resources_var.get()
+
+    # wanted deuterium (entry)
+    wanted_deuterium_var = tk.StringVar(value=str(expedition.wanted_deuterium))
+
+    def on_wanted_deuterium_change(*_):
+        try:
+            expedition.wanted_deuterium = int(wanted_deuterium_var.get())
+            save_config()
+        except ValueError:
+            pass
+
+    ttk.Label(frame, text="Wanted deuterium:").pack(anchor="w")
+    ttk.Entry(frame, textvariable=wanted_deuterium_var, width=15).pack(anchor="w")
+    wanted_deuterium_var.trace_add("write", on_wanted_deuterium_change)
+
     # --- Expedition Planets ---
     ttk.Label(frame, text="Expedition Planets:").pack(anchor="w")
 
-    planets_listbox = tk.Listbox(frame, height=8, width=25)
+    planets_listbox = tk.Listbox(frame, height=15, width=30)
     planets_listbox.pack(pady=(0, 5), anchor="w")
 
     for coord in expedition.planets:
