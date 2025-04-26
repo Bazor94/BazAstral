@@ -13,7 +13,6 @@ class Mission:
         return f"{self.mission_type}: [{self.planet}]->[{self.target_coords}]: ({self.arrive_date} | {self.back_date}))"
 
 
-
 class Planet:
     def __init__(self, coords: str, x: int, y: int, z: int, name: str, id: str, moon_id: str = None):
         self.x = x
@@ -45,7 +44,39 @@ class Resources:
 
     def __repr__(self):
         return f"{self.metal} | {self.crystal} | {self.deuterium}"
+    
+    def __add__(self, other):
+        return Resources(
+            self.metal + other.metal,
+            self.crystal + other.crystal,
+            self.deuterium + other.deuterium
+        )
+    
+    def __sub__(self, other):
+        return Resources(
+            self.metal - other.metal,
+            self.crystal - other.crystal,
+            self.deuterium - other.deuterium
+    )
+    
+    def __lt__(self, other):
+        if not isinstance(other, Resources):
+            return NotImplemented
+        return (
+            self.metal < other.metal and
+            self.crystal < other.crystal and
+            self.deuterium < other.deuterium
+        )
 
+
+class Buildings:
+    def __init__(self, metal, crystal, deuterium):
+        self.metal_mine = metal
+        self.crystal_mine = crystal
+        self.deuterium_refinery = deuterium
+
+    def __repr__(self):
+        return f"{self.metal} | {self.crystal} | {self.deuterium}"
     
 
 class PlanetEmpire:

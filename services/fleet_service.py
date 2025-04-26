@@ -3,6 +3,7 @@ import logging
 import models.errors as errors
 import threads
 from models import models
+import math
 
 mission_type_asteroid = "12"
 mission_type_exp = "1"
@@ -38,12 +39,20 @@ def send_full_miners_fs(x, y, z, from_planet_id, speed = 50):
 
 @threads.locker()
 def transport_resources(base_planet, is_from_moon, x, y, z, is_to_moon, resources: models.Resources):
+    light_cargo_capacity=53000
+    light_cargos_needed = math.ceil((resources.metal + resources.crystal + resources.deuterium) / light_cargo_capacity)
+
     base_planet_id = base_planet.moon_id if is_from_moon else base_planet.id
 
     ships, _, referer_url = fleet.get_fleet_and_resources(base_planet_id)
     cargo_ships = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'LIGHT_CARGO']}
     if len(cargo_ships['Ships']) == 0:
         raise errors.NoShipsCustomException("zero cargo ships")
+    
+    if cargo_ships['Ships'][0]['Quantity'] < light_cargos_needed:
+        raise errors.NoShipsCustomException("not enough cargo ships")
+    
+    cargo_ships['Ships'][0]['Quantity'] = light_cargos_needed
     
     fleet.send_fleet_2(cargo_ships, referer_url)
     resp = fleet.send_fleet_3(cargo_ships, x, y, z, referer_url)
@@ -138,6 +147,13 @@ def collect_all_resources(planet_id, planet_ids, ships):
 
 
 @threads.locker()
+def gather_all_resources(planet_id, planet_ids, ships):
+    _, referer_url = fleet.get_fleet(planet_id)
+    _, referer_url = fleet.get_gather_resources(planet_id, referer_url)
+    fleet.gather_all_resources(planet_id, planet_ids, ships, referer_url)
+
+
+@threads.locker()
 def colonize_planet(x, y, z, from_planet_id):
     ships, referer_url = fleet.get_fleet(from_planet_id)
     colony_ship = {'Ships': [ship for ship in ships['Ships'] if ship['ShipType'] == 'COLONY_SHIP']}
@@ -156,6 +172,7 @@ def get_missions():
     missions['Expedition'] = [mission for mission in fleet_movement if mission.mission_type in ['Expedition', 'Expedition (R)']]
     missions['Colonize'] = [mission for mission in fleet_movement if mission.mission_type in ['Colonize']]
     missions['Attack'] = [mission for mission in fleet_movement if mission.mission_type in ['Attack', 'Attack (R)']]
+    missions['Transport'] = [mission for mission in fleet_movement if mission.mission_type in ['Transport', 'Transport (R)']]
 
     return missions
 

@@ -24,12 +24,14 @@ def get_promote_timeout():
     provider_vote_divs = soup.find_all('div', class_='provider-vote')
 
     max_delta_time = timedelta()
+    tokens = []
     for provider_vote_div in provider_vote_divs:
         provider_vote = provider_vote_div.find('a')
         if provider_vote is not None:
             link = provider_vote['href']
             parsed_url = urlparse.urlparse(link)
             token = urlparse.parse_qs(parsed_url.query).get('token', [None])[0]
+            tokens.append(token)
 
             continue
 
@@ -48,8 +50,8 @@ def get_promote_timeout():
         if delta > max_delta_time:
             max_delta_time = delta
 
-    if max_delta_time.seconds == 0:
-        return token, None
+    if len(tokens) == 5:
+        return tokens, None
 
     return None, max_delta_time
 
@@ -78,8 +80,8 @@ def visit_promote(provider, token):
 
     response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
 
-def visit_all_promotes(token):
-    for provider in providers:
+def visit_all_promotes(tokens):
+    for provider, token in zip(providers, tokens):
         visit_promote(provider, token)
 
 def online_bonus():

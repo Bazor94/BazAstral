@@ -173,6 +173,7 @@ def get_feet_movement() -> models.Mission:
 
     return missions, response.url
 
+
 def get_collect_resources(planet_id, referer_url):
     url = f"{config.server.host}/fleet/collectresources"
     headers_dict = {**headers, "referer": referer_url }
@@ -181,8 +182,31 @@ def get_collect_resources(planet_id, referer_url):
 
     return response.text, response.url
 
+
 def collect_all_resources(planet_id, planet_ids, ships, referer_url):
     url = f"{config.server.host}/fleet/collectallresources"
+    headers_dict = {**headers, "referer": referer_url }
+    params = {"planet": planet_id}
+    data = {
+        "PlanetIds": planet_ids,
+        "Ships": ships
+    }
+
+    response = requests.post(url, headers=headers_dict, cookies=cookies, params=params, json=data)
+
+    return response.text, response.url
+
+
+def get_gather_resources(planet_id, referer_url):
+    url = f"{config.server.host}/fleet/gatherallresources"
+    headers_dict = {**headers, "referer": referer_url }
+    params = {"planet": planet_id}
+    response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
+
+    return response.text, response.url
+
+def gather_all_resources(planet_id, planet_ids, ships, referer_url):
+    url = f"{config.server.host}/fleet/gatherallresources"
     headers_dict = {**headers, "referer": referer_url }
     params = {"planet": planet_id}
     data = {

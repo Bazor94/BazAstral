@@ -17,7 +17,7 @@ def colonize_planet(base_planet, coords, min_space, mission_num, delete_initial_
     for i in range (0, mission_num):
         logger.info(f'{coords} | sending colonization mission', extra={"planet": base_planet, "action": "colonize"})
         fleet_service.colonize_planet(x, y, z, base_planet.id)
-        time.sleep(15)
+        time.sleep(5)
 
     missions = get_missions_from_coords(coords)
     if len(missions) == 0:

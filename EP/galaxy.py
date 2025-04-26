@@ -45,6 +45,24 @@ def get_plunder_ids(base_planet_id, x, y, players_rank, minimum_rank, referer_ur
     return plunder_ids, response.url
 
 
+def get_free_fields(x, y, min_z, max_z, planet, referer_url):
+    response = get_galaxy_data(x, y, referer_url, planet)
+    
+    soup = BeautifulSoup(response.text, "html.parser")
+    galaxy_items = soup.find_all("div", class_="galaxy-item")
+    
+    empty_planets = []
+    for i, galaxy_item in enumerate(galaxy_items[min_z:max_z+1]):
+        player_name_div = galaxy_item.find("div", class_="col-player")
+        player_name = player_name_div.find("span", class_="text-area").text
+
+        if player_name == "":
+            empty_planets.append(i+min_z)
+
+
+    return empty_planets, response.url
+
+
 def send_plunder(plunder_id, planet_id, referer_url):
     url = f"{config.server.host}/galaxy/sendplunder"
     headers_dict = {**headers, "referer": referer_url}

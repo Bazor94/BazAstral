@@ -49,8 +49,10 @@ def get_closest_asteroid(p, is_asteroid_taken):
         closest_asteroid_range = get_closest_asteroid_range(ranges, p.y)
         asteroid_y, time_left = get_asteroid_y(p.x, closest_asteroid_range[0], closest_asteroid_range[1], p.id)
         logger.info(f'ranges {ranges} - closest range:{closest_asteroid_range} - y: {asteroid_y}', extra={"planet": p, "action": "asteroid"})
+        
         if asteroid_y is None:
             continue
+        
         time_needed = helpers.calculate_time(p.x, p.y, p.z, p.x, asteroid_y, 17, config.crons.asteroid.miners_speed, 100)
         if time_needed > time_left - 15:
             logging.info(f'not enough time for asteroid {asteroid_y} | time left: {time_left}, needed: {time_needed}', extra={"planet": p, "action": "asteroid"})
@@ -59,6 +61,7 @@ def get_closest_asteroid(p, is_asteroid_taken):
             logging.info(f'asteroid {asteroid_y} is already taken - taken asteroids: {is_asteroid_taken}', extra={"planet": p, "action": "asteroid"})
             ranges.remove(closest_asteroid_range)
         else:
+            logging.debug(f'correct - returning asteroid y', extra={"planet": p, "action": "asteroid"})
             return asteroid_y, time_needed
     
     logging.info('cannot find asteroid', extra={"planet": p, "action": "asteroid"})
@@ -94,6 +97,7 @@ def send_miners(planet, is_asteroid_taken, is_from_moon):
         
         try:
             fleet_service.send_full_miners(planet.x, asteroid_y, base_id, config.crons.asteroid.miners_percentage)
+            logger.debug(f'sent miners for asteroid {planet.x}:{asteroid_y}:17, time needed: {helpers.format_seconds(time_needed)}', extra={"planet": planet, "action": "asteroid"})
         except Exception as e:
             is_asteroid_taken[asteroid_y] = False
             logger.warning(f'Mining Exception: {e}. Continue', extra={"planet": planet, "action": "asteroid"})

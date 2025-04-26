@@ -65,7 +65,7 @@ def get_empire_info(planets):
         metal = int(res_list[0].text)
         crystal = int(res_list[1].text)
         deuterium = int(res_list[2].text)
-        empire[planet.coords]["buildings"] = models.Resources(metal, crystal, deuterium)
+        empire[planet.coords]["buildings"] = models.Buildings(metal, crystal, deuterium)
     
 
     return empire

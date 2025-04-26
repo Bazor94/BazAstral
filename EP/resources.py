@@ -35,7 +35,7 @@ def get_buildings_and_resources(planet):
     crystal = int(soup.find("span", id="crystal-amount").text.replace(".", ""))
     deuterium = int(soup.find("span", id="deuterium-amount").text.replace(".", ""))
 
-    return response.url, models.Resources(metal, crystal, deuterium), response.url
+    return models.Resources(metal, crystal, deuterium), response.url
 
 def demolish_building(planet, building):
     url = f"{config.server.host}/building/demolishbuilding"

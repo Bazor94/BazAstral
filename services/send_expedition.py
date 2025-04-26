@@ -26,7 +26,12 @@ def get_planets_from_coords(planet_coords):
 
 
 def send_expedition_if_free(planet):
-    expeditions = get_planet_fleet_expedition_movement(planet)
+    try:
+        expeditions = get_planet_fleet_expedition_movement(planet)
+    except Exception as e:
+        logger.warning(f'Exception during getting fleet: {e}', extra={"action": "expedition", "planet": planet})
+        return
+
 
     if len(expeditions) > 0:
         exp = expeditions[-1]
@@ -37,7 +42,7 @@ def send_expedition_if_free(planet):
     
     _, resources, _ = fleet.get_fleet_and_resources(planet.moon_id)
     if resources.deuterium < config.crons.expedition.wanted_deuterium / 2:
-        logger.warning(f'Low deuterium on {planet} - {resources.deuterium:,}')
+        logger.warning(f'Low deuterium - {resources.deuterium:,}', extra={"action": "expedition", "planet": planet})
         resources.deuterium = 0
     
     if config.crons.expedition.send_resources:

@@ -13,7 +13,7 @@ def building_on_planets_cron(p):
 
 @threads.locker()
 def build(p, building):
-    _, _, referer_url = resources.get_buildings_and_resources(p)
+    _, referer_url = resources.get_buildings_and_resources(p)
     resources.increase_building(p, building, referer_url)
 
 
@@ -21,11 +21,11 @@ def build(p, building):
 def build_mine(p):
     planet_empire = emp[p.coords]
 
-    metal_mine = planet_empire["buildings"].metal
-    crystal_mine = planet_empire["buildings"].crystal
-    deuterium_refinery = planet_empire["buildings"].deuterium
+    metal_mine = planet_empire["buildings"].metal_mine
+    crystal_mine = planet_empire["buildings"].crystal_mine
+    deuterium_refinery = planet_empire["buildings"].deuterium_refinery
 
-    _, res, _ = resources.get_buildings_and_resources(p)
+    res, _ = resources.get_buildings_and_resources(p)
 
     if metal_mine <= crystal_mine + 2:
         cost = calc.calculateMetalMineCost(metal_mine)
@@ -49,7 +49,7 @@ def build_mine(p):
         try:
             logger.info("building Metal Mine", extra={"planet": p, "action": "building"})
             build(p, "METAL_MINE")
-            planet_empire["buildings"].metal += 1
+            planet_empire["buildings"].metal_mine += 1
         except Exception as e:
             logger.warning(e)
             time.sleep(5*60)
@@ -78,7 +78,7 @@ def build_mine(p):
         try:
             logger.info("building Crystal Mine", extra={"planet": p, "action": "building"})
             build(p, "CRYSTAL_MINE")
-            planet_empire["buildings"].crystal += 1
+            planet_empire["buildings"].crystal_mine += 1
         except Exception as e:
             logger.warning(e)
             time.sleep(5*60)
@@ -106,7 +106,7 @@ def build_mine(p):
         try:
             logger.info("building Deuterium Refinery", extra={"planet": p, "action": "building"})
             build(p, "DEUTERIUM_REFINERY")
-            planet_empire["buildings"].deuterium += 1
+            planet_empire["buildings"].deuterium_refinery += 1
         except Exception as e:
             logger.warning(e)
             time.sleep(5*60)

@@ -55,7 +55,7 @@ logger = logging.getLogger(__name__)
 terminal_handler = TerminalHandler()
 terminal_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s: %(action)s | %(planet)s | %(message)s'))
 logger.addHandler(terminal_handler)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 setattr(logger, "sleep_log", sleep_log)
 
 

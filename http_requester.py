@@ -79,6 +79,6 @@ def post(url, params=None, **kwargs):
 
     without_sleep = kwargs.pop("without_sleep", False)
     if not without_sleep:
-        time.sleep(random.uniform(0.5, 0.75))
+        time.sleep(random.uniform(0.3, 0.5))
 
     return response
