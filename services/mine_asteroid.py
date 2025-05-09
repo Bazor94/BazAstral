@@ -108,7 +108,7 @@ def send_miners(planet, is_asteroid_taken, is_from_moon):
             return
         
         if config.crons.asteroid.miners_percentage > 40:
-            config.crons.asteroid.miners_percentage -= 2
+            config.crons.asteroid.miners_percentage -= 1
             save_config()
         time_sleep = time_needed * 2 + time_delay_seconds
     

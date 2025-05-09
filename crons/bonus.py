@@ -10,7 +10,9 @@ def promote_cron():
     if time != None:
         time_sleep = int(time.total_seconds())
         logger.sleep_log("bonus", None, time_sleep)
-        threads.stop_threads.wait(time_sleep)
+        threads.stop_threads.wait(time_sleep + 15)
+        
+        return
 
     logger.info(f'visiting websites', extra={"action": "bonus"})
     bonus_ep.visit_all_promotes(tokens)
