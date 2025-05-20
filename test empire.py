@@ -13,7 +13,7 @@ def building_on_planets_cron(p):
 
 @threads.locker()
 def build(p, building):
-    _, referer_url = resources.get_buildings_and_resources(p)
+    _, _, referer_url = resources.get_buildings_and_resources(p)
     resources.increase_building(p, building, referer_url)
 
 
@@ -25,7 +25,7 @@ def build_mine(p):
     crystal_mine = planet_empire["buildings"].crystal_mine
     deuterium_refinery = planet_empire["buildings"].deuterium_refinery
 
-    res, _ = resources.get_buildings_and_resources(p)
+    _, res, _ = resources.get_buildings_and_resources(p)
 
     if metal_mine <= crystal_mine + 2:
         cost = calc.calculateMetalMineCost(metal_mine)

@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta, time
 import logging
 import helpers
-import threading
 from config import config, save_config
 import EP.galaxy as galaxy
-from EP import fleet
 from services import fleet_service as fleet_service
 import threads
 from logger import logger
+import helpers
 
 time_delay_seconds = 15
 idle_time = 5 * 60
@@ -29,14 +28,7 @@ def get_asteroid_y(x, y_from, y_to, planet_id):
     for i in range(y_from, y_to + 1):
         time_left, referal_url = galaxy.get_asteroid(referal_url, x, i, planet_id)
         if time_left is not None:
-            time_parsed = time_left.strip("()").split(":")
-            if len(time_parsed) == 1:
-                seconds_left = int(time_parsed[0])
-            elif len(time_parsed) == 2:
-                seconds_left = int(time_parsed[0]) * 60 + int(time_parsed[1])
-            elif len(time_parsed) == 3:
-                seconds_left = int(time_parsed[0]) * 3600 + int(time_parsed[0]) * 60 + int(time_parsed[1])
-            return i, seconds_left
+            return i, helpers.parse_time(time_left)
 
     return None, None
 
@@ -51,9 +43,12 @@ def get_closest_asteroid(p, is_asteroid_taken):
         logger.info(f'ranges {ranges} - closest range:{closest_asteroid_range} - y: {asteroid_y}', extra={"planet": p, "action": "asteroid"})
         
         if asteroid_y is None:
+            logger.debug(f'asteroid_y is None', extra={"planet": p, "action": "asteroid"})
             continue
         
+        logger.debug(f'calculating time', extra={"planet": p, "action": "asteroid"})
         time_needed = helpers.calculate_time(p.x, p.y, p.z, p.x, asteroid_y, 17, config.crons.asteroid.miners_speed, 100)
+        logger.debug(f'time calculated', extra={"planet": p, "action": "asteroid"})
         if time_needed > time_left - 15:
             logging.info(f'not enough time for asteroid {asteroid_y} | time left: {time_left}, needed: {time_needed}', extra={"planet": p, "action": "asteroid"})
             ranges.remove(closest_asteroid_range)

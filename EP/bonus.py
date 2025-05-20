@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from logger import logger
 from datetime import timedelta
 import urllib.parse as urlparse
+import helpers
 
 providers = [
     "TOPG",
@@ -55,6 +56,7 @@ def get_promote_timeout():
 
     return None, max_delta_time
 
+
 def is_online_bonus_present():
     url = f"{config.server.host}/home"
     headers_dict = { **headers }
@@ -69,6 +71,7 @@ def is_online_bonus_present():
     
     return True
 
+
 def visit_promote(provider, token):
     url = f"{config.server.host}/Darkmatter/PromoteOut"
     headers_dict = { **headers }
@@ -80,12 +83,47 @@ def visit_promote(provider, token):
 
     response = requests.get(url, headers=headers_dict, cookies=cookies, params=params)
 
+
 def visit_all_promotes(tokens):
     for provider, token in zip(providers, tokens):
         visit_promote(provider, token)
+
 
 def online_bonus():
     url = f"{config.server.host}/home/onlinebonus"
     headers_dict = { **headers }
 
     response = requests.get(url, headers=headers_dict, cookies=cookies)
+
+
+def get_importexport():
+    url = f"{config.server.host}/merchant/importexport"
+    headers_dict = { **headers }
+
+    response = requests.get(url, headers=headers_dict, cookies=cookies)
+    
+    soup = BeautifulSoup(response.text, 'html.parser')
+    price_span = soup.find('span', id_='totalAmountOfItem')
+    time_span = soup.find('span', id='timeToNextImportExportContainer')
+
+    if price_span is None:
+        return 0, helpers.parse_time(time_span.text)
+    
+    return helpers.str2int(price_span.text)
+
+
+def purchase_importexport(planet, resources):
+    url = f"{config.server.host}/merchant/purchaseimportexportitem"
+    headers_dict = { **headers }
+
+    data = {
+        "PaidMetal": resources.metal,
+        "PaidCrystal": resources.crystal,
+        "PaidDeuterium": resources.deuterium,
+        "__PlanetId": planet.id
+    }
+
+    response = requests.post(url, headers=headers_dict, cookies=cookies, json=data)
+
+
+

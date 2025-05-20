@@ -17,7 +17,7 @@ time_delay = 15
 
 # login.login()
 home.get_planets()
-wanted_mines=models.Buildings(61, 60, 50)
+wanted_mines=models.Buildings(63, 63, 54)
 
 main_planet = models.search_for_planet(models.planets, "3:147:8")
 other_main_planet = models.search_for_planet(models.planets, "3:351:7")
@@ -45,8 +45,8 @@ emp = empire.get_empire_info(models.planets)
 
 
 for p in models.planets:
-    res_left, _ = resources.get_buildings_and_resources(main_planet)
-    buildings = emp[p.coords]["buildings"]
+    _, res_left, _ = resources.get_buildings_and_resources(main_planet)
+    buildings, _, _ = resources.get_buildings_and_resources(p)
 
     if buildings.metal_mine < wanted_mines.metal_mine:
         res_needed = calc.calculateMetalMineCost(buildings.metal_mine + 1)

@@ -25,6 +25,7 @@ def calculate_time(x_from, y_from, z_from, x_to, y_to, z_to, fleet_speed, speed_
 
     if distance > 1000:
         distance += 1000
+        
     return round(((35000 / speed_perc) * math.sqrt((distance * 10) / fleet_speed) + 10) / config.server.fleet_speed)
 
 class TestFleetCalculations(unittest.TestCase):
@@ -49,3 +50,18 @@ class TestFleetCalculations(unittest.TestCase):
 
         # Porównanie obliczonego czasu z oczekiwanym
         self.assertEqual(time, expected_time)
+
+
+def str2int(resource_str):
+    return int(resource_str.replace('.',''))
+
+def parse_time(time):
+    time_parsed = time.strip("()").split(":")
+    if len(time_parsed) == 1:
+        seconds_left = int(time_parsed[0])
+    elif len(time_parsed) == 2:
+        seconds_left = int(time_parsed[0]) * 60 + int(time_parsed[1])
+    elif len(time_parsed) == 3:
+        seconds_left = int(time_parsed[0]) * 3600 + int(time_parsed[0]) * 60 + int(time_parsed[1])
+
+    return seconds_left
